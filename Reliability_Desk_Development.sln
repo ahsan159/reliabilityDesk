@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reliability_Desk", "Reliability_Desk\Reliability_Desk.csproj", "{214939BE-3F60-413F-84DC-0833B6EBA25D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNXMLUtility", "TNXMLUtility\TNXMLUtility.csproj", "{ACD336BC-1194-492F-B8DE-C936F73A28FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "loginForms", "loginForms\loginForms.csproj", "{881CD9C0-E996-4109-8362-7F520EA82D1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pipeClientTesting", "pipeClientTesting\pipeClientTesting.csproj", "{20A38EF3-FB16-4678-AC9C-223F27FB3BB7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{214939BE-3F60-413F-84DC-0833B6EBA25D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{214939BE-3F60-413F-84DC-0833B6EBA25D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{214939BE-3F60-413F-84DC-0833B6EBA25D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{214939BE-3F60-413F-84DC-0833B6EBA25D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACD336BC-1194-492F-B8DE-C936F73A28FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACD336BC-1194-492F-B8DE-C936F73A28FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACD336BC-1194-492F-B8DE-C936F73A28FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACD336BC-1194-492F-B8DE-C936F73A28FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{881CD9C0-E996-4109-8362-7F520EA82D1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{881CD9C0-E996-4109-8362-7F520EA82D1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{881CD9C0-E996-4109-8362-7F520EA82D1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{881CD9C0-E996-4109-8362-7F520EA82D1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20A38EF3-FB16-4678-AC9C-223F27FB3BB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20A38EF3-FB16-4678-AC9C-223F27FB3BB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20A38EF3-FB16-4678-AC9C-223F27FB3BB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20A38EF3-FB16-4678-AC9C-223F27FB3BB7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		VisualSVNWorkingCopyRoot = .
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,9 @@
+F:\Reliability_Desk\mainwc\TNXMLUtility\bin\Debug\TNXMLUtility.exe.config
+F:\Reliability_Desk\mainwc\TNXMLUtility\obj\Debug\TNXMLUtility.exe
+F:\Reliability_Desk\mainwc\TNXMLUtility\obj\Debug\TNXMLUtility.pdb
+F:\Reliability_Desk\mainwc\TNXMLUtility\bin\Debug\TNXMLUtility.exe
+F:\Reliability_Desk\mainwc\TNXMLUtility\bin\Debug\TNXMLUtility.pdb
+F:\Reliability_Desk\mainwc\TNXMLUtility\obj\Debug\TNXMLUtility.csprojResolveAssemblyReference.cache
+F:\Reliability_Desk\mainwc\TNXMLUtility\obj\Debug\TNXMLUtility.TNXMLForm.resources
+F:\Reliability_Desk\mainwc\TNXMLUtility\obj\Debug\TNXMLUtility.Properties.Resources.resources
+F:\Reliability_Desk\mainwc\TNXMLUtility\obj\Debug\TNXMLUtility.csproj.GenerateResource.Cache

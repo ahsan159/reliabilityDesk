@@ -1,0 +1,9 @@
+F:\Reliability_Desk\mainwc\loginForms\bin\Debug\loginForms.exe.config
+F:\Reliability_Desk\mainwc\loginForms\bin\Debug\loginForms.exe
+F:\Reliability_Desk\mainwc\loginForms\bin\Debug\loginForms.pdb
+F:\Reliability_Desk\mainwc\loginForms\obj\Debug\loginForms.Properties.Resources.resources
+F:\Reliability_Desk\mainwc\loginForms\obj\Debug\loginForms.csproj.GenerateResource.Cache
+F:\Reliability_Desk\mainwc\loginForms\obj\Debug\loginForms.exe
+F:\Reliability_Desk\mainwc\loginForms\obj\Debug\loginForms.pdb
+F:\Reliability_Desk\mainwc\loginForms\obj\Debug\loginForms.main.resources
+F:\Reliability_Desk\mainwc\loginForms\obj\Debug\loginForms.csprojResolveAssemblyReference.cache

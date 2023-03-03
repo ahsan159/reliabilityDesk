@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="yes"?>
+<reliabilityDeskUsers>
+  <usersInfo>
+    <username>ahsan</username>
+    <password>ahsan</password>
+    <level>admin</level>
+  </usersInfo>
+  <usersInfo>
+    <username>ubaid</username>
+    <password>ubaid</password>
+    <level>admin</level>
+  </usersInfo>
+  <usersInfo>
+    <username>hammad</username>
+    <password>hammad</password>
+    <level>user</level>
+  </usersInfo>
+</reliabilityDeskUsers>
