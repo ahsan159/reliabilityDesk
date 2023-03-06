@@ -164,6 +164,7 @@
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel statusStripLabel;
         private System.IO.Pipes.NamedPipeServerStream pipe;
+        //private System.IO.Pipes.NamedPipeServerStream pipes;
    
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.IO.Pipes;
+using System.Threading;
 
 namespace loginForms
 {
@@ -45,9 +46,15 @@ namespace loginForms
             //ds.WriteXml(datasetName);
             statusStripLabel.Text = "Please, provide valid username and password!!!";
             statusStrip.Refresh();
-        //    Action act = new Action(this.listenToClients);
-        //    Task task = new Task(act);
-        //    task.Start();
+            //Action act = new Action(this.listenToClients);
+            //Task task = new Task(act);
+            //task.Start();
+            Thread[] nThread = new Thread[3];
+            for (int i = 0; i < 3; i++)
+            {
+                nThread[i] = new Thread(listenToClients2);
+                nThread[i].Start();
+            }
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)
@@ -58,7 +65,7 @@ namespace loginForms
 
         private void loginBtn_Click(object sender, EventArgs e)
         {
-            if(usernametxtbox.Text=="" || pwdtxtbox.Text=="")
+            if (usernametxtbox.Text == "" || pwdtxtbox.Text == "")
             {
                 //DataSet1.loginTableDataTable         
                 statusStripLabel.Text = "Please, provide valid username and password!!!";
@@ -70,19 +77,16 @@ namespace loginForms
                 ds.ReadXml(datasetName);
                 DataTable userTable = ds.Tables[userTableName];
                 //MessageBox.Show(userTable.Rows.Count.ToString());
-                if(userTable.AsEnumerable().Where(row => row.Field<string>("username")==usernametxtbox.Text).Count() > 0)
+                if (userTable.AsEnumerable().Where(row => row.Field<string>("username") == usernametxtbox.Text).Count() > 0)
                 {
                     DataRow dr = userTable.AsEnumerable().First(row => row.Field<string>("password") == pwdtxtbox.Text);
                     //MessageBox.Show(dr["password"].ToString());
-                    if(dr["password"].ToString()==pwdtxtbox.Text)
+                    if (dr["password"].ToString() == pwdtxtbox.Text)
                     {
                         currentUser = dr["username"].ToString();
                         currentUserLevel = dr["level"].ToString();
                         statusStripLabel.Text = "Login Successfull '" + currentUser + "' as " + currentUserLevel;
                         statusStrip.Refresh();
-                        Action action = new Action(listenToClients);
-                        Task task = new Task(action);
-                        task.Start();
                     }
                     else
                     {
@@ -94,8 +98,8 @@ namespace loginForms
                 {
                     statusStripLabel.Text = "username not found";
                     statusStrip.Refresh();
-                }                
-                
+                }
+
             }
         }
 
@@ -113,8 +117,8 @@ namespace loginForms
             }
         }
         private void listenToClients()
-        {            
-            pipe = new NamedPipeServerStream("testpipe", PipeDirection.InOut);            
+        {
+            pipe = new NamedPipeServerStream("testpipe", PipeDirection.InOut);
             //statusStripLabel.Text = "Waiting for connection";
             //statusStrip.Refresh();
             pipe.WaitForConnection();
@@ -123,21 +127,71 @@ namespace loginForms
                 MessageBox.Show("Cannot Create User Server", "Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            MessageBox.Show("Client Connected", "login form: info");
+            MessageBox.Show("Client Connected Connections left: " + NamedPipeServerStream.MaxAllowedServerInstances, "server");
             StreamWriter sw = new StreamWriter(pipe);
             sw.AutoFlush = true;
             StreamReader sr = new StreamReader(pipe);
-            while(true)
+            while (true)
             {
                 string received = sr.ReadLine();
                 MessageBox.Show(received);
-                sw.Write(received.Reverse());
-                sw.Flush();
+                if (received.Equals("user"))
+                {
+                    sw.Write(received.Reverse());
+                    sw.Flush();
+                }
                 if (received.Equals("done"))
                 {
-                    break;                    
+                    break;
                 }
             }
+            //pipe.Close();
+            //pipe.Dispose();
+            return;
+        }
+
+        private void listenToClients2()
+        {
+            NamedPipeServerStream pipe1 = new NamedPipeServerStream("testpipe", PipeDirection.InOut, 10);
+            //statusStripLabel.Text = "Waiting for connection";
+            //statusStrip.Refresh();
+            pipe1.WaitForConnection();
+            if (!pipe1.IsConnected)
+            {
+                MessageBox.Show("Cannot Create User Server", "Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            MessageBox.Show("Client Connected Connections left: " + NamedPipeServerStream.MaxAllowedServerInstances.ToString(), "server");
+            StreamWriter sw = new StreamWriter(pipe1);
+            sw.AutoFlush = true;
+            StreamReader sr = new StreamReader(pipe1);
+            while (true)
+            {
+                try
+                {
+                    string received = sr.ReadLine();
+                    MessageBox.Show(received, "server message1");
+                    if (received.Equals("user"))
+                    {
+                        sw.WriteLine(this.currentUser);
+                        sw.Flush();
+                    }
+                    if (received.Equals("done"))
+                    {
+                        pipe1.Close();
+                        pipe1.Dispose();
+                        MessageBox.Show("breaking", "server message2");
+                        break;
+                    }
+                }
+                catch (Exception exp)
+                {
+                    MessageBox.Show(exp.ToString() + " " + Thread.CurrentThread.ManagedThreadId.ToString(), "Server Message");
+                    break;
+                }
+            }
+            //pipe.Close();
+            //pipe.Dispose();
             return;
         }
     }

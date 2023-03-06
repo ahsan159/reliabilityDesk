@@ -52,3 +52,11 @@ Updated selectPart and added functionalities of open,selection still working on 
 28-Feb-2023
 03:31PM
 Finally created a fully functional parts management kit. Now, will move to main reliability desk creation and forward this parts project to ubaid for testing.
+
+03-Mar-2023
+03:38PM
+Need to supply username and login level to all desks from  login form. To avoid passing variables interprocess communication (IPC) method is selected and is being implemented using namedPipeServerStream and namedPipeClientStream. I have managed how to work and communicate. Now, Monday will see the proper implmentation and detaching the process as seperate thread. inshallah
+
+06-Mar-2023
+04:14PM
+Some editing made the multiple users connect to server in IPC and login are now working properly. Alhamdullilah

@@ -109,8 +109,15 @@ namespace Reliability_Desk
             StreamReader sr = new StreamReader(clientPipe);
             StreamWriter sw = new StreamWriter(clientPipe);
             MessageBox.Show("Sending data");
-            sw.WriteLine("I am Client");
+            sw.WriteLine("user");
             sw.Flush();
+            string s = sr.ReadLine();
+            //MessageBox.Show(s, "Client");
+            loginLabel.Text = s.Trim();
+            sw.WriteLine("done");
+            sw.Flush();
+            clientPipe.Close();
+            clientPipe.Dispose();
             // set parts list display only
             tableLayoutPanel1.ColumnStyles[1].SizeType = SizeType.Percent;
             tableLayoutPanel1.ColumnStyles[1].Width = 0;

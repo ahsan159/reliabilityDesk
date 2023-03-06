@@ -52,9 +52,10 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.indPartDataTable = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.clearBtn = new System.Windows.Forms.Button();
             this.addPart = new System.Windows.Forms.Button();
             this.closePart = new System.Windows.Forms.Button();
+            this.clearBtn = new System.Windows.Forms.Button();
+            this.loginLabel = new System.Windows.Forms.ToolStripLabel();
             ((System.ComponentModel.ISupportInitialize)(this.partTable)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -143,7 +144,8 @@
             this.toolStripBtnSave,
             this.toolStripSeparator4,
             this.toolStripTextSearch,
-            this.toolStripButtonSearch});
+            this.toolStripButtonSearch,
+            this.loginLabel});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1149, 25);
@@ -287,17 +289,6 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(422, 49);
             this.tableLayoutPanel3.TabIndex = 2;
             // 
-            // clearBtn
-            // 
-            this.clearBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.clearBtn.Location = new System.Drawing.Point(172, 13);
-            this.clearBtn.Name = "clearBtn";
-            this.clearBtn.Size = new System.Drawing.Size(75, 23);
-            this.clearBtn.TabIndex = 3;
-            this.clearBtn.Text = "Clear";
-            this.clearBtn.UseVisualStyleBackColor = true;
-            this.clearBtn.Click += new System.EventHandler(this.clearBtn_Click);
-            // 
             // addPart
             // 
             this.addPart.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -319,6 +310,24 @@
             this.closePart.Text = "Close";
             this.closePart.UseVisualStyleBackColor = true;
             this.closePart.Click += new System.EventHandler(this.closePart_Click_1);
+            // 
+            // clearBtn
+            // 
+            this.clearBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.clearBtn.Location = new System.Drawing.Point(172, 13);
+            this.clearBtn.Name = "clearBtn";
+            this.clearBtn.Size = new System.Drawing.Size(75, 23);
+            this.clearBtn.TabIndex = 3;
+            this.clearBtn.Text = "Clear";
+            this.clearBtn.UseVisualStyleBackColor = true;
+            this.clearBtn.Click += new System.EventHandler(this.clearBtn_Click);
+            // 
+            // loginLabel
+            // 
+            this.loginLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.loginLabel.Name = "loginLabel";
+            this.loginLabel.Size = new System.Drawing.Size(10, 22);
+            this.loginLabel.Text = " ";
             // 
             // selectPart
             // 
@@ -380,6 +389,7 @@
         private System.Windows.Forms.Button addPart;
         private System.Windows.Forms.Button closePart;
         private System.Windows.Forms.Button clearBtn;
+        private System.Windows.Forms.ToolStripLabel loginLabel;
         //private System.Data.DataRow selectedRow;
     }
 }
