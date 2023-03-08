@@ -15,10 +15,11 @@ namespace loginForms
 {
     public partial class main : Form
     {
+        private Thread[] nThread;
         public main()
         {
             InitializeComponent();
-            //this.appDataFolder = string.Empty;
+            // set initial folders
             this.currentFolder = Environment.CurrentDirectory.ToString();
             this.appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).ToString();
             this.datasetLocation = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).ToString();
@@ -28,29 +29,15 @@ namespace loginForms
             //MessageBox.Show(userFolder);
             //MessageBox.Show(datasetLocation);
             //MessageBox.Show(DateTime.Now.Ticks.ToString()); 
-            datasetName = "userData.xml";
-            userTableName = "usersInfo";
-            //DataSet ds = new DataSet("reliabilityDeskUsers");
-            //DataTable dt = new DataTable(userTableName);
-            //dt.Columns.Add("username",Type.GetType("System.String"));
-            //dt.Columns.Add("password",Type.GetType("System.String"));
-            //dt.Columns.Add("level", Type.GetType("System.String"));
-            //dt.Rows.Add("ahsan", "ahsan","admin");
-            //dt.Rows.Add("ubaid", "ubaid","admin");
-            //dt.Rows.Add("hammad", "hammad", "user");
-            //ds.Tables.Add(dt);
-            //if (File.Exists(datasetName))
-            //{
-            //    File.Delete(datasetName);
-            //}
-            //ds.WriteXml(datasetName);
+            datasetName = "userData.xml"; // default database
+            userTableName = "usersInfo"; // default table in database
             statusStripLabel.Text = "Please, provide valid username and password!!!";
             statusStrip.Refresh();
-            //Action act = new Action(this.listenToClients);
-            //Task task = new Task(act);
-            //task.Start();
-            Thread[] nThread = new Thread[3];
-            for (int i = 0; i < 3; i++)
+
+            // start 10 threads to handle 10 requests from child forms
+            int maxThreads = 10;
+            nThread = new Thread[maxThreads];
+            for (int i = 0; i < maxThreads; i++)
             {
                 nThread[i] = new Thread(listenToClients2);
                 nThread[i].Start();
@@ -61,31 +48,35 @@ namespace loginForms
         {
             this.Close();
             this.Dispose();
+            Environment.Exit(Environment.ExitCode); // this will end all the threads
         }
 
         private void loginBtn_Click(object sender, EventArgs e)
-        {
+        {            
             if (usernametxtbox.Text == "" || pwdtxtbox.Text == "")
             {
-                //DataSet1.loginTableDataTable         
+                // check if any or both fields are empty of not
                 statusStripLabel.Text = "Please, provide valid username and password!!!";
                 statusStrip.Refresh();
             }
             else
             {
+                // read data set of users
                 DataSet ds = new DataSet();
                 ds.ReadXml(datasetName);
                 DataTable userTable = ds.Tables[userTableName];
-                //MessageBox.Show(userTable.Rows.Count.ToString());
+                // check user 
                 if (userTable.AsEnumerable().Where(row => row.Field<string>("username") == usernametxtbox.Text).Count() > 0)
                 {
                     DataRow dr = userTable.AsEnumerable().First(row => row.Field<string>("password") == pwdtxtbox.Text);
-                    //MessageBox.Show(dr["password"].ToString());
+                    // check password
                     if (dr["password"].ToString() == pwdtxtbox.Text)
                     {
+                        // update user variables
                         currentUser = dr["username"].ToString();
                         currentUserLevel = dr["level"].ToString();
                         statusStripLabel.Text = "Login Successfull '" + currentUser + "' as " + currentUserLevel;
+                        loginBtn.Enabled = false;
                         statusStrip.Refresh();
                     }
                     else
@@ -112,7 +103,7 @@ namespace loginForms
         {
             if (e.KeyCode.Equals(Keys.Enter))
             {
-                //MessageBox.Show(usernametxtbox.Text + "," + pwdtxtbox.Text);
+                // click or enter in password field will login
                 loginBtn_Click(sender, e);
             }
         }
@@ -152,44 +143,53 @@ namespace loginForms
 
         private void listenToClients2()
         {
+            // this will all called by thread
+            // create pipe to listen to clients
             NamedPipeServerStream pipe1 = new NamedPipeServerStream("testpipe", PipeDirection.InOut, 10);
             //statusStripLabel.Text = "Waiting for connection";
             //statusStrip.Refresh();
+            // wait for connection
             pipe1.WaitForConnection();
             if (!pipe1.IsConnected)
             {
                 MessageBox.Show("Cannot Create User Server", "Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            MessageBox.Show("Client Connected Connections left: " + NamedPipeServerStream.MaxAllowedServerInstances.ToString(), "server");
+            // writer stream
             StreamWriter sw = new StreamWriter(pipe1);
             sw.AutoFlush = true;
+            // reader stream
             StreamReader sr = new StreamReader(pipe1);
             while (true)
             {
                 try
                 {
                     string received = sr.ReadLine();
-                    MessageBox.Show(received, "server message1");
-                    if (received.Equals("user"))
+                    // if client app has requested user details send level and user name
+                    if (received.Equals("user???"))
                     {
-                        sw.WriteLine(this.currentUser);
+                        sw.WriteLine("user," + this.currentUser + ",level," + this.currentUserLevel);
                         sw.Flush();
                     }
-                    if (received.Equals("done"))
+                    if (received.Equals("done")) 
+                        // signal to exit when client has succesfully logged.
                     {
                         pipe1.Close();
                         pipe1.Dispose();
-                        MessageBox.Show("breaking", "server message2");
+                        //MessageBox.Show("breaking", "server message2");
                         break;
                     }
                 }
                 catch (Exception exp)
                 {
-                    MessageBox.Show(exp.ToString() + " " + Thread.CurrentThread.ManagedThreadId.ToString(), "Server Message");
+                    // exception while communication
+                    MessageBox.Show(exp.Message + " " + Thread.CurrentThread.ManagedThreadId.ToString(), "Server Message");
                     break;
                 }
             }
+            // end thread
+            Thread.CurrentThread.Abort();
+            //MessageBox.Show("Aborting", "Login");
             //pipe.Close();
             //pipe.Dispose();
             return;

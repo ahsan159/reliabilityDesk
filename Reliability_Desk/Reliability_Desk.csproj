@@ -59,12 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
     <Compile Include="mainDesk.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,9 +78,6 @@
       <DependentUpon>selectPart.cs</DependentUpon>
     </Compile>
     <Compile Include="TNXMLUtility.cs" />
-    <EmbeddedResource Include="main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="mainDesk.resx">
       <DependentUpon>mainDesk.cs</DependentUpon>
     </EmbeddedResource>

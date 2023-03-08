@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using loginForms;
 
 namespace Reliability_Desk
 {
@@ -34,7 +33,7 @@ namespace Reliability_Desk
             //t1.Wait();
             //Task.WaitAll(t1, t2);
             t1.Dispose();
-            MessageBox.Show("Done");
+            //MessageBox.Show("Done");
             
         }
         static void go()
@@ -42,8 +41,9 @@ namespace Reliability_Desk
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
-            selectPart frm = new selectPart("../../partListTest1.xml");
+            //selectPart frm = new selectPart("../../partListTest1.xml");
             //selectPart frm = new selectPart();
+            relDesk frm = new relDesk();
             Application.Run(frm);
             //MessageBox.Show(frm.selectedPart.ToString());
             frm.Dispose();
@@ -52,7 +52,7 @@ namespace Reliability_Desk
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new main());
+            //Application.Run(new main());
             //selectPart frm = new selectPart("../../partListTest1.xml");
             //selectPart frm = new selectPart();
             //Application.Run(frm);

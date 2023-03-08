@@ -15,9 +15,11 @@ using TNXMLUtility;
 
 namespace Reliability_Desk
 {
-    public partial class Form1 : Form
+    public partial class relDesk : Form
     {
-        public Form1()
+        private DataSet currentData;
+        private DataTable activePartList;
+        public relDesk()
         {
             InitializeComponent();
         }
@@ -54,16 +56,11 @@ namespace Reliability_Desk
                 {
                     textBox.Text = textBox.Text + nodeList[i].Name + "\n";
                 }
-            }
-            //List<XmlNode> list = nodeList.Cast<XmlNode>().ToList();            
+            }            
             List<XmlNode> list = new List<XmlNode>();
-            list.Add(layout);
-            //displayTree(ref textBox, list, 1);
-            textBox.Text = textBox.Text + "Now reading file\n";
-            //writeProjecfromXML("../../projectTest2Attrib.xml");            
-            writeProjecfromXML("./myTestFile1.xml");
-            //writeProjecfromXML("./sampleXML.xml");
-            List<part> PL = TNXMLUtility.nodeUtilities.readPartsfromXML("../../partListTest1.xml");
+            list.Add(layout);            
+            textBox.Text = textBox.Text + "Now reading file\n";            
+            writeProjecfromXML("./myTestFile1.xml");                        
         }
 
         private void menuMain_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -191,7 +188,7 @@ namespace Reliability_Desk
             //writeXMLfromProject(parentNode, ref xmlwrite);
             //xmlwrite.WriteEndDocument();
             //xmlwrite.Close();
-            //xmlwrite.Dispose();
+            //xmlwrite.Dispose();            
             TNXMLUtility.TNXMLUtility.creatXML("./myTestFile1.xml", projectTree.Nodes);
             
         }
@@ -336,6 +333,64 @@ namespace Reliability_Desk
                 panelProperties.Dock = DockStyle.Left;
                 tableLayoutPanel1.Dock = DockStyle.Right;                
             }
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void projectTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            projectTree.SelectedNode = e.Node;
+            if (e.Node.Name=="Part")
+            {
+                panelProperties.Show();
+                propertiesTable.Rows.Clear();
+                propertiesTable.Columns.Clear();
+                propertiesTable.Columns.Add("Field", "Field");
+                propertiesTable.Columns.Add("Value","Value");
+                propertiesTable.Rows.Add(e.Node.Name, e.Node.Text);
+                string[] fields = {"Name",
+                               "cmID",
+                               "Manuafcturer",
+                               "Category",
+                               "Subcategory",
+                               "Description"};
+                DataRow[] found = activePartList.Select("Name LIKE '%" + e.Node.Text.ToString().Trim() + "%'");
+                DataRow displayRow = found[0];
+                foreach(string s in fields)
+                {
+                    propertiesTable.Rows.Add(s, displayRow[s]);
+                }
+
+            }
+            else
+            {
+                panelProperties.Hide();
+            }
+        }
+
+        private void loadPartlistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<part> partList = TNXMLUtility.nodeUtilities.readPartsfromXML("../../partListTest1.xml");
+            activePartList = new DataTable("activePartList");
+            string[] fields = {"Name",
+                               "cmID",
+                               "Manuafcturer",
+                               "Category",
+                               "Subcategory",
+                               "Description"};
+            foreach(string s in fields)
+            {
+                activePartList.Columns.Add(s);
+            }
+            foreach(part p in partList) 
+            {
+                activePartList.Rows.Add(p.getData());
+            }
+            //panelProperties.Show();
+            //propertiesTable.DataSource = activePartList;
         }
 
     }

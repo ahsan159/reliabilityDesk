@@ -36,7 +36,7 @@ namespace Reliability_Desk
                 cDataset.Columns.Add("Description");
                 partTable.DataSource = cDataset;
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 MessageBox.Show(exp.ToString(), "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -65,7 +65,7 @@ namespace Reliability_Desk
                     }
                     // adding columns
                     cDataset = new DataTable();
-                    cDataset.Columns.Add("Name"); 
+                    cDataset.Columns.Add("Name");
                     cDataset.Columns.Add("cmID");
                     cDataset.Columns.Add("Manufacturer");
                     cDataset.Columns.Add("Category");
@@ -75,7 +75,7 @@ namespace Reliability_Desk
                     {
                         // add paths 
                         p.setPath(fileName);
-                        cDataset.Rows.Add(p.getData()); 
+                        cDataset.Rows.Add(p.getData());
                     }
                     partTable.DataSource = cDataset;
                     statusLabel.Text = "File load Successfull, \'" + partList.Count + "\' parts loaded from \'" + fileName + "\'";
@@ -101,19 +101,31 @@ namespace Reliability_Desk
             {
                 clientPipe.Connect();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
-            MessageBox.Show("Reliability Desk: Pipe Connected");
+            //MessageBox.Show("Reliability Desk: Pipe Connected");
+            statusLabel.Text = "Searching for available users";
+            statusStrip.Refresh();
             StreamReader sr = new StreamReader(clientPipe);
             StreamWriter sw = new StreamWriter(clientPipe);
-            MessageBox.Show("Sending data");
-            sw.WriteLine("user");
-            sw.Flush();
-            string s = sr.ReadLine();
-            //MessageBox.Show(s, "Client");
-            loginLabel.Text = s.Trim();
+            //MessageBox.Show("Sending data");
+            string currentUser = "";
+            string currentUserLevel = "";
+            while (currentUser == "")
+            {
+                sw.WriteLine("user???");
+                sw.Flush();
+                string s = sr.ReadLine();
+                string[] str = s.Split(',');
+                currentUser = str[1].Trim();
+                currentUserLevel = str[3].Trim();
+                //MessageBox.Show(s, "Client");
+                loginLabel.Text = currentUser;
+                statusLabel.Text = currentUser + " logged in as " + currentUserLevel;
+                statusStrip.Refresh();
+            }
             sw.WriteLine("done");
             sw.Flush();
             clientPipe.Close();
@@ -155,7 +167,7 @@ namespace Reliability_Desk
                     MessageBox.Show("No Active Part Lists Loaded", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 //selected row data extraction and searching part from partlist to select and return
-                DataGridViewRow selectedRow = partTable.Rows[e.RowIndex]; 
+                DataGridViewRow selectedRow = partTable.Rows[e.RowIndex];
                 string name = selectedRow.Cells["Name"].Value.ToString();
                 string cmID = selectedRow.Cells["cmID"].Value.ToString();
                 string mftr = selectedRow.Cells["Manufacturer"].Value.ToString();
@@ -204,6 +216,7 @@ namespace Reliability_Desk
                         throw new FileLoadException("Incorrect File provided", fileName);
                     }
                     cDataset = new DataTable();
+                    // this list must be same everywhere should get by some static class field
                     cDataset.Columns.Add("Name");
                     cDataset.Columns.Add("cmID");
                     cDataset.Columns.Add("Manufacturer");
@@ -255,7 +268,7 @@ namespace Reliability_Desk
                 indPartDataTable.Rows.Add("Description");
                 indPartDataTable.Rows.Add("Category");
                 indPartDataTable.Rows.Add("Subcategory");
-                
+
             }
         }
 

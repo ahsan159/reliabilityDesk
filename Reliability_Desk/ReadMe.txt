@@ -60,3 +60,7 @@ Need to supply username and login level to all desks from  login form. To avoid 
 06-Mar-2023
 04:14PM
 Some editing made the multiple users connect to server in IPC and login are now working properly. Alhamdullilah
+
+08-Mar-2023
+4:24PM
+The parts properties table in the main reliability desk in now working fine. Thought of adding some fields of dataset and datatables in static class as fields to set the consistency.
