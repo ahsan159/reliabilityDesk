@@ -15,41 +15,26 @@ using TNXMLUtility;
 
 namespace Reliability_Desk
 {
-    class projects
+    class assembly
     {
         private string mainFile;
         private string createUser;
         private DateTime created;
         private string lastUser;
         private DateTime modified;
-        private TreeNode projectTree;
+        private TreeNode tree;
         private int isTemporary;
         private string filePath;
         int NodeCount;
-
         IList<assembly> childAssemblies;
-        IList<part> childParts;
+        List<part> childParts;
+        IList<assembly> parent;
 
-        public TreeNode getNode(string type, string value)
+        assembly()
         {
-            return projectTree;
-        }
+            parent = null;
+            mainFile = string.Empty;
 
-        public TreeNode getProject()
-        {
-            return projectTree;
-        }
-        public TreeNode getAssembly()
-        {
-            return projectTree;
-        }
-        public TreeNode getPart()
-        {
-            return projectTree;
-        }
-        public TreeNode getConnection() 
-        {
-            return projectTree;
         }
     }
 }

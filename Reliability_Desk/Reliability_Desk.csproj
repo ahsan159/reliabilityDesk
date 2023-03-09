@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="assembly.cs" />
     <Compile Include="mainDesk.cs">
       <SubType>Form</SubType>
     </Compile>
