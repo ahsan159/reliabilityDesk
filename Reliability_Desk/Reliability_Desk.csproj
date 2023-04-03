@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="assembly.cs" />
+    <Compile Include="globals.cs" />
     <Compile Include="mainDesk.cs">
       <SubType>Form</SubType>
     </Compile>

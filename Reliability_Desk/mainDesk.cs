@@ -14,7 +14,8 @@ using System.Xml.Linq;
 using TNXMLUtility;
 
 namespace Reliability_Desk
-{
+{    
+
     public partial class relDesk : Form
     {
         private DataSet currentData;
@@ -60,7 +61,8 @@ namespace Reliability_Desk
             List<XmlNode> list = new List<XmlNode>();
             list.Add(layout);            
             textBox.Text = textBox.Text + "Now reading file\n";            
-            writeProjecfromXML("./myTestFile1.xml");                        
+            writeProjecfromXML("./myTestFile1.xml");
+            loadPartlistToolStripMenuItem_Click(sender, e);
         }
 
         private void menuMain_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -351,15 +353,10 @@ namespace Reliability_Desk
                 propertiesTable.Columns.Add("Field", "Field");
                 propertiesTable.Columns.Add("Value","Value");
                 propertiesTable.Rows.Add(e.Node.Name, e.Node.Text);
-                string[] fields = {"Name",
-                               "cmID",
-                               "Manuafcturer",
-                               "Category",
-                               "Subcategory",
-                               "Description"};
+                //string[] fields = globals.dataFields;
                 DataRow[] found = activePartList.Select("Name LIKE '%" + e.Node.Text.ToString().Trim() + "%'");
                 DataRow displayRow = found[0];
-                foreach(string s in fields)
+                foreach(string s in globals.dataFields)
                 {
                     propertiesTable.Rows.Add(s, displayRow[s]);
                 }
@@ -375,13 +372,7 @@ namespace Reliability_Desk
         {
             List<part> partList = TNXMLUtility.nodeUtilities.readPartsfromXML("../../partListTest1.xml");
             activePartList = new DataTable("activePartList");
-            string[] fields = {"Name",
-                               "cmID",
-                               "Manuafcturer",
-                               "Category",
-                               "Subcategory",
-                               "Description"};
-            foreach(string s in fields)
+            foreach(string s in globals.dataFields)
             {
                 activePartList.Columns.Add(s);
             }
@@ -391,6 +382,24 @@ namespace Reliability_Desk
             }
             //panelProperties.Show();
             //propertiesTable.DataSource = activePartList;
+        }
+
+        private void addNewPartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selectPart partFrm = new selectPart("../../partListTest1.xml");
+            partFrm.ShowDialog();
+            part partSelected = partFrm.selectedPart;
+            string[] partData = partSelected.getData();
+            partFrm.Dispose();
+            MessageBox.Show(partSelected.ToString());
+            string filterExp1 = partData[(int)globals.fieldEnum.Name];
+            string filterExp2 = partData[(int)globals.fieldEnum.cmID];
+            DataRow[] rows = activePartList.Select("Name LIKE '%" + filterExp1 + "%' AND  cmID LIKE '%" + filterExp2 + "%'");
+            textBox.Text += "\n"  + rows[0][0] + "," + rows[0][1] + "," + rows[0][2] + "," + rows[0][3] + "," + rows[0][4] + "," + rows[0][5];
+            if (rows.Count() > 0)
+            {
+                projectTree.SelectedNode.Nodes.Add(globals.part, filterExp1, 1, 1);
+            }
         }
 
     }

@@ -50,6 +50,8 @@ namespace Reliability_Desk
             this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.loadPartlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,8 +84,7 @@ namespace Reliability_Desk
             this.saveProperties = new System.Windows.Forms.Button();
             this.closeProperties = new System.Windows.Forms.Button();
             this.panelProperties = new System.Windows.Forms.Panel();
-            this.loadPartlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.addNewPartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -140,25 +141,37 @@ namespace Reliability_Desk
             // saveProjectToolStripMenuItem
             // 
             this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
-            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.saveProjectToolStripMenuItem.Text = "Save Project";
             this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.saveProjectToolStripMenuItem_Click);
             // 
             // closeProjectToolStripMenuItem
             // 
             this.closeProjectToolStripMenuItem.Name = "closeProjectToolStripMenuItem";
-            this.closeProjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.closeProjectToolStripMenuItem.Text = "Close Project";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(140, 6);
+            // 
+            // loadPartlistToolStripMenuItem
+            // 
+            this.loadPartlistToolStripMenuItem.Name = "loadPartlistToolStripMenuItem";
+            this.loadPartlistToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.loadPartlistToolStripMenuItem.Text = "Load Partlist";
+            this.loadPartlistToolStripMenuItem.Click += new System.EventHandler(this.loadPartlistToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(140, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // projectToolStripMenuItem
@@ -365,6 +378,7 @@ namespace Reliability_Desk
             this.treeNodeMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
             this.toolStripMenuItem1,
+            this.addNewPartToolStripMenuItem,
             this.toolStripMenuItem2,
             this.toolStripSeparator3,
             this.copyToolStripMenuItem,
@@ -375,7 +389,7 @@ namespace Reliability_Desk
             this.propertiesToolStripMenuItem});
             this.treeNodeMenu.Margin = new System.Windows.Forms.Padding(100, 0, 1000, 0);
             this.treeNodeMenu.Name = "treeNodeMenu";
-            this.treeNodeMenu.Size = new System.Drawing.Size(174, 192);
+            this.treeNodeMenu.Size = new System.Drawing.Size(174, 236);
             // 
             // tableLayoutPanel3
             // 
@@ -455,17 +469,12 @@ namespace Reliability_Desk
             this.panelProperties.Size = new System.Drawing.Size(263, 586);
             this.panelProperties.TabIndex = 3;
             // 
-            // loadPartlistToolStripMenuItem
+            // addNewPartToolStripMenuItem
             // 
-            this.loadPartlistToolStripMenuItem.Name = "loadPartlistToolStripMenuItem";
-            this.loadPartlistToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.loadPartlistToolStripMenuItem.Text = "Load Partlist";
-            this.loadPartlistToolStripMenuItem.Click += new System.EventHandler(this.loadPartlistToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+            this.addNewPartToolStripMenuItem.Name = "addNewPartToolStripMenuItem";
+            this.addNewPartToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.addNewPartToolStripMenuItem.Text = "Add New Part";
+            this.addNewPartToolStripMenuItem.Click += new System.EventHandler(this.addNewPartToolStripMenuItem_Click);
             // 
             // relDesk
             // 
@@ -541,6 +550,7 @@ namespace Reliability_Desk
         private Panel panelProperties;
         private ToolStripMenuItem loadPartlistToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator5;
+        private ToolStripMenuItem addNewPartToolStripMenuItem;
     }
 }
 

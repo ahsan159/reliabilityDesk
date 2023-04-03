@@ -28,12 +28,10 @@ namespace Reliability_Desk
             try
             {
                 cDataset = new DataTable();
-                cDataset.Columns.Add("Name");
-                cDataset.Columns.Add("cmID");
-                cDataset.Columns.Add("Manufacturer");
-                cDataset.Columns.Add("Category");
-                cDataset.Columns.Add("SubCategory");
-                cDataset.Columns.Add("Description");
+                foreach (string field in globals.dataFields)
+                {
+                    cDataset.Columns.Add(field);
+                }
                 partTable.DataSource = cDataset;
             }
             catch (Exception exp)
@@ -65,12 +63,10 @@ namespace Reliability_Desk
                     }
                     // adding columns
                     cDataset = new DataTable();
-                    cDataset.Columns.Add("Name");
-                    cDataset.Columns.Add("cmID");
-                    cDataset.Columns.Add("Manufacturer");
-                    cDataset.Columns.Add("Category");
-                    cDataset.Columns.Add("SubCategory");
-                    cDataset.Columns.Add("Description");
+                    foreach (string field in globals.dataFields)
+                    {
+                        cDataset.Columns.Add(field);
+                    }
                     foreach (part p in partList)
                     {
                         // add paths 
@@ -168,10 +164,10 @@ namespace Reliability_Desk
                 }
                 //selected row data extraction and searching part from partlist to select and return
                 DataGridViewRow selectedRow = partTable.Rows[e.RowIndex];
-                string name = selectedRow.Cells["Name"].Value.ToString();
-                string cmID = selectedRow.Cells["cmID"].Value.ToString();
-                string mftr = selectedRow.Cells["Manufacturer"].Value.ToString();
-                string desc = selectedRow.Cells["Description"].Value.ToString();
+                string name = selectedRow.Cells[globals.name].Value.ToString();
+                string cmID = selectedRow.Cells[globals.cmID].Value.ToString();
+                string mftr = selectedRow.Cells[globals.mftr].Value.ToString();
+                string desc = selectedRow.Cells[globals.desc].Value.ToString();
                 //MessageBox.Show(name + mftr + cmID + desc);
                 int selectedIndex = partList.FindIndex(x =>
                     x.getData()[0].Equals(name) && // predicate 1 to search by name
@@ -217,12 +213,10 @@ namespace Reliability_Desk
                     }
                     cDataset = new DataTable();
                     // this list must be same everywhere should get by some static class field
-                    cDataset.Columns.Add("Name");
-                    cDataset.Columns.Add("cmID");
-                    cDataset.Columns.Add("Manufacturer");
-                    cDataset.Columns.Add("Category");
-                    cDataset.Columns.Add("SubCategory");
-                    cDataset.Columns.Add("Description");
+                    foreach (string field in globals.dataFields)
+                    {
+                        cDataset.Columns.Add(field);
+                    }
                     foreach (part p in partList)
                     {
                         p.setPath(fileName);
@@ -262,13 +256,10 @@ namespace Reliability_Desk
             {
                 indPartDataTable.Columns.Add("Field", "Field");
                 indPartDataTable.Columns.Add("Value", "Value");
-                indPartDataTable.Rows.Add("Name");
-                indPartDataTable.Rows.Add("Manufacturer");
-                indPartDataTable.Rows.Add("cmID");
-                indPartDataTable.Rows.Add("Description");
-                indPartDataTable.Rows.Add("Category");
-                indPartDataTable.Rows.Add("Subcategory");
-
+                foreach(string field in globals.dataFields)
+                {
+                    indPartDataTable.Rows.Add(field);
+                }
             }
         }
 
@@ -317,12 +308,12 @@ namespace Reliability_Desk
                     MessageBox.Show("No Active Part Lists Loaded", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 DataGridViewRow selectedRow = partTable.Rows[e.RowIndex];
-                name = selectedRow.Cells["Name"].Value.ToString();
-                cmID = selectedRow.Cells["cmID"].Value.ToString();
-                mftr = selectedRow.Cells["Manufacturer"].Value.ToString();
-                desc = selectedRow.Cells["Description"].Value.ToString();
-                cat = selectedRow.Cells["Category"].Value.ToString();
-                scat = selectedRow.Cells["Subcategory"].Value.ToString();
+                name = selectedRow.Cells[globals.name].Value.ToString();
+                cmID = selectedRow.Cells[globals.cmID].Value.ToString();
+                mftr = selectedRow.Cells[globals.mftr].Value.ToString();
+                desc = selectedRow.Cells[globals.desc].Value.ToString();
+                cat = selectedRow.Cells[globals.cat].Value.ToString();
+                scat = selectedRow.Cells[globals.scat].Value.ToString();
                 //MessageBox.Show(name + mftr + cmID + desc);
                 int selectedIndex = partList.FindIndex(x =>
                     x.getData()[0].Equals(name) && // predicate 1 to search by name
@@ -342,16 +333,14 @@ namespace Reliability_Desk
             {
                 indPartDataTable.Columns.Add("Field", "Field");
                 indPartDataTable.Columns.Add("Value", "Value");
-                indPartDataTable.Rows.Add("Name");
-                indPartDataTable.Rows.Add("Manufacturer");
-                indPartDataTable.Rows.Add("cmID");
-                indPartDataTable.Rows.Add("Description");
-                indPartDataTable.Rows.Add("Category");
-                indPartDataTable.Rows.Add("Subcategory");
+                foreach(string field in globals.dataFields)
+                {
+                    indPartDataTable.Rows.Add(field);
+                }                
             }
             indPartDataTable.Rows[0].Cells[1].Value = name;
-            indPartDataTable.Rows[1].Cells[1].Value = mftr;
-            indPartDataTable.Rows[2].Cells[1].Value = cmID;
+            indPartDataTable.Rows[1].Cells[1].Value = cmID;
+            indPartDataTable.Rows[2].Cells[1].Value = mftr;
             indPartDataTable.Rows[3].Cells[1].Value = desc;
             indPartDataTable.Rows[4].Cells[1].Value = cat;
             indPartDataTable.Rows[5].Cells[1].Value = scat;
@@ -380,12 +369,10 @@ namespace Reliability_Desk
             {
                 indPartDataTable.Columns.Add("Field", "Field");
                 indPartDataTable.Columns.Add("Value", "Value");
-                indPartDataTable.Rows.Add("Name");
-                indPartDataTable.Rows.Add("Manufacturer");
-                indPartDataTable.Rows.Add("cmID");
-                indPartDataTable.Rows.Add("Description");
-                indPartDataTable.Rows.Add("Category");
-                indPartDataTable.Rows.Add("Subcategory");
+                foreach (string field in globals.dataFields)
+                {
+                    indPartDataTable.Rows.Add(field);                        
+                }
             }
         }
 
@@ -404,10 +391,10 @@ namespace Reliability_Desk
             string scat = "";
             // retried part data
             name = indPartDataTable["Value", 0].Value.ToString();
-            mftr = indPartDataTable["Value", 1].Value.ToString();
-            desc = indPartDataTable["Value", 3].Value.ToString();
-            cmID = indPartDataTable["Value", 2].Value.ToString();
-            scat = indPartDataTable["Value", 5].Value.ToString();
+            mftr = indPartDataTable["Value", 2].Value.ToString();
+            desc = indPartDataTable["Value", 5].Value.ToString();
+            cmID = indPartDataTable["Value", 1].Value.ToString();
+            scat = indPartDataTable["Value", 3].Value.ToString();
             cat = indPartDataTable["Value", 4].Value.ToString();
             // create new part
             part newpart = new part(cat, scat, name, mftr, desc);

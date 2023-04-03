@@ -11,6 +11,7 @@ using Microsoft.VisualBasic;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
+using Reliability_Desk;
 
 namespace TNXMLUtility
 {
@@ -197,16 +198,16 @@ namespace TNXMLUtility
         public static void writePartListXML(string fileName, List<part> partList)
         {
             XDocument doc = new XDocument();
-            XElement ele = new XElement("PartList");
+            XElement ele = new XElement(globals.partlist);
             foreach(part p in partList)
             {
                 string[] str = p.getData();
-                XElement e = new XElement("Part", str[0]);
-                e.Add(new XAttribute("cmID", str[1]));
-                e.Add(new XAttribute("mftr", str[2]));
-                e.Add(new XAttribute("cat", str[3]));
-                e.Add(new XAttribute("scat", str[4]));
-                e.Add(new XAttribute("des", str[5]));
+                XElement e = new XElement(globals.part, str[0]);
+                e.Add(new XAttribute(globals.shortDataFields[1], str[1]));
+                e.Add(new XAttribute(globals.shortDataFields[2], str[2]));
+                e.Add(new XAttribute(globals.shortDataFields[3], str[3]));
+                e.Add(new XAttribute(globals.shortDataFields[4], str[4]));
+                e.Add(new XAttribute(globals.shortDataFields[5], str[5]));
                 ele.Add(e);
             }
             doc.Add(ele);

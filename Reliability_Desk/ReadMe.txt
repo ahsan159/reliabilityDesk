@@ -64,3 +64,7 @@ Some editing made the multiple users connect to server in IPC and login are now 
 08-Mar-2023
 4:24PM
 The parts properties table in the main reliability desk in now working fine. Thought of adding some fields of dataset and datatables in static class as fields to set the consistency.
+
+03-Apr-2023
+2:29PM
+updated the few parts in parts selection and main desk. Found a way to query multiple columns from datatable. Added few global varables and enum to bind with consistency and transport of data is easier between two form and databases. Need to write Assembly.cs very next thing to make the project combines and write real block diagram analysis algorithms.
