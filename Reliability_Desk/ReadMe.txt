@@ -67,4 +67,8 @@ The parts properties table in the main reliability desk in now working fine. Tho
 
 03-Apr-2023
 2:29PM
-updated the few parts in parts selection and main desk. Found a way to query multiple columns from datatable. Added few global varables and enum to bind with consistency and transport of data is easier between two form and databases. Need to write Assembly.cs very next thing to make the project combines and write real block diagram analysis algorithms.
+updated the few parts in parts selection and main desk. Found a way to query multiple columns from datatable. Added few global varables and enum to bind with consistency and transport of data is easier between two form and databases. Need to write assembly.cs very next thing to make the project combines and write real block diagram analysis algorithms.
+
+04-Apr-2023
+2:11PM
+created xml facilities for assemblies and parts. need project class that can be inherited from assembly class. identification of xelement and tree node will be made by contactinating the names until parent. This required unique sublings nameing. this functionality is required to be added in main desk. Furthermore, renaming and other facilities are required to be connecting between class and treenodes. Overall connectivity of class and main desk is required to written. 

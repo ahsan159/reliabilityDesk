@@ -78,7 +78,7 @@ namespace TNXMLUtility
             cmID = id;
         }
         public void setPartData(XElement ele)
-        {
+       { 
             analysis = false;
             this.name = ele.Value;
             if (ele.HasAttributes)
@@ -178,6 +178,51 @@ namespace TNXMLUtility
         {
             return this.name + "," + this.manufacturer + "," + this.cmID;
             
+        }
+        public string[] getFullData()
+        {
+            string[] dt = {name,
+                          cmID,
+                          manufacturer,
+                          cat,
+                          scat,
+                          package,
+                          MTBF.ToString(),
+                          heritage,
+                          radiationData,
+                          reliabilityData,
+                          outgassingData,
+                          user,
+                          added.ToShortDateString(),
+                          sourcePath};
+            return dt;
+        }
+        public XElement getXML()
+        {
+            XElement ele = new XElement("Part");
+            ele.Value = name;
+            //XAttribute attrib = new XAttribute()
+            XAttribute[] attrib = new XAttribute[14];
+            int i = 0;
+            attrib[i++] = new XAttribute("cmID", cmID);
+            attrib[i++] = new XAttribute("manufacturer", manufacturer);
+            attrib[i++] = new XAttribute("description", des);
+            attrib[i++] = new XAttribute("category", cat);
+            attrib[i++] = new XAttribute("subcategory", scat);
+            attrib[i++] = new XAttribute("MTBF", MTBF.ToString());
+            attrib[i++] = new XAttribute("package", package);
+            attrib[i++] = new XAttribute("heritage", heritage);
+            attrib[i++] = new XAttribute("radiation", radiationData);
+            attrib[i++] = new XAttribute("reliability", reliabilityData);
+            attrib[i++] = new XAttribute("outgassing", outgassingData);
+            attrib[i++] = new XAttribute("user", user);
+            attrib[i++] = new XAttribute("added", added.ToShortDateString());
+            attrib[i++] = new XAttribute("path", sourcePath);
+            foreach(XAttribute a in attrib)
+            {
+                ele.Add(a);
+            }
+            return ele;
         }
     }
 }

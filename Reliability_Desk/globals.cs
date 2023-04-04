@@ -8,6 +8,24 @@ namespace Reliability_Desk
 {
     public class globals
     {
+        public enum fieldParts
+        {
+            name = 0,
+            cmID,
+            manu,
+            cat,
+            scat,
+            des,
+            package,
+            mtbf,
+            heritage,
+            rad,
+            rel,
+            oug,
+            user,
+            added,
+            path
+        }
         public enum fieldEnum
         {
             Name=0,
