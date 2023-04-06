@@ -46,6 +46,7 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripTextSearch = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButtonSearch = new System.Windows.Forms.ToolStripButton();
+            this.loginLabel = new System.Windows.Forms.ToolStripLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -55,7 +56,6 @@
             this.addPart = new System.Windows.Forms.Button();
             this.closePart = new System.Windows.Forms.Button();
             this.clearBtn = new System.Windows.Forms.Button();
-            this.loginLabel = new System.Windows.Forms.ToolStripLabel();
             ((System.ComponentModel.ISupportInitialize)(this.partTable)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -105,26 +105,26 @@
             // loadPartListToolStripMenuItem
             // 
             this.loadPartListToolStripMenuItem.Name = "loadPartListToolStripMenuItem";
-            this.loadPartListToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.loadPartListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadPartListToolStripMenuItem.Text = "Load Part List";
             this.loadPartListToolStripMenuItem.Click += new System.EventHandler(this.loadPartListToolStripMenuItem_Click);
             // 
             // savePartToolStripMenuItem
             // 
             this.savePartToolStripMenuItem.Name = "savePartToolStripMenuItem";
-            this.savePartToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-            this.savePartToolStripMenuItem.Text = "Save Part";
+            this.savePartToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.savePartToolStripMenuItem.Text = "Save Part List";
             this.savePartToolStripMenuItem.Click += new System.EventHandler(this.savePartToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(142, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -210,6 +210,13 @@
             this.toolStripButtonSearch.Size = new System.Drawing.Size(46, 22);
             this.toolStripButtonSearch.Text = "Search";
             this.toolStripButtonSearch.Click += new System.EventHandler(this.toolStripButtonSearch_Click);
+            // 
+            // loginLabel
+            // 
+            this.loginLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.loginLabel.Name = "loginLabel";
+            this.loginLabel.Size = new System.Drawing.Size(10, 22);
+            this.loginLabel.Text = " ";
             // 
             // statusStrip
             // 
@@ -321,13 +328,6 @@
             this.clearBtn.Text = "Clear";
             this.clearBtn.UseVisualStyleBackColor = true;
             this.clearBtn.Click += new System.EventHandler(this.clearBtn_Click);
-            // 
-            // loginLabel
-            // 
-            this.loginLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.loginLabel.Name = "loginLabel";
-            this.loginLabel.Size = new System.Drawing.Size(10, 22);
-            this.loginLabel.Text = " ";
             // 
             // selectPart
             // 

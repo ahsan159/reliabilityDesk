@@ -15,24 +15,25 @@ namespace Reliability_Desk
         [STAThread]
         static void Main()
         {
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             ////Application.Run(new Form1());
-            ////selectPart frm = new selectPart("../../partListTest1.xml");
+            //selectPart frm = new selectPart("../../partListTest1.xml");
             //selectPart frm = new selectPart();
-            ////Application.Run(frm);
+            relDesk frm = new relDesk();
+            Application.Run(frm);
             ////MessageBox.Show(frm.selectedPart.ToString());
             //frm.Dispose();
-            Action act1 = new Action(go);
-            var t1 = new Task(act1);
-            t1.Start();
-            t1.Wait();
+            //Action act1 = new Action(go);
+            //var t1 = new Task(act1);
+            //t1.Start();
+            //t1.Wait();
             //Action act2 = new Action(go1);
             //var t2 = new Task(act2);
             //t2.Start();
             //t1.Wait();
             //Task.WaitAll(t1, t2);
-            t1.Dispose();
+            //t1.Dispose();
             //MessageBox.Show("Done");
             
         }
@@ -41,9 +42,9 @@ namespace Reliability_Desk
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
-            //selectPart frm = new selectPart("../../partListTest1.xml");
+            selectPart frm = new selectPart("../../partListTest1.xml");
             //selectPart frm = new selectPart();
-            relDesk frm = new relDesk();
+            //relDesk frm = new relDesk();
             Application.Run(frm);
             //MessageBox.Show(frm.selectedPart.ToString());
             frm.Dispose();

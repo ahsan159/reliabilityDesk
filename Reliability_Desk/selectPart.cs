@@ -186,7 +186,15 @@ namespace Reliability_Desk
 
         private void savePartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "Part List File (*.prtl)|*.prj|XML File (*.xml)|*.xml|All Files (*.*)|*.*";
+            dlg.FilterIndex = 2;
+            dlg.RestoreDirectory = true;
+            dlg.InitialDirectory = System.IO.Directory.GetCurrentDirectory();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                TNXMLUtility.TNXMLUtility.writePartListXML(dlg.FileName, partList);
+            }
         }
 
         private void loadPartListToolStripMenuItem_Click(object sender, EventArgs e)

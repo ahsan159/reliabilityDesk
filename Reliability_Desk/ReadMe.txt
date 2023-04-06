@@ -72,3 +72,11 @@ updated the few parts in parts selection and main desk. Found a way to query mul
 04-Apr-2023
 2:11PM
 created xml facilities for assemblies and parts. need project class that can be inherited from assembly class. identification of xelement and tree node will be made by contactinating the names until parent. This required unique sublings nameing. this functionality is required to be added in main desk. Furthermore, renaming and other facilities are required to be connecting between class and treenodes. Overall connectivity of class and main desk is required to written. 
+
+05-Apr-2023
+2:25PM
+project.cs, assembly.cs and part.cs classes almost complete. treenode has been connected using project class. some logical problem is not allowing parts to be added to treenode and restraining complete loop to iterate through all elements. First thing tomorrow is to provide testing of parts form to ubaid for testing. 
+
+06-Apr-2023
+3:04PM
+The logical problem I was facing yesterday was the incorrect parsing of date in part class. now all the tree node is correctly populated. However, I am having difficulty in getting the assemblies populated in project class. I am thinking of using assembly class for saving the project too. as there is no difference lets do this tomorrow. Testing of part form is being done to ubaid i have forwarded the executables to him. Hope as this assembly/project issue resolovs the front end will be complete and only thing require is building the algorithm for series parallel and analysis performing scheme. INSHALLAH the first versions will be available after 1 month.

@@ -11,6 +11,7 @@ using Microsoft.VisualBasic;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
+using System.Globalization;
 
 namespace TNXMLUtility
 {
@@ -32,10 +33,11 @@ namespace TNXMLUtility
         private string user;
         private DateTime added;
         private bool analysis;
-        private string sourcePath;
+        private string fullPath;
+        TreeNode node;
         public part()
         {
-            name = "noname";
+            name = string.Empty;
         }
         public part(string name, string manufacturer)
         {
@@ -77,18 +79,38 @@ namespace TNXMLUtility
             analysis = false;
             cmID = id;
         }
+        public void setPartData(XElement ele, string parent)
+        {
+            setPartData(ele);
+            fullPath = parent + "," + name;
+        }
+        public void setFullPath(string s)
+        {
+            fullPath = s;
+        }
+        public string getFullPath()
+        {
+            return fullPath;
+        }
+        public void updateFullPath(string parent)
+        {
+            fullPath = parent + "," + name;
+        }
         public void setPartData(XElement ele)
-       { 
-            analysis = false;
-            this.name = ele.Value;
+        {
+            //analysis = false;
+            this.name = ele.FirstNode.ToString();
+            ////MessageBox.Show(ele.FirstNode.ToString(), "Part");
             if (ele.HasAttributes)
             {
-                foreach (XAttribute a in ele.Attributes())
+                IEnumerable<XAttribute> ats = ele.Attributes();                
+                foreach (XAttribute a in ats)
                 {
+                    //MessageBox.Show(a.Name.ToString()+","+a.Value.ToString(), name);
                     switch (a.Name.ToString())
                     {
                         case "dateAdded":
-                            this.added = DateTime.Parse(a.Value.ToString());
+                            this.added = DateTime.ParseExact(a.Value.ToString(),"dd-MM-yyyy",CultureInfo.CurrentCulture);
                             break;
                         case "MTBF":
                             this.MTBF = double.Parse(a.Value.ToString());
@@ -114,6 +136,11 @@ namespace TNXMLUtility
                     }
                 }
             }
+            node = new TreeNode("Part", 1, 1);
+            node.Name = "Part";
+            node.Text = name;
+            ////MessageBox.Show(node.Name + node.Text, "PARTNAME");
+            fullPath = name;
         }
         public void setPartData(TreeNode node)
         {
@@ -152,10 +179,6 @@ namespace TNXMLUtility
                     }
                 }
             }
-            else
-            {
-
-            }
         }
         public string getName()
         {
@@ -172,12 +195,12 @@ namespace TNXMLUtility
         }
         public void setPath(string path)
         {
-            this.sourcePath = path;
+            this.fullPath = path;
         }
         public string ToString()
         {
             return this.name + "," + this.manufacturer + "," + this.cmID;
-            
+
         }
         public string[] getFullData()
         {
@@ -194,7 +217,7 @@ namespace TNXMLUtility
                           outgassingData,
                           user,
                           added.ToShortDateString(),
-                          sourcePath};
+                          fullPath};
             return dt;
         }
         public XElement getXML()
@@ -217,12 +240,16 @@ namespace TNXMLUtility
             attrib[i++] = new XAttribute("outgassing", outgassingData);
             attrib[i++] = new XAttribute("user", user);
             attrib[i++] = new XAttribute("added", added.ToShortDateString());
-            attrib[i++] = new XAttribute("path", sourcePath);
-            foreach(XAttribute a in attrib)
+            attrib[i++] = new XAttribute("path", fullPath);
+            foreach (XAttribute a in attrib)
             {
                 ele.Add(a);
             }
             return ele;
+        }
+        public TreeNode getNode()
+        {            
+            return node;
         }
     }
 }

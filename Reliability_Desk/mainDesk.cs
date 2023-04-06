@@ -20,6 +20,7 @@ namespace Reliability_Desk
     {
         private DataSet currentData;
         private DataTable activePartList;
+        private project mainProject;
         public relDesk()
         {
             InitializeComponent();
@@ -61,7 +62,12 @@ namespace Reliability_Desk
             List<XmlNode> list = new List<XmlNode>();
             list.Add(layout);            
             textBox.Text = textBox.Text + "Now reading file\n";            
-            writeProjecfromXML("./myTestFile1.xml");
+            //writeProjecfromXML("./myTestFile1.xml");
+            //MessageBox.Show("going in");
+            mainProject = new project("./myTestFile1.xml");
+            MessageBox.Show("Returned to main");
+            projectTree.Nodes.Clear();
+            projectTree.Nodes.Add(mainProject.getNode());
             loadPartlistToolStripMenuItem_Click(sender, e);
         }
 
@@ -344,7 +350,15 @@ namespace Reliability_Desk
 
         private void projectTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            TreeNode tn = e.Node;
+            string st = tn.Text.Trim();
+            while(tn.Parent!=null)
+            {
+                st = tn.Parent.Text.Trim() + "," + st;
+                tn = tn.Parent;
+            }
             projectTree.SelectedNode = e.Node;
+            //MessageBox.Show(st);
             if (e.Node.Name=="Part")
             {
                 panelProperties.Show();
@@ -360,7 +374,7 @@ namespace Reliability_Desk
                 {
                     propertiesTable.Rows.Add(s, displayRow[s]);
                 }
-
+                //panelProperties.Show();
             }
             else
             {
@@ -386,19 +400,32 @@ namespace Reliability_Desk
 
         private void addNewPartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectPart partFrm = new selectPart("../../partListTest1.xml");
-            partFrm.ShowDialog();
-            part partSelected = partFrm.selectedPart;
-            string[] partData = partSelected.getData();
-            partFrm.Dispose();
-            MessageBox.Show(partSelected.ToString());
-            string filterExp1 = partData[(int)globals.fieldEnum.Name];
-            string filterExp2 = partData[(int)globals.fieldEnum.cmID];
-            DataRow[] rows = activePartList.Select("Name LIKE '%" + filterExp1 + "%' AND  cmID LIKE '%" + filterExp2 + "%'");
-            textBox.Text += "\n"  + rows[0][0] + "," + rows[0][1] + "," + rows[0][2] + "," + rows[0][3] + "," + rows[0][4] + "," + rows[0][5];
-            if (rows.Count() > 0)
+            if (projectTree.SelectedNode.Name == "Assembly")// || projectTree.SelectedNode.Name == "Project")
             {
-                projectTree.SelectedNode.Nodes.Add(globals.part, filterExp1, 1, 1);
+                TreeNode tn = projectTree.SelectedNode;
+                string st = tn.Text.Trim();
+                while (tn.Parent != null)
+                {
+                    st = tn.Parent.Text.Trim() + "," + st;
+                    tn = tn.Parent;
+                }
+                //MessageBox.Show(st);
+                assembly a = mainProject.findAssembly(st);
+                MessageBox.Show(a.getName() + ":" + a.getFullPath());
+                selectPart partFrm = new selectPart("../../partListTest1.xml");
+                partFrm.ShowDialog();
+                part partSelected = partFrm.selectedPart;
+                string[] partData = partSelected.getData();
+                partFrm.Dispose();
+                MessageBox.Show(partSelected.ToString());
+                string filterExp1 = partData[(int)globals.fieldEnum.Name];
+                string filterExp2 = partData[(int)globals.fieldEnum.cmID];
+                DataRow[] rows = activePartList.Select("Name LIKE '%" + filterExp1 + "%' AND  cmID LIKE '%" + filterExp2 + "%'");
+                textBox.Text += "\n" + rows[0][0] + "," + rows[0][1] + "," + rows[0][2] + "," + rows[0][3] + "," + rows[0][4] + "," + rows[0][5];
+                if (rows.Count() > 0)
+                {
+                    projectTree.SelectedNode.Nodes.Add(globals.part, filterExp1, 1, 1);
+                }
             }
         }
 
