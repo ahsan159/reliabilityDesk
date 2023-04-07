@@ -367,9 +367,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        public TNXMLUtility.part selectedPart;
+        public part selectedPart;
         private System.Data.DataTable cDataset;
-        private System.Collections.Generic.List<TNXMLUtility.part> partList;
+        private System.Collections.Generic.List<part> partList;
         private string fileName;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.StatusStrip statusStrip;

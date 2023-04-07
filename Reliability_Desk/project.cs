@@ -29,15 +29,17 @@ namespace Reliability_Desk
         private string filePath;
         private string fullPath;
         int NodeCount;
-        List<assembly> childAssemblies;
-        List<part> childParts;
+        List<assembly> childAssemblies = new List<assembly>();
+        List<part> childParts = new List<part>();
         IList<assembly> parent;
+        store storeInstance = store.instance();
 
         public project()
         {
             name = string.Empty;
             parent = null;
             mainFile = string.Empty;
+
         }
         public project(string path)
         {
@@ -49,8 +51,6 @@ namespace Reliability_Desk
             setAssemblyData(ele, "");
             reader.Close();
             reader.Dispose();
-            childAssemblies = new List<assembly>();
-            childParts = new List<part>();
         }
         public string getName()
         {
@@ -73,9 +73,9 @@ namespace Reliability_Desk
         {
             node = new TreeNode("Project", 0, 0);
             node.Name = "Project";
-            if (ele.Name=="Project")
-            {            
-                //MessageBox.Show(ele.FirstNode.ToString(),"Project");                
+            if (ele.Name == "Project")
+            {
+                //MessageBox.Show(ele.FirstNode.ToString(), "Assembly");
                 name = ele.FirstNode.ToString().Trim();
                 node.Text = name.Trim();
                 if (ele.HasAttributes)
@@ -89,35 +89,39 @@ namespace Reliability_Desk
                     int i = 0;
                     foreach (XElement e in children)
                     {
-                        //MessageBox.Show(childAssemblies.Count.ToString(), "Project");
                         if (e.Name == "Assembly")
                         {
-                            //MessageBox.Show(e.FirstNode.ToString(), "AssemblyFP" + name);
+                            //MessageBox.Show(e.FirstNode.ToString(), "AssemblyFA" + name);
                             assembly a = new assembly();
                             a.setAssemblyData(e, name);
-                            MessageBox.Show(a.getFullPath());
                             if (!string.IsNullOrEmpty(a.getName()))
-                            {                            
+                            {
+                                //MessageBox.Show("Iteration " + i++.ToString(), "Assembly" + name);
                                 childAssemblies.Add(a);
-                                MessageBox.Show(a.getName());
+                                storeInstance.add(a);
                                 node.Nodes.Add(a.getNode());
                             }
                         }
-                        else if(e.Name == "Part")
+                        else if (e.Name == "Part")
                         {
-                            //MessageBox.Show(e.FirstNode.ToString(), "PartFP" + name);
-                            part p = new part();                            
+                            //MessageBox.Show(e.FirstNode.ToString(), "PartFA" + name);
+                            part p = new part();
                             p.setPartData(e, name);
+                            //TreeNode tn = new TreeNode("Part",1,1);
+                            //tn.Text = "Part" + i++.ToString();
+                            //node.Nodes.Add(tn);
                             if (!string.IsNullOrEmpty(p.getName()))
                             {
-                                childParts.Add(p);
+                                //childParts.Add(p);
+                                storeInstance.add(p);
                                 node.Nodes.Add(p.getNode());
+                                //MessageBox.Show("node Added", "PartFA" + name);
                             }
                         }
                     }
                 }
                 fullPath = name;
-            }
+            } 
         }
 
         public XElement getXML()
@@ -155,6 +159,7 @@ namespace Reliability_Desk
         }
         public assembly findAssembly(string s)
         {
+            MessageBox.Show(getFullPath(), "FOUND");
             assembly selectedAssembly = null;
             foreach (assembly a in childAssemblies)
             {
@@ -167,8 +172,21 @@ namespace Reliability_Desk
                     selectedAssembly = a.findAssembly(s);
                 }
             }
+            if (selectedAssembly != null)
+            {
+                MessageBox.Show(getFullPath(), "FOUND");
+            }
             return selectedAssembly;
             
         }
+        public void addChildAssembly(assembly a)
+        {
+            childAssemblies.Add(a);            
+        }
+        public void addChildPart(part p)
+        {
+            childParts.Add(p);
+        }
+             
     }
 }

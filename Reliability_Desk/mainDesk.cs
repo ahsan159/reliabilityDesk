@@ -20,6 +20,7 @@ namespace Reliability_Desk
     {
         private DataSet currentData;
         private DataTable activePartList;
+        //private assembly mainProject;
         private project mainProject;
         public relDesk()
         {
@@ -97,15 +98,33 @@ namespace Reliability_Desk
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //Adding subassembly context menu
-            projectTree.BeginUpdate();
-            if (projectTree.SelectedNode != null)
+            store storeInstance = store.instance();
+            textBox.Text += storeInstance.count();
+            TreeNode tn = projectTree.SelectedNode;
+            string st = tn.Text.Trim();
+            while (tn.Parent != null)
             {
-
-                projectTree.SelectedNode.Nodes.Add("Assembly", "new subassembly" + projectTree.Nodes.Count.ToString(), 0, 0);
-                statuslabel.Text = "Added new assembly successfully";
-                statusStrip.Refresh();
+                st = tn.Parent.Text.Trim() + "," + st;
+                tn = tn.Parent;
             }
-            projectTree.EndUpdate();
+            MessageBox.Show(st);
+            assembly a = mainProject.findAssembly(st);
+            assembly aNew = new assembly("new subassembly" + projectTree.Nodes.Count.ToString(), a.getFullPath());
+            storeInstance.add(aNew);
+            a.addAssembly(aNew);
+            textBox.Text += storeInstance.count();
+
+            projectTree.Nodes.Clear();
+            projectTree.Nodes.Add(mainProject.getNode());
+            //projectTree.BeginUpdate();
+            //if (projectTree.SelectedNode != null)
+            //{
+
+            //    projectTree.SelectedNode.Nodes.Add("Assembly", "new subassembly" + projectTree.Nodes.Count.ToString(), 0, 0);
+            //    statuslabel.Text = "Added new assembly successfully";
+            //    statusStrip.Refresh();
+            //}
+            //projectTree.EndUpdate();
         }
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
@@ -400,6 +419,8 @@ namespace Reliability_Desk
 
         private void addNewPartToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            store storeInstance = store.instance();
+            textBox.Text += storeInstance.count() + Environment.NewLine;
             if (projectTree.SelectedNode.Name == "Assembly")// || projectTree.SelectedNode.Name == "Project")
             {
                 TreeNode tn = projectTree.SelectedNode;
@@ -410,22 +431,30 @@ namespace Reliability_Desk
                     tn = tn.Parent;
                 }
                 //MessageBox.Show(st);
-                assembly a = mainProject.findAssembly(st);
+                
+                textBox.Text += storeInstance.count() + Environment.NewLine;
+                assembly a = storeInstance.findAssembly(st);
                 MessageBox.Show(a.getName() + ":" + a.getFullPath());
-                selectPart partFrm = new selectPart("../../partListTest1.xml");
-                partFrm.ShowDialog();
-                part partSelected = partFrm.selectedPart;
-                string[] partData = partSelected.getData();
-                partFrm.Dispose();
-                MessageBox.Show(partSelected.ToString());
-                string filterExp1 = partData[(int)globals.fieldEnum.Name];
-                string filterExp2 = partData[(int)globals.fieldEnum.cmID];
-                DataRow[] rows = activePartList.Select("Name LIKE '%" + filterExp1 + "%' AND  cmID LIKE '%" + filterExp2 + "%'");
-                textBox.Text += "\n" + rows[0][0] + "," + rows[0][1] + "," + rows[0][2] + "," + rows[0][3] + "," + rows[0][4] + "," + rows[0][5];
-                if (rows.Count() > 0)
+                textBox.Text = "";
+                foreach(assembly asm in storeInstance.getAssemblies())
                 {
-                    projectTree.SelectedNode.Nodes.Add(globals.part, filterExp1, 1, 1);
+                    textBox.Text += asm.getFullPath() + "\n";
                 }
+                //selectPart partFrm = new selectPart("../../partListTest1.xml");
+                //partFrm.ShowDialog();
+                //part partSelected = partFrm.selectedPart;
+                //string[] partData = partSelected.getData();
+                //partFrm.Dispose();
+                //MessageBox.Show(partSelected.ToString());
+                //string filterExp1 = partData[(int)globals.fieldEnum.Name];
+                //string filterExp2 = partData[(int)globals.fieldEnum.cmID];
+                //DataRow[] rows = activePartList.Select("Name LIKE '%" + filterExp1 + "%' AND  cmID LIKE '%" + filterExp2 + "%'");
+                //textBox.Text += "\n" + rows[0][0] + "," + rows[0][1] + "," + rows[0][2] + "," + rows[0][3] + "," + rows[0][4] + "," + rows[0][5];
+                //if (rows.Count() > 0)
+                //{
+                //    projectTree.SelectedNode.Nodes.Add(globals.part, filterExp1, 1, 1);
+                //    a.addPart(partSelected);
+                //}
             }
         }
 

@@ -29,32 +29,42 @@ namespace Reliability_Desk
         private string filePath;
         private string fullPath;
         int NodeCount;
-        List<assembly> childAssemblies;
-        List<part> childParts;
+        List<assembly> childAssemblies = new List<assembly>();
+        List<part> childParts = new List<part>();
         IList<assembly> parent;
-
+        store storeInstance = store.instance();
+        
         public assembly()
         {
             name = string.Empty;
             parent = null;
             mainFile = string.Empty;
-            childParts = new List<part>();
-            childAssemblies = new List<assembly>();
         }
         public string getName()
         {
             return name;
         }
+        public assembly(string nameNew, string parent)
+        {
+            name = nameNew;
+            fullPath = parent + "," + name;
+            created = DateTime.Now;
+            node = new TreeNode("Assembly", 1, 1);
+            node.Name = "Assembly";
+            node.Text = name;
+        }
         public void setAssemblyData(XElement ele, string parent)
         {
-            setAssemblyData(ele);
+            name = ele.FirstNode.ToString().Trim();
             fullPath = parent.Trim() + "," + name;
+            MessageBox.Show(fullPath, name);
+            setAssemblyData(ele);
         }
         public void setAssemblyData(XElement ele)
         {
             node = new TreeNode("Assembly", 0, 0);
             node.Name = "Assembly";
-            if (ele.Name == "Assembly")
+            if (ele.Name == "Assembly" || ele.Name == "Project")
             {
                 //MessageBox.Show(ele.FirstNode.ToString(), "Assembly");
                 name = ele.FirstNode.ToString().Trim();
@@ -74,11 +84,13 @@ namespace Reliability_Desk
                         {
                             //MessageBox.Show(e.FirstNode.ToString(), "AssemblyFA" + name);
                             assembly a = new assembly();
-                            a.setAssemblyData(e, name);
+                            a.setAssemblyData(e, fullPath);
                             if (!string.IsNullOrEmpty(a.getName()))
                             {
                                 //MessageBox.Show("Iteration " + i++.ToString(), "Assembly" + name);
                                 childAssemblies.Add(a);
+                                //mainNode.addChildAssembly(a);
+                                storeInstance.add(a);
                                 node.Nodes.Add(a.getNode());
                             }
                         }
@@ -86,20 +98,22 @@ namespace Reliability_Desk
                         {
                             //MessageBox.Show(e.FirstNode.ToString(), "PartFA" + name);
                             part p = new part();
-                            p.setPartData(e, name);
+                            p.setPartData(e, fullPath);
                             //TreeNode tn = new TreeNode("Part",1,1);
                             //tn.Text = "Part" + i++.ToString();
                             //node.Nodes.Add(tn);
                             if (!string.IsNullOrEmpty(p.getName()))
                             {
                                 childParts.Add(p);
+                                //mainNode.addChildPart(p);
+                                storeInstance.add(p);
                                 node.Nodes.Add(p.getNode());
                                 //MessageBox.Show("node Added", "PartFA" + name);
                             }
                         }                        
                     }
                 }
-                fullPath = name;
+                //fullPath = name;
             } 
         }
 
@@ -154,10 +168,26 @@ namespace Reliability_Desk
             {
                 if (a.getFullPath() == s)
                 {
-                    selectedAssembly = a;
+                    selectedAssembly = a;                    
+                }
+                else
+                {
+                    a.findAssembly(s);
                 }
             }
+            if (selectedAssembly != null)
+            {
+                MessageBox.Show(getFullPath(), "FOUND");
+            }
             return selectedAssembly;
+        }
+        public void addPart(part p)
+        {
+            childParts.Add(p);            
+        }
+        public void addAssembly(assembly a )
+        {
+            childAssemblies.Add(a);       
         }
     }
 }

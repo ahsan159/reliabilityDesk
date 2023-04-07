@@ -79,6 +79,7 @@
     <Compile Include="selectPart.Designer.cs">
       <DependentUpon>selectPart.cs</DependentUpon>
     </Compile>
+    <Compile Include="store.cs" />
     <Compile Include="TNXMLUtility.cs" />
     <EmbeddedResource Include="mainDesk.resx">
       <DependentUpon>mainDesk.cs</DependentUpon>
