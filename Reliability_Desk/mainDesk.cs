@@ -66,7 +66,7 @@ namespace Reliability_Desk
             //writeProjecfromXML("./myTestFile1.xml");
             //MessageBox.Show("going in");
             mainProject = new project("./myTestFile1.xml");
-            MessageBox.Show("Returned to main");
+            //MessageBox.Show("Returned to main");
             projectTree.Nodes.Clear();
             projectTree.Nodes.Add(mainProject.getNode());
             loadPartlistToolStripMenuItem_Click(sender, e);
@@ -150,13 +150,34 @@ namespace Reliability_Desk
         private void renameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //renaming of node             
+            string name_old = projectTree.SelectedNode.Text;
             string nameText = Prompt.ShowDialog("Enter New Name: ", "Rename");
             if (nameText.Length != 0)
             {
-                string name_old = projectTree.SelectedNode.Text;
-                projectTree.SelectedNode.Text = nameText;
-                statuslabel.Text = "Part/Assembly renamed " + nameText + " from " + name_old;
-                statusStrip.Refresh();
+                TreeNode tn = projectTree.SelectedNode;
+                string st = tn.Text.Trim();
+                while (tn.Parent != null)
+                {
+                    st = tn.Parent.Text.Trim() + "," + st;
+                    tn = tn.Parent;
+                }
+                st = st.Substring(0, st.LastIndexOf(','));
+                MessageBox.Show(st,"Ahsan");
+                //assembly a = mainProject.findAssembly(st);
+                //MessageBox.Show(a.getFullPath(), "mainDesk");
+                //assembly aNew = new assembly("new subassembly" + projectTree.Nodes.Count.ToString(), a.getFullPath());
+                //storeInstance.add(aNew);
+                //a.addAssembly(aNew);
+                //mainProject.addChildAssembly(a.getFullPath(), "subassembly" + mainProject.assemblyCount().ToString());
+                //textBox.Text += mainProject.assemblyCount().ToString();
+                mainProject.renameSub(nameText, name_old, st);
+
+                projectTree.Nodes.Clear();
+                projectTree.Nodes.Add(mainProject.getNode());
+                                
+                //projectTree.SelectedNode.Text = nameText;
+                //statuslabel.Text = "Part/Assembly renamed " + nameText + " from " + name_old;
+                //statusStrip.Refresh();
             }
         }
         private void displayTree(ref RichTextBox textbox, List<XmlNode> parent, int level)
@@ -456,6 +477,40 @@ namespace Reliability_Desk
                 //    a.addPart(partSelected);
                 //}
             }
+        }
+
+        private void addSubassemblyContextMenu_Click(object sender, EventArgs e)
+        {
+            //Adding subassembly context menu
+            store storeInstance = store.instance();
+            textBox.Text += storeInstance.count();
+            TreeNode tn = projectTree.SelectedNode;
+            string st = tn.Text.Trim();
+            while (tn.Parent != null)
+            {
+                st = tn.Parent.Text.Trim() + "," + st;
+                tn = tn.Parent;
+            }
+            //MessageBox.Show(st);
+            assembly a = mainProject.findAssembly(st);
+            //MessageBox.Show(a.getFullPath(), "mainDesk");
+            //assembly aNew = new assembly("new subassembly" + projectTree.Nodes.Count.ToString(), a.getFullPath());
+            //storeInstance.add(aNew);
+            //a.addAssembly(aNew);
+            mainProject.addChildAssembly(a.getFullPath(), "subassembly" + mainProject.assemblyCount().ToString());            
+            textBox.Text += mainProject.assemblyCount().ToString();
+
+            projectTree.Nodes.Clear();
+            projectTree.Nodes.Add(mainProject.getNode());
+            //projectTree.BeginUpdate();
+            //if (projectTree.SelectedNode != null)
+            //{
+
+            //    projectTree.SelectedNode.Nodes.Add("Assembly", "new subassembly" + projectTree.Nodes.Count.ToString(), 0, 0);
+            //    statuslabel.Text = "Added new assembly successfully";
+            //    statusStrip.Refresh();
+            //}
+            //projectTree.EndUpdate();
         }
 
     }

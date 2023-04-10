@@ -78,13 +78,13 @@ namespace Reliability_Desk
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.treeNodeMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addNewPartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.propertiesTable = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.saveProperties = new System.Windows.Forms.Button();
             this.closeProperties = new System.Windows.Forms.Button();
             this.panelProperties = new System.Windows.Forms.Panel();
-            this.addNewPartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -320,7 +320,7 @@ namespace Reliability_Desk
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
             this.toolStripMenuItem1.Text = "Add Sub Assembly";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.addSubassemblyContextMenu_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -389,7 +389,14 @@ namespace Reliability_Desk
             this.propertiesToolStripMenuItem});
             this.treeNodeMenu.Margin = new System.Windows.Forms.Padding(100, 0, 1000, 0);
             this.treeNodeMenu.Name = "treeNodeMenu";
-            this.treeNodeMenu.Size = new System.Drawing.Size(174, 236);
+            this.treeNodeMenu.Size = new System.Drawing.Size(174, 214);
+            // 
+            // addNewPartToolStripMenuItem
+            // 
+            this.addNewPartToolStripMenuItem.Name = "addNewPartToolStripMenuItem";
+            this.addNewPartToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.addNewPartToolStripMenuItem.Text = "Add New Part";
+            this.addNewPartToolStripMenuItem.Click += new System.EventHandler(this.addNewPartToolStripMenuItem_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -468,13 +475,6 @@ namespace Reliability_Desk
             this.panelProperties.Name = "panelProperties";
             this.panelProperties.Size = new System.Drawing.Size(263, 586);
             this.panelProperties.TabIndex = 3;
-            // 
-            // addNewPartToolStripMenuItem
-            // 
-            this.addNewPartToolStripMenuItem.Name = "addNewPartToolStripMenuItem";
-            this.addNewPartToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.addNewPartToolStripMenuItem.Text = "Add New Part";
-            this.addNewPartToolStripMenuItem.Click += new System.EventHandler(this.addNewPartToolStripMenuItem_Click);
             // 
             // relDesk
             // 

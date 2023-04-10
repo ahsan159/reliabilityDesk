@@ -91,41 +91,41 @@ namespace Reliability_Desk
                 statusStrip.Refresh();
             }
             //MessageBox.Show("Making Pipe");
-            NamedPipeClientStream clientPipe = new NamedPipeClientStream(".", "testpipe", PipeDirection.InOut);
-            //MessageBox.Show("Made Pipe");
-            try
-            {
-                clientPipe.Connect();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-            }
-            //MessageBox.Show("Reliability Desk: Pipe Connected");
-            statusLabel.Text = "Searching for available users";
-            statusStrip.Refresh();
-            StreamReader sr = new StreamReader(clientPipe);
-            StreamWriter sw = new StreamWriter(clientPipe);
-            //MessageBox.Show("Sending data");
-            string currentUser = "";
-            string currentUserLevel = "";
-            while (currentUser == "")
-            {
-                sw.WriteLine("user???");
-                sw.Flush();
-                string s = sr.ReadLine();
-                string[] str = s.Split(',');
-                currentUser = str[1].Trim();
-                currentUserLevel = str[3].Trim();
-                //MessageBox.Show(s, "Client");
-                loginLabel.Text = currentUser;
-                statusLabel.Text = currentUser + " logged in as " + currentUserLevel;
-                statusStrip.Refresh();
-            }
-            sw.WriteLine("done");
-            sw.Flush();
-            clientPipe.Close();
-            clientPipe.Dispose();
+            //NamedPipeClientStream clientPipe = new NamedPipeClientStream(".", "testpipe", PipeDirection.InOut);
+            ////MessageBox.Show("Made Pipe");
+            //try
+            //{
+            //    clientPipe.Connect();
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(e.ToString());
+            //}
+            ////MessageBox.Show("Reliability Desk: Pipe Connected");
+            //statusLabel.Text = "Searching for available users";
+            //statusStrip.Refresh();
+            //StreamReader sr = new StreamReader(clientPipe);
+            //StreamWriter sw = new StreamWriter(clientPipe);
+            ////MessageBox.Show("Sending data");
+            //string currentUser = "";
+            //string currentUserLevel = "";
+            //while (currentUser == "")
+            //{
+            //    sw.WriteLine("user???");
+            //    sw.Flush();
+            //    string s = sr.ReadLine();
+            //    string[] str = s.Split(',');
+            //    currentUser = str[1].Trim();
+            //    currentUserLevel = str[3].Trim();
+            //    //MessageBox.Show(s, "Client");
+            //    loginLabel.Text = currentUser;
+            //    statusLabel.Text = currentUser + " logged in as " + currentUserLevel;
+            //    statusStrip.Refresh();
+            //}
+            //sw.WriteLine("done");
+            //sw.Flush();
+            //clientPipe.Close();
+            //clientPipe.Dispose();
             // set parts list display only
             tableLayoutPanel1.ColumnStyles[1].SizeType = SizeType.Percent;
             tableLayoutPanel1.ColumnStyles[1].Width = 0;

@@ -47,7 +47,7 @@ namespace Reliability_Desk
             XmlReaderSettings xmlreadersettings = new XmlReaderSettings();
             xmlreadersettings.IgnoreWhitespace = false;
             XmlReader reader = XmlReader.Create(path, xmlreadersettings);
-            XElement ele = XElement.Load(reader);                        
+            XElement ele = XElement.Load(reader);
             setAssemblyData(ele, "");
             reader.Close();
             reader.Dispose();
@@ -67,7 +67,7 @@ namespace Reliability_Desk
         public void setAssemblyData(XElement ele, string parent)
         {
             setAssemblyData(ele);
-            fullPath = parent.Trim() + "," + name.Trim() ;
+            fullPath = parent.Trim() + "," + name.Trim();
         }
         public void setAssemblyData(XElement ele)
         {
@@ -121,7 +121,7 @@ namespace Reliability_Desk
                     }
                 }
                 fullPath = name;
-            } 
+            }
         }
 
         public XElement getXML()
@@ -154,39 +154,69 @@ namespace Reliability_Desk
         }
         public TreeNode getNode()
         {
-            MessageBox.Show(node.Text);
+            //MessageBox.Show(node.Text);
             return node;
         }
         public assembly findAssembly(string s)
         {
-            MessageBox.Show(getFullPath(), "FOUND");
+            //MessageBox.Show(getFullPath(), "FOUND P1");
             assembly selectedAssembly = null;
             foreach (assembly a in childAssemblies)
             {
-                if (a.getFullPath()==s)
+                //MessageBox.Show(a.getFullPath(), "FOUND P2");
+                if (a.findAssembly(s) != null)
                 {
-                    selectedAssembly = a;                    
-                }
-                else
-                {
-                    selectedAssembly = a.findAssembly(s);
+                    //MessageBox.Show(a.getFullPath(), "MATCH");
+                    return a.findAssembly(s);
                 }
             }
-            if (selectedAssembly != null)
-            {
-                MessageBox.Show(getFullPath(), "FOUND");
-            }
+
             return selectedAssembly;
-            
+
         }
         public void addChildAssembly(assembly a)
         {
-            childAssemblies.Add(a);            
+            childAssemblies.Add(a);
+        }
+        public void addChildAssembly(string path, string name)
+        {
+            if (fullPath == path)
+            {
+                assembly a = new assembly(name, fullPath);
+                childAssemblies.Add(a);
+            }
+            else
+            {
+                for (int i = 0; i < childAssemblies.Count;i++ )
+                {
+                    //MessageBox.Show("adding " + path + " " + name, "project Addition");
+                    if (childAssemblies[i].addAssembly(path, name))
+                    {
+                        break;
+                    }
+                }
+            }
+
         }
         public void addChildPart(part p)
         {
             childParts.Add(p);
         }
-             
+        public int assemblyCount()
+        {
+            int i = childAssemblies.Count;
+            foreach (assembly a in childAssemblies)
+            {
+                i += a.assemblyCount();
+            }
+            return i;
+        }
+        public void renameSub(string newName, string oldName, string path)
+        {
+            for(int i = 0; i < childAssemblies.Count; i++)
+            {
+                childAssemblies[i].renameSub(newName, oldName, path);
+            }
+        }
     }
 }

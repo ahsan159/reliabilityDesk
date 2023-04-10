@@ -49,7 +49,7 @@ namespace Reliability_Desk
             name = nameNew;
             fullPath = parent + "," + name;
             created = DateTime.Now;
-            node = new TreeNode("Assembly", 1, 1);
+            node = new TreeNode("Assembly", 0, 0);
             node.Name = "Assembly";
             node.Text = name;
         }
@@ -57,7 +57,7 @@ namespace Reliability_Desk
         {
             name = ele.FirstNode.ToString().Trim();
             fullPath = parent.Trim() + "," + name;
-            MessageBox.Show(fullPath, name);
+            //MessageBox.Show(fullPath, name);
             setAssemblyData(ele);
         }
         public void setAssemblyData(XElement ele)
@@ -151,7 +151,7 @@ namespace Reliability_Desk
         }
         public void setFullPath(string s)
         {
-            fullPath = s;
+            fullPath = s;            
         }
         public string getFullPath()
         {
@@ -162,24 +162,25 @@ namespace Reliability_Desk
             fullPath = parent + "," + name;
         }
         public assembly findAssembly(string s)
-        {
-            assembly selectedAssembly = null;
-            foreach (assembly a in childAssemblies)
+        {            
+            if (fullPath == s)
             {
-                if (a.getFullPath() == s)
+                //MessageBox.Show(getFullPath(), "FOUND A1");
+                return this;
+            }
+            else
+            {
+                foreach (assembly a in childAssemblies)
                 {
-                    selectedAssembly = a;                    
-                }
-                else
-                {
-                    a.findAssembly(s);
+                    //MessageBox.Show(a.getFullPath(), "FOUND A2");
+                    if(a.findAssembly(s) != null)
+                    {
+                        //MessageBox.Show(a.getFullPath(), "MATCH");
+                        return a.findAssembly(s);
+                    }
                 }
             }
-            if (selectedAssembly != null)
-            {
-                MessageBox.Show(getFullPath(), "FOUND");
-            }
-            return selectedAssembly;
+            return null;
         }
         public void addPart(part p)
         {
@@ -188,6 +189,55 @@ namespace Reliability_Desk
         public void addAssembly(assembly a )
         {
             childAssemblies.Add(a);       
+        }
+        public bool addAssembly(string path, string name)
+        {
+            if(fullPath == path)
+            {
+                //MessageBox.Show("adding " + path + " " + name + " " + getFullPath(), "assembly Addition 1");
+                assembly a = new assembly(name, path);
+                childAssemblies.Add(a);
+                node.Nodes.Add(a.getNode());
+                return true;
+                //MessageBox.Show("Adding", "added");
+            }
+            else
+            {
+                for (int i = 0; i < childAssemblies.Count; i++)
+                {
+                    //MessageBox.Show("adding " + path + " " + name + ":" + childAssemblies[i].getFullPath(), "project Addition 2");
+                    childAssemblies[i].addAssembly(path, name);
+                }
+            }
+            return false;
+        }
+        public int assemblyCount()
+        {
+            int i = childAssemblies.Count;
+            foreach (assembly a in childAssemblies)
+            {
+                i += a.assemblyCount();
+            }
+            return i;
+        }
+        public void renameSub(string newName, string oldName, string parentPath)
+        {
+            string oldPath = parentPath.Trim() + "," + oldName.Trim();
+            MessageBox.Show(parentPath + "," + oldName, name);
+            if(parentPath == fullPath)
+            {
+                MessageBox.Show(parentPath + "," + oldName, "Changing");
+                name = newName;
+                node.Text = name;
+                fullPath = parentPath + "," + newName;
+                parentPath = fullPath.Substring(0, fullPath.LastIndexOf(","));
+                for (int i = 0; i < childAssemblies.Count;i++)
+                {
+                    string childName = childAssemblies[i].getName();
+                    childAssemblies[i].setFullPath(parentPath + "," + childName);
+                    childAssemblies[i].renameSub(childName, childName, parentPath); 
+                }
+            }
         }
     }
 }

@@ -80,3 +80,7 @@ project.cs, assembly.cs and part.cs classes almost complete. treenode has been c
 06-Apr-2023
 3:04PM
 The logical problem I was facing yesterday was the incorrect parsing of date in part class. now all the tree node is correctly populated. However, I am having difficulty in getting the assemblies populated in project class. I am thinking of using assembly class for saving the project too. as there is no difference lets do this tomorrow. Testing of part form is being done to ubaid i have forwarded the executables to him. Hope as this assembly/project issue resolovs the front end will be complete and only thing require is building the algorithm for series parallel and analysis performing scheme. INSHALLAH the first versions will be available after 1 month.
+
+10-Apr-2023
+2:27PM
+Adding the new assemblies alogrithm is implemented. Only problem I was missing was not changing the node name and text correctly and not backtracing from parent nodes. Now, creating the renaming the assembly algorithm. I am facing some problem regarding parent path in this scenario. Hoping to solve the problem by tomorrow inshallah.
