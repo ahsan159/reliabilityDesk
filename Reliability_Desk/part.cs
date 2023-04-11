@@ -21,7 +21,7 @@ namespace Reliability_Desk
         private string name;
         private string cat;
         private string scat;
-        private string cmID;
+        private string cmID = "cmID";
         private string des;
         private double MTBF;
         private double FR;
@@ -100,14 +100,13 @@ namespace Reliability_Desk
         public void setPartData(XElement ele)
         {
             //analysis = false;
-            this.name = ele.FirstNode.ToString();
-            ////MessageBox.Show(ele.FirstNode.ToString(), "Part");
+            this.name = ele.FirstNode.ToString();            
             if (ele.HasAttributes)
             {
                 IEnumerable<XAttribute> ats = ele.Attributes();                
                 foreach (XAttribute a in ats)
                 {
-                    //MessageBox.Show(a.Name.ToString()+","+a.Value.ToString(), name);
+                    //MessageBox.Show(a.Value.ToString(), a.Name.ToString());
                     switch (a.Name.ToString())
                     {
                         case "dateAdded":
@@ -134,13 +133,24 @@ namespace Reliability_Desk
                         case "cmID":
                             this.cmID = a.Value.ToString();
                             break;
+                        case "category":
+                            this.cat = a.Value.ToString();
+                            break;
+                        case "subcategory":
+                            this.scat = a.Value.ToString();
+                            break;
+                        case "description":
+                            this.des = a.Value.ToString();
+                            break;
+                        case "manufacturer":
+                            this.manufacturer = a.Value.ToString();
+                            break;
                     }
                 }
             }
             node = new TreeNode("Part", 1, 1);
             node.Name = "Part";
-            node.Text = name;
-            ////MessageBox.Show(node.Name + node.Text, "PARTNAME");
+            node.Text = name;            
             fullPath = name;
         }
         public void setPartData(TreeNode node)
@@ -234,14 +244,21 @@ namespace Reliability_Desk
             attrib[i++] = new XAttribute("category", cat);
             attrib[i++] = new XAttribute("subcategory", scat);
             attrib[i++] = new XAttribute("MTBF", MTBF.ToString());
-            attrib[i++] = new XAttribute("package", package);
-            attrib[i++] = new XAttribute("heritage", heritage);
-            attrib[i++] = new XAttribute("radiation", radiationData);
-            attrib[i++] = new XAttribute("reliability", reliabilityData);
-            attrib[i++] = new XAttribute("outgassing", outgassingData);
-            attrib[i++] = new XAttribute("user", user);
-            attrib[i++] = new XAttribute("added", added.ToShortDateString());
-            attrib[i++] = new XAttribute("path", fullPath);
+            try
+            {
+                attrib[i++] = new XAttribute("package", package);
+                attrib[i++] = new XAttribute("heritage", heritage);
+                attrib[i++] = new XAttribute("radiation", radiationData);
+                attrib[i++] = new XAttribute("reliability", reliabilityData);
+                attrib[i++] = new XAttribute("outgassing", outgassingData);
+                attrib[i++] = new XAttribute("user", user);
+                attrib[i++] = new XAttribute("added", added.ToShortDateString());
+                attrib[i++] = new XAttribute("path", fullPath);
+            }
+            catch(Exception e)
+            {
+
+            }
             foreach (XAttribute a in attrib)
             {
                 ele.Add(a);

@@ -84,3 +84,7 @@ The logical problem I was facing yesterday was the incorrect parsing of date in 
 10-Apr-2023
 2:27PM
 Adding the new assemblies alogrithm is implemented. Only problem I was missing was not changing the node name and text correctly and not backtracing from parent nodes. Now, creating the renaming the assembly algorithm. I am facing some problem regarding parent path in this scenario. Hoping to solve the problem by tomorrow inshallah.
+
+11-Apr-2023
+3:28PM
+added facility of saving and loading project from xml file. Adding parts and assemblies at any level us almost flawless. Time to forward this to ubaid for testing. Time to think about configuration and other illustrative aspects of reliability block diagram project.

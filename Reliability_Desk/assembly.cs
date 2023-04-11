@@ -11,6 +11,7 @@ using Microsoft.VisualBasic;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
+using System.Globalization;
 using TNXMLUtility;
 
 namespace Reliability_Desk
@@ -18,21 +19,21 @@ namespace Reliability_Desk
     class assembly
     {
         private string name;
-        private string ccms;
+        private string ccms = "";
         private string mainFile;
         private string createUser;
         private DateTime created;
         private string lastUser;
         private DateTime modified;
-        private TreeNode node;
-        private int isTemporary;
-        private string filePath;
+        private TreeNode node;        
+        private string filePath = "";
         private string fullPath;
         int NodeCount;
         List<assembly> childAssemblies = new List<assembly>();
         List<part> childParts = new List<part>();
         IList<assembly> parent;
         store storeInstance = store.instance();
+        double MTBF = -1;
         
         public assembly()
         {
@@ -49,15 +50,17 @@ namespace Reliability_Desk
             name = nameNew;
             fullPath = parent + "," + name;
             created = DateTime.Now;
+            createUser = "ahsan";
+            modified = DateTime.Now;
+            lastUser = "ahsan";
             node = new TreeNode("Assembly", 0, 0);
             node.Name = "Assembly";
-            node.Text = name;
+            node.Text = name;            
         }
         public void setAssemblyData(XElement ele, string parent)
         {
             name = ele.FirstNode.ToString().Trim();
-            fullPath = parent.Trim() + "," + name;
-            //MessageBox.Show(fullPath, name);
+            fullPath = parent.Trim() + "," + name;            
             setAssemblyData(ele);
         }
         public void setAssemblyData(XElement ele)
@@ -71,44 +74,58 @@ namespace Reliability_Desk
                 node.Text = name.Trim();
                 if (ele.HasAttributes)
                 {
-
+                    foreach(XAttribute a in ele.Attributes())
+                    {
+                        switch (a.Name.ToString())
+                        {
+                            case "dateAdded":
+                                modified = DateTime.ParseExact(a.Value.ToString(), "dd-MM-yyyy", CultureInfo.CurrentCulture);
+                                break;
+                            case "userLast":
+                                lastUser = a.Value.ToString();
+                                break;
+                            case "dateCreate":
+                                created = DateTime.ParseExact(a.Value.ToString(), "dd-MM-yyyy", CultureInfo.CurrentCulture);
+                                break;
+                            case "userCreate":
+                                createUser = a.Value.ToString();
+                                break;
+                            case "ccms":
+                                ccms = a.Value.ToString();
+                                break;
+                            case "MTBF":
+                                MTBF = double.Parse(a.Value.ToString());
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
                 if (ele.HasElements)
                 {
-                    IEnumerable<XElement> children = ele.Elements();
-                    //MessageBox.Show(children.Count().ToString());
-                    int i = 0;
+                    IEnumerable<XElement> children = ele.Elements();                                        
                     foreach (XElement e in children)
                     {
                         if (e.Name == "Assembly")
-                        {
-                            //MessageBox.Show(e.FirstNode.ToString(), "AssemblyFA" + name);
+                        {                            
                             assembly a = new assembly();
                             a.setAssemblyData(e, fullPath);
                             if (!string.IsNullOrEmpty(a.getName()))
                             {
-                                //MessageBox.Show("Iteration " + i++.ToString(), "Assembly" + name);
-                                childAssemblies.Add(a);
-                                //mainNode.addChildAssembly(a);
+                                childAssemblies.Add(a);                                
                                 storeInstance.add(a);
                                 node.Nodes.Add(a.getNode());
                             }
                         }
                         else if (e.Name == "Part")
                         {
-                            //MessageBox.Show(e.FirstNode.ToString(), "PartFA" + name);
                             part p = new part();
-                            p.setPartData(e, fullPath);
-                            //TreeNode tn = new TreeNode("Part",1,1);
-                            //tn.Text = "Part" + i++.ToString();
-                            //node.Nodes.Add(tn);
+                            p.setPartData(e, fullPath);                            
                             if (!string.IsNullOrEmpty(p.getName()))
                             {
                                 childParts.Add(p);
-                                //mainNode.addChildPart(p);
                                 storeInstance.add(p);
-                                node.Nodes.Add(p.getNode());
-                                //MessageBox.Show("node Added", "PartFA" + name);
+                                node.Nodes.Add(p.getNode());                                
                             }
                         }                        
                     }
@@ -116,7 +133,14 @@ namespace Reliability_Desk
                 //fullPath = name;
             } 
         }
-
+        public string getccms()
+        {
+            return ccms;
+        }
+        public void setccms(string s)
+        {
+            ccms = s;
+        }
         public XElement getXML()
         {
             XElement ele = new XElement("Assembly");
@@ -124,13 +148,15 @@ namespace Reliability_Desk
             XAttribute[] attrib = new XAttribute[8];
             int i = 0;
             attrib[i++] = new XAttribute("ccms", ccms);
-            attrib[i++] = new XAttribute("main", mainFile);
-            attrib[i++] = new XAttribute("created", created.ToShortDateString());
-            attrib[i++] = new XAttribute("creator", createUser);
-            attrib[i++] = new XAttribute("modified", modified.ToShortDateString());
-            attrib[i++] = new XAttribute("modifier", lastUser);
+            //attrib[i++] = new XAttribute("main", mainFile);
+            //attrib[i++] = new XAttribute("created", created.ToShortDateString());
+            //attrib[i++] = new XAttribute("creator", createUser);
+            //attrib[i++] = new XAttribute("modified", modified.ToShortDateString());
+            //attrib[i++] = new XAttribute("modifier", lastUser);
+            attrib[i++] = new XAttribute("dateAdded", modified.ToString("dd-MM-yyyy"));
             attrib[i++] = new XAttribute("file", filePath);
             attrib[i++] = new XAttribute("source", fullPath);
+            attrib[i++] = new XAttribute("MTBF", this.MTBF);
             foreach(XAttribute a in attrib)
             {
                 ele.Add(a);
@@ -139,7 +165,7 @@ namespace Reliability_Desk
             {
                 ele.Add(a.getXML());
             }
-            foreach(part p in childParts)
+            foreach (part p in childParts)
             {
                 ele.Add(p.getXML());
             }
@@ -163,20 +189,17 @@ namespace Reliability_Desk
         }
         public assembly findAssembly(string s)
         {
-            MessageBox.Show(fullPath + Environment.NewLine + s, "Finding");
+            //MessageBox.Show(fullPath + Environment.NewLine + s, "Finding");
             if (fullPath == s)
-            {
-                //MessageBox.Show(getFullPath(), "FOUND A1");
+            {                
                 return this;
             }
             else
             {
                 foreach (assembly a in childAssemblies)
-                {
-                    //MessageBox.Show(a.getFullPath(), "FOUND A2");
+                {                    
                     if(a.findAssembly(s) != null)
                     {
-                        //MessageBox.Show(a.getFullPath(), "MATCH");
                         return a.findAssembly(s);
                     }
                 }
@@ -187,6 +210,21 @@ namespace Reliability_Desk
         {
             childParts.Add(p);            
         }
+        public void addPart(part p, string parent)
+        {
+            if (fullPath == parent)
+            {
+                childParts.Add(p);
+                node.Nodes.Add(p.getNode());
+            }
+            else
+            {
+                for (int i = 0; i < childAssemblies.Count; i++)
+                {
+                    childAssemblies[i].addPart(p, parent);
+                }
+            }
+        }
         public void addAssembly(assembly a )
         {
             childAssemblies.Add(a);       
@@ -194,19 +232,16 @@ namespace Reliability_Desk
         public bool addAssembly(string path, string name)
         {
             if(fullPath == path)
-            {
-                //MessageBox.Show("adding " + path + " " + name + " " + getFullPath(), "assembly Addition 1");
+            {                
                 assembly a = new assembly(name, path);
                 childAssemblies.Add(a);
                 node.Nodes.Add(a.getNode());
-                return true;
-                //MessageBox.Show("Adding", "added");
+                return true;                
             }
             else
             {
                 for (int i = 0; i < childAssemblies.Count; i++)
-                {
-                    //MessageBox.Show("adding " + path + " " + name + ":" + childAssemblies[i].getFullPath(), "project Addition 2");
+                {                    
                     childAssemblies[i].addAssembly(path, name);
                 }
             }
@@ -224,18 +259,18 @@ namespace Reliability_Desk
         public void renameSub(string newName, string oldName, string parentPath)
         {
             string oldPath = parentPath.Trim() + "," + oldName.Trim();            
-            //MessageBox.Show(parentPath + "," + oldName, "Assembly" + name);
             if(oldPath == fullPath)
             {
                 name = newName;
                 node.Text = name;
                 fullPath = parentPath.Trim() + "," + newName;
-                //MessageBox.Show(oldPath + Environment.NewLine + fullPath, "Changing Assembly Name");
-                //parentPath = fullPath.Substring(0, fullPath.LastIndexOf(","));
                 for (int i = 0; i < childAssemblies.Count;i++)
                 {
-                    //MessageBox.Show(fullPath + Environment.NewLine + oldPath, "changingchilds");
                     childAssemblies[i].updatefullPath(fullPath, oldPath);
+                }
+                for (int i = 0; i<childParts.Count;i++)
+                {
+                    childParts[i].setFullPath(fullPath + "," + childParts[i].getName());
                 }
             }
             else
@@ -247,14 +282,16 @@ namespace Reliability_Desk
             }
         }
         public void updatefullPath(string newPath, string oldPath)
-        {
-            //MessageBox.Show(oldPath + "," + name + Environment.NewLine + fullPath + Environment.NewLine + newPath + "," + name, "Changing Childs");
+        {            
             string npath = newPath + "," + name;
             string opath = oldPath + "," + name;
             if (opath == fullPath)
             {
                 fullPath = npath;
-                //MessageBox.Show(oldPath + Environment.NewLine + npath, "changed");
+                foreach(part p in childParts)
+                {
+                    p.setFullPath(fullPath + "," + p.getName());
+                }
             }
             else
             {

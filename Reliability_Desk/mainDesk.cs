@@ -14,7 +14,7 @@ using System.Xml.Linq;
 using TNXMLUtility;
 
 namespace Reliability_Desk
-{    
+{
 
     public partial class relDesk : Form
     {
@@ -22,6 +22,7 @@ namespace Reliability_Desk
         private DataTable activePartList;
         //private assembly mainProject;
         private project mainProject;
+        private string projectFileName;
         public relDesk()
         {
             InitializeComponent();
@@ -42,7 +43,7 @@ namespace Reliability_Desk
             imageListProjectTree.Images.Add(Image.FromFile("../../Pro.png"));
             projectTree.ImageList = imageListProjectTree;
             statuslabel.Text = " Program started";
-            statusStrip.Refresh();            
+            statusStrip.Refresh();
             projectTree.BeginUpdate();
             projectTree.Nodes.Add("Project", "Project", 2, 5);
             projectTree.EndUpdate();
@@ -59,13 +60,15 @@ namespace Reliability_Desk
                 {
                     textBox.Text = textBox.Text + nodeList[i].Name + "\n";
                 }
-            }            
+            }
             List<XmlNode> list = new List<XmlNode>();
-            list.Add(layout);            
-            textBox.Text = textBox.Text + "Now reading file\n";            
+            list.Add(layout);
+            textBox.Text = textBox.Text + "Now reading file\n";
             //writeProjecfromXML("./myTestFile1.xml");
             //MessageBox.Show("going in");
-            mainProject = new project("./myTestFile1.xml");
+            //projectFileName = "./myTestFile1.xml";
+            projectFileName = "./updateProject.xml";
+            mainProject = new project(projectFileName);
             //MessageBox.Show("Returned to main");
             projectTree.Nodes.Clear();
             projectTree.Nodes.Add(mainProject.getNode());
@@ -80,7 +83,7 @@ namespace Reliability_Desk
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show( "version 0.1", "About", MessageBoxButtons.OK);
+            MessageBox.Show("version 0.1", "About", MessageBoxButtons.OK);
         }
 
         private void projectTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -108,7 +111,7 @@ namespace Reliability_Desk
                 st = tn.Parent.Text.Trim() + "," + st;
                 tn = tn.Parent;
             }
-            MessageBox.Show(st);
+            //MessageBox.Show(st);
             assembly a = mainProject.findAssembly(st);
             assembly aNew = new assembly("new subassembly" + projectTree.Nodes.Count.ToString(), a.getFullPath());
             storeInstance.add(aNew);
@@ -164,7 +167,7 @@ namespace Reliability_Desk
                     tn = tn.Parent;
                 }
                 st = st.Substring(0, st.LastIndexOf(','));
-                MessageBox.Show(st,"mainDesk");
+                //MessageBox.Show(st, "mainDesk");
                 //assembly a = mainProject.findAssembly(st);
                 //MessageBox.Show(a.getFullPath(), "mainDesk");
                 //assembly aNew = new assembly("new subassembly" + projectTree.Nodes.Count.ToString(), a.getFullPath());
@@ -172,13 +175,13 @@ namespace Reliability_Desk
                 //a.addAssembly(aNew);
                 //mainProject.addChildAssembly(a.getFullPath(), "subassembly" + mainProject.assemblyCount().ToString());
                 //textBox.Text += mainProject.assemblyCount().ToString();
-                
+
                 mainProject.renameSub(nameText, name_old, st);
 
                 projectTree.Nodes.Clear();
                 projectTree.Nodes.Add(mainProject.getNode());
                 projectTree.ExpandAll();
-                                
+
                 //projectTree.SelectedNode.Text = nameText;
                 //statuslabel.Text = "Part/Assembly renamed " + nameText + " from " + name_old;
                 //statusStrip.Refresh();
@@ -241,7 +244,15 @@ namespace Reliability_Desk
             //xmlwrite.WriteEndDocument();
             //xmlwrite.Close();
             //xmlwrite.Dispose();            
-            TNXMLUtility.TNXMLUtility.creatXML("./myTestFile1.xml", projectTree.Nodes);
+            
+            XElement ele = mainProject.getXML();            
+            XDocument doc = new XDocument();
+            doc.Add(ele);
+            //XmlWriterSettings xmlsettings = new XmlWriterSettings();
+            //XmlWriter writer = XmlWriter.Create(mainProject.getFileName(),xmlsettings);
+            //xmlsettings.Indent = true;
+            //xmlsettings.NewLineOnAttributes = false;
+            doc.Save(mainProject.getFileName());
             
         }
         private int writeProjctFile(List<TreeNode> treeNode, ref FileStream fs)
@@ -274,18 +285,18 @@ namespace Reliability_Desk
                     writeXMLfromProject(childList, ref xmlwrite);  // call recursively for childs
                 }
                 xmlwrite.WriteEndElement();
-            }            
+            }
         }
         private void writeProjecfromXML(string projectFile)
         {
             // write project tree from xml file
             XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = false;            
-            XmlReader reader = XmlReader.Create(projectFile,settings);
-            print(reader.ToString()+"\n");
+            settings.IgnoreWhitespace = false;
+            XmlReader reader = XmlReader.Create(projectFile, settings);
+            print(reader.ToString() + "\n");
             XElement element = XElement.Load(reader);
             projectTree.BeginUpdate();
-            projectTree.Nodes.Clear();            
+            projectTree.Nodes.Clear();
             //projectTree.Nodes.Add(element.Name.ToString().Trim(),element.FirstNode.ToString().Trim()); // add top node for project
             //projectTree.SelectedNode = projectTree.TopNode; 
             //IEnumerable<XElement> subtree = element.Elements(); // get childs
@@ -304,13 +315,13 @@ namespace Reliability_Desk
         private void addChildNodes(IEnumerable<XElement> element)
         {
             // recursive function to read xml file and create project tree
-            foreach(XElement x in element) // iterate through elements
+            foreach (XElement x in element) // iterate through elements
             {
                 if (x.Name.ToString().Trim().Equals("Assembly"))
                 {
                     projectTree.SelectedNode.Nodes.Add(x.Name.ToString().Trim(), x.FirstNode.ToString().Trim(), 0, 0);
                     //select current node for adding childers
-                    projectTree.SelectedNode = projectTree.SelectedNode.Nodes[projectTree.SelectedNode.Nodes.Count - 1]; 
+                    projectTree.SelectedNode = projectTree.SelectedNode.Nodes[projectTree.SelectedNode.Nodes.Count - 1];
                     if (x.HasElements) // if it has elements add them recursively
                     {
                         addChildNodes(x.Elements());
@@ -320,12 +331,12 @@ namespace Reliability_Desk
                 else if (x.Name.ToString().Trim().Equals("Part"))
                 {
                     // part should have no childern
-                    projectTree.SelectedNode.Nodes.Add(x.Name.ToString().Trim(), x.FirstNode.ToString().Trim(), 1, 1);                    
+                    projectTree.SelectedNode.Nodes.Add(x.Name.ToString().Trim(), x.FirstNode.ToString().Trim(), 1, 1);
                     //if(x.HasAttributes)
                     //{
                     //    print(x.FirstAttribute.ToString() + "\n");
                     //}
-                } 
+                }
             }
         }
 
@@ -351,12 +362,12 @@ namespace Reliability_Desk
         private void refreshIcons()
         {
             projectTree.SelectedNode = projectTree.TopNode;
-            textBox.Text = textBox.Text + projectTree.SelectedNode.Name + "\t" + projectTree.SelectedNode.Text + "\n";            
+            textBox.Text = textBox.Text + projectTree.SelectedNode.Name + "\t" + projectTree.SelectedNode.Text + "\n";
             while (projectTree.SelectedNode.NextNode != null && projectTree.SelectedNode.FirstNode == null)
             {
                 textBox.Text = textBox.Text + projectTree.SelectedNode.Name + "\t" + projectTree.SelectedNode.Text + "\n";
                 projectTree.SelectedNode = projectTree.SelectedNode.NextNode;
-                if(projectTree.SelectedNode.Name=="Project")
+                if (projectTree.SelectedNode.Name == "Project")
                 {
                     projectTree.SelectedNode.ImageIndex = 2;
                 }
@@ -369,7 +380,7 @@ namespace Reliability_Desk
                     projectTree.SelectedNode.ImageIndex = 1;
                 }
 
-            }            
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -380,10 +391,10 @@ namespace Reliability_Desk
                 tableLayoutPanel1.Dock = DockStyle.Left;
                 tableLayoutPanel1.CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble;
             }
-            else if (panelProperties.Dock==DockStyle.Right)
+            else if (panelProperties.Dock == DockStyle.Right)
             {
                 panelProperties.Dock = DockStyle.Left;
-                tableLayoutPanel1.Dock = DockStyle.Right;                
+                tableLayoutPanel1.Dock = DockStyle.Right;
             }
         }
 
@@ -396,7 +407,7 @@ namespace Reliability_Desk
         {
             TreeNode tn = e.Node;
             string st = tn.Text.Trim();
-            while(tn.Parent!=null)
+            while (tn.Parent != null)
             {
                 st = tn.Parent.Text.Trim() + "," + st;
                 tn = tn.Parent;
@@ -409,12 +420,12 @@ namespace Reliability_Desk
                 propertiesTable.Rows.Clear();
                 propertiesTable.Columns.Clear();
                 propertiesTable.Columns.Add("Field", "Field");
-                propertiesTable.Columns.Add("Value","Value");
+                propertiesTable.Columns.Add("Value", "Value");
                 propertiesTable.Rows.Add(e.Node.Name, e.Node.Text);
                 //string[] fields = globals.dataFields;
                 DataRow[] found = activePartList.Select("Name LIKE '%" + e.Node.Text.ToString().Trim() + "%'");
                 DataRow displayRow = found[0];
-                foreach(string s in globals.dataFields)
+                foreach (string s in globals.dataFields)
                 {
                     propertiesTable.Rows.Add(s, displayRow[s]);
                 }
@@ -422,11 +433,11 @@ namespace Reliability_Desk
             }
             else if (e.Node.Name == "Assembly")
             {
-                MessageBox.Show(st);
+                //MessageBox.Show(st);
                 assembly a = mainProject.findAssembly(st);
                 if (a != null)
                 {
-                    MessageBox.Show(a.getFullPath(), "mainDesk");
+                    //MessageBox.Show(a.getFullPath(), "mainDesk");
                 }
                 else
                 {
@@ -443,11 +454,11 @@ namespace Reliability_Desk
         {
             List<part> partList = TNXMLUtility.nodeUtilities.readPartsfromXML("../../partListTest1.xml");
             activePartList = new DataTable("activePartList");
-            foreach(string s in globals.dataFields)
+            foreach (string s in globals.dataFields)
             {
                 activePartList.Columns.Add(s);
             }
-            foreach(part p in partList) 
+            foreach (part p in partList)
             {
                 activePartList.Rows.Add(p.getData());
             }
@@ -469,30 +480,33 @@ namespace Reliability_Desk
                     tn = tn.Parent;
                 }
                 //MessageBox.Show(st);
-                
+
                 textBox.Text += storeInstance.count() + Environment.NewLine;
                 assembly a = storeInstance.findAssembly(st);
                 //MessageBox.Show(a.getName() + ":" + a.getFullPath());
                 textBox.Text = "";
-                foreach(assembly asm in storeInstance.getAssemblies())
+                foreach (assembly asm in storeInstance.getAssemblies())
                 {
                     textBox.Text += asm.getFullPath() + "\n";
                 }
-                //selectPart partFrm = new selectPart("../../partListTest1.xml");
-                //partFrm.ShowDialog();
-                //part partSelected = partFrm.selectedPart;
-                //string[] partData = partSelected.getData();
-                //partFrm.Dispose();
+                selectPart partFrm = new selectPart("../../partListTest1.xml");
+                partFrm.ShowDialog();
+                part partSelected = partFrm.selectedPart;
+                string[] partData = partSelected.getData();
+                partFrm.Dispose();
                 //MessageBox.Show(partSelected.ToString());
-                //string filterExp1 = partData[(int)globals.fieldEnum.Name];
-                //string filterExp2 = partData[(int)globals.fieldEnum.cmID];
-                //DataRow[] rows = activePartList.Select("Name LIKE '%" + filterExp1 + "%' AND  cmID LIKE '%" + filterExp2 + "%'");
-                //textBox.Text += "\n" + rows[0][0] + "," + rows[0][1] + "," + rows[0][2] + "," + rows[0][3] + "," + rows[0][4] + "," + rows[0][5];
-                //if (rows.Count() > 0)
-                //{
-                //    projectTree.SelectedNode.Nodes.Add(globals.part, filterExp1, 1, 1);
-                //    a.addPart(partSelected);
-                //}
+                string filterExp1 = partData[(int)globals.fieldEnum.Name];
+                string filterExp2 = partData[(int)globals.fieldEnum.cmID];
+                DataRow[] rows = activePartList.Select("Name LIKE '%" + filterExp1 + "%' AND  cmID LIKE '%" + filterExp2 + "%'");
+                textBox.Text += "\n" + rows[0][0] + "," + rows[0][1] + "," + rows[0][2] + "," + rows[0][3] + "," + rows[0][4] + "," + rows[0][5];
+                if (rows.Count() > 0)
+                {
+                    //projectTree.SelectedNode.Nodes.Add(globals.part, filterExp1, 1, 1);
+                    //a.addPart(partSelected);
+                    mainProject.addChildPart(partSelected, st);
+                    projectTree.Nodes.Clear();
+                    projectTree.Nodes.Add(mainProject.getNode());
+                }
             }
         }
 
@@ -510,11 +524,20 @@ namespace Reliability_Desk
             }
             //MessageBox.Show(st);
             assembly a = mainProject.findAssembly(st);
+            string parentPath;
+            try
+            {
+                parentPath = a.getFullPath();
+            }
+            catch(Exception exp)
+            {
+                parentPath = mainProject.getName();                
+            }
             //MessageBox.Show(a.getFullPath(), "mainDesk");
             //assembly aNew = new assembly("new subassembly" + projectTree.Nodes.Count.ToString(), a.getFullPath());
             //storeInstance.add(aNew);
             //a.addAssembly(aNew);
-            mainProject.addChildAssembly(a.getFullPath(), "subassembly" + mainProject.assemblyCount().ToString());            
+            mainProject.addChildAssembly(parentPath, "subassembly" + mainProject.assemblyCount().ToString());
             textBox.Text += mainProject.assemblyCount().ToString();
 
             projectTree.Nodes.Clear();
@@ -528,6 +551,68 @@ namespace Reliability_Desk
             //    statusStrip.Refresh();
             //}
             //projectTree.EndUpdate();
+        }
+
+        private void collapseAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            projectTree.CollapseAll();
+        }
+
+        private void expandAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            projectTree.ExpandAll();
+        }
+
+        private void openProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "Project File (*.prj)|*.prj|XML File (*.xml)|*.xml|All Files (*.*)|*.*";
+            dlg.FilterIndex = 2;
+            dlg.RestoreDirectory = true;
+            dlg.InitialDirectory = System.IO.Directory.GetCurrentDirectory();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                mainProject = new project(dlg.FileName);
+                projectTree.Nodes.Clear();
+                projectTree.Nodes.Add(mainProject.getNode());
+                projectTree.ExpandAll();
+            }
+            dlg.Dispose();
+        }
+
+        private void closeProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            projectTree.Nodes.Clear();
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // write project from tree node to xml file
+            // only this file is readable in current version
+            //xmlwrite.WriteStartDocument();
+            //writeXMLfromProject(parentNode, ref xmlwrite);
+            //xmlwrite.WriteEndDocument();
+            //xmlwrite.Close();
+            //xmlwrite.Dispose();            
+
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "Project File (*.prj)|*.prj|XML File (*.xml)|*.xml|All Files (*.*)|*.*";
+            dlg.FilterIndex = 2;
+            dlg.RestoreDirectory = true;
+            dlg.InitialDirectory = System.IO.Directory.GetCurrentDirectory();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {   
+                //XmlWriterSettings xmlsettings = new XmlWriterSettings();
+                //xmlsettings.Indent = true;
+                //xmlsettings.NewLineOnAttributes = false;
+                //XmlWriter xmlwrite = XmlWriter.Create(dlg.FileName, xmlsettings);
+                XElement ele = mainProject.getXML();
+                XDocument doc = new XDocument();
+                doc.Add(ele);
+                doc.Save(dlg.FileName);
+            }
+            dlg.Dispose();
+            MessageBox.Show("done");
         }
 
     }
