@@ -209,6 +209,7 @@ namespace Reliability_Desk
             {
                 i += a.assemblyCount();
             }
+            NodeCount = i;
             return i;
         }
         public void renameSub(string newName, string oldName, string path)

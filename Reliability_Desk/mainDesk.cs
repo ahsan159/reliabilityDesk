@@ -69,6 +69,7 @@ namespace Reliability_Desk
             //MessageBox.Show("Returned to main");
             projectTree.Nodes.Clear();
             projectTree.Nodes.Add(mainProject.getNode());
+            projectTree.ExpandAll();
             loadPartlistToolStripMenuItem_Click(sender, e);
         }
 
@@ -116,6 +117,7 @@ namespace Reliability_Desk
 
             projectTree.Nodes.Clear();
             projectTree.Nodes.Add(mainProject.getNode());
+            projectTree.ExpandAll();
             //projectTree.BeginUpdate();
             //if (projectTree.SelectedNode != null)
             //{
@@ -162,7 +164,7 @@ namespace Reliability_Desk
                     tn = tn.Parent;
                 }
                 st = st.Substring(0, st.LastIndexOf(','));
-                MessageBox.Show(st,"Ahsan");
+                MessageBox.Show(st,"mainDesk");
                 //assembly a = mainProject.findAssembly(st);
                 //MessageBox.Show(a.getFullPath(), "mainDesk");
                 //assembly aNew = new assembly("new subassembly" + projectTree.Nodes.Count.ToString(), a.getFullPath());
@@ -170,10 +172,12 @@ namespace Reliability_Desk
                 //a.addAssembly(aNew);
                 //mainProject.addChildAssembly(a.getFullPath(), "subassembly" + mainProject.assemblyCount().ToString());
                 //textBox.Text += mainProject.assemblyCount().ToString();
+                
                 mainProject.renameSub(nameText, name_old, st);
 
                 projectTree.Nodes.Clear();
                 projectTree.Nodes.Add(mainProject.getNode());
+                projectTree.ExpandAll();
                                 
                 //projectTree.SelectedNode.Text = nameText;
                 //statuslabel.Text = "Part/Assembly renamed " + nameText + " from " + name_old;
@@ -399,7 +403,7 @@ namespace Reliability_Desk
             }
             projectTree.SelectedNode = e.Node;
             //MessageBox.Show(st);
-            if (e.Node.Name=="Part")
+            if (e.Node.Name == "Part")
             {
                 panelProperties.Show();
                 propertiesTable.Rows.Clear();
@@ -415,6 +419,19 @@ namespace Reliability_Desk
                     propertiesTable.Rows.Add(s, displayRow[s]);
                 }
                 //panelProperties.Show();
+            }
+            else if (e.Node.Name == "Assembly")
+            {
+                MessageBox.Show(st);
+                assembly a = mainProject.findAssembly(st);
+                if (a != null)
+                {
+                    MessageBox.Show(a.getFullPath(), "mainDesk");
+                }
+                else
+                {
+                    MessageBox.Show("NULL", "mainDesk");
+                }
             }
             else
             {
@@ -455,7 +472,7 @@ namespace Reliability_Desk
                 
                 textBox.Text += storeInstance.count() + Environment.NewLine;
                 assembly a = storeInstance.findAssembly(st);
-                MessageBox.Show(a.getName() + ":" + a.getFullPath());
+                //MessageBox.Show(a.getName() + ":" + a.getFullPath());
                 textBox.Text = "";
                 foreach(assembly asm in storeInstance.getAssemblies())
                 {

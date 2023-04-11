@@ -162,7 +162,8 @@ namespace Reliability_Desk
             fullPath = parent + "," + name;
         }
         public assembly findAssembly(string s)
-        {            
+        {
+            MessageBox.Show(fullPath + Environment.NewLine + s, "Finding");
             if (fullPath == s)
             {
                 //MessageBox.Show(getFullPath(), "FOUND A1");
@@ -222,20 +223,44 @@ namespace Reliability_Desk
         }
         public void renameSub(string newName, string oldName, string parentPath)
         {
-            string oldPath = parentPath.Trim() + "," + oldName.Trim();
-            MessageBox.Show(parentPath + "," + oldName, name);
-            if(parentPath == fullPath)
+            string oldPath = parentPath.Trim() + "," + oldName.Trim();            
+            //MessageBox.Show(parentPath + "," + oldName, "Assembly" + name);
+            if(oldPath == fullPath)
             {
-                MessageBox.Show(parentPath + "," + oldName, "Changing");
                 name = newName;
                 node.Text = name;
-                fullPath = parentPath + "," + newName;
-                parentPath = fullPath.Substring(0, fullPath.LastIndexOf(","));
+                fullPath = parentPath.Trim() + "," + newName;
+                //MessageBox.Show(oldPath + Environment.NewLine + fullPath, "Changing Assembly Name");
+                //parentPath = fullPath.Substring(0, fullPath.LastIndexOf(","));
                 for (int i = 0; i < childAssemblies.Count;i++)
                 {
-                    string childName = childAssemblies[i].getName();
-                    childAssemblies[i].setFullPath(parentPath + "," + childName);
-                    childAssemblies[i].renameSub(childName, childName, parentPath); 
+                    //MessageBox.Show(fullPath + Environment.NewLine + oldPath, "changingchilds");
+                    childAssemblies[i].updatefullPath(fullPath, oldPath);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < childAssemblies.Count; i++)
+                {
+                    childAssemblies[i].renameSub(newName, oldName, parentPath);
+                }
+            }
+        }
+        public void updatefullPath(string newPath, string oldPath)
+        {
+            //MessageBox.Show(oldPath + "," + name + Environment.NewLine + fullPath + Environment.NewLine + newPath + "," + name, "Changing Childs");
+            string npath = newPath + "," + name;
+            string opath = oldPath + "," + name;
+            if (opath == fullPath)
+            {
+                fullPath = npath;
+                //MessageBox.Show(oldPath + Environment.NewLine + npath, "changed");
+            }
+            else
+            {
+                for (int i = 0; i < childAssemblies.Count; i++)
+                {
+                    childAssemblies[i].updatefullPath(npath, opath);
                 }
             }
         }
