@@ -40,6 +40,12 @@ namespace Reliability_Desk
             name = string.Empty;
             parent = null;
             mainFile = string.Empty;
+            created = DateTime.Now;
+            createUser = "ahsan";
+            modified = DateTime.Now;
+            lastUser = "ahsan";
+            node = new TreeNode("Assembly", 0, 0);
+            node.Name = "Assembly";
         }
         public string getName()
         {
@@ -214,7 +220,7 @@ namespace Reliability_Desk
         {
             if (fullPath == parent)
             {
-                childParts.Add(p);
+                childParts.Add(p);// problematic part of the code data of part is not being updated properly
                 node.Nodes.Add(p.getNode());
             }
             else
@@ -246,6 +252,24 @@ namespace Reliability_Desk
                 }
             }
             return false;
+        }
+        public void addAssembly(XElement ele, string path)
+        {
+            //MessageBox.Show(fullPath + Environment.NewLine + path, "Assembly");
+            if (fullPath == path)
+            {                
+                assembly a = new assembly();
+                a.setAssemblyData(ele, path);
+                childAssemblies.Add(a);
+                node.Nodes.Add(a.getNode());
+            }
+            else
+            {
+                for (int i = 0; i < childAssemblies.Count; i++)
+                {
+                    childAssemblies[i].addAssembly(ele, path);
+                }
+            }
         }
         public int assemblyCount()
         {
@@ -299,6 +323,54 @@ namespace Reliability_Desk
                 {
                     childAssemblies[i].updatefullPath(npath, opath);
                 }
+            }
+        }
+
+        public TreeNode refreshNode()
+        {
+            node.Nodes.Clear();
+            node.Name = "Assembly";
+            node.Text = name;
+            foreach(assembly a in childAssemblies)
+            {
+                a.refreshNode();
+                node.Nodes.Add(a.getNode());
+            }
+            foreach(part p in childParts)
+            {
+                node.Nodes.Add(p.getNode());
+            }
+            return node;
+        }
+        public void deleteItem(string path)
+        {
+            assembly selected = null;
+            foreach (assembly a in childAssemblies)
+            {
+                if (a.getFullPath() == path)
+                {
+                    selected = a;
+                    break;
+                }
+                a.deleteItem(path);
+            }
+            if (selected != null)
+            {
+                childAssemblies.Remove(selected);
+            }
+
+            part selectedPart = null;
+            foreach (part p in childParts)
+            {
+                if (p.getFullPath() == path)
+                {
+                    selectedPart = p;
+                    break;
+                }
+            }
+            if (selectedPart != null)
+            {
+                childParts.Remove(selectedPart);
             }
         }
     }

@@ -136,20 +136,31 @@ namespace Reliability_Desk
         {
             //removing subassembly menu
             // note with this version of program all the child assemblies will be deleted as well
-            projectTree.BeginUpdate();
-            if (projectTree.SelectedNode.Parent != null) // do not delete main project tree node with project name
+            TreeNode tn = projectTree.SelectedNode;
+            string st;
+            st = tn.Text.Trim();
+            while (tn.Parent != null)
             {
-                string str = projectTree.SelectedNode.Text;
-                projectTree.SelectedNode.Remove();
-                statuslabel.Text = "Node:" + str + " Deleted";
-                statusStrip.Refresh();
+                st = tn.Parent.Text.Trim() + "," + st;
+                tn = tn.Parent;
             }
-            else
-            {
-                statuslabel.Text = "Cannot delete main project node";
-                statusStrip.Refresh();
-            }
-            projectTree.EndUpdate();
+            mainProject.deleteItem(st);
+            projectTree.Nodes.Clear();
+            projectTree.Nodes.Add(mainProject.getNode());
+            //projectTree.BeginUpdate();
+            //if (projectTree.SelectedNode.Parent != null) // do not delete main project tree node with project name
+            //{
+            //    string str = projectTree.SelectedNode.Text;
+            //    projectTree.SelectedNode.Remove();
+            //    statuslabel.Text = "Node:" + str + " Deleted";
+            //    statusStrip.Refresh();
+            //}
+            //else
+            //{
+            //    statuslabel.Text = "Cannot delete main project node";
+            //    statusStrip.Refresh();
+            //}
+            //projectTree.EndUpdate();
         }
 
         private void renameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -341,18 +352,56 @@ namespace Reliability_Desk
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            copyNode = (TreeNode)projectTree.SelectedNode.Clone();
+        {            
+            TreeNode tn = projectTree.SelectedNode;
+            string st = "";
+            if (tn.Name == "Assembly")
+            {
+                st = tn.Text.Trim();
+                while (tn.Parent != null)
+                {
+                    st = tn.Parent.Text.Trim() + "," + st;
+                    tn = tn.Parent;
+                }
+            }
+            assembly a = mainProject.findAssembly(st);
+            Clipboard.Clear();
+            Clipboard.SetText(a.getXML().ToString());
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (copyNode != null)
+            //MessageBox.Show(Clipboard.GetText());
+            TreeNode tn = projectTree.SelectedNode;
+            string st = "";            
+            if (tn.Name.ToString().Trim() == "Assembly" || tn.Name == "Project")
+            {                
+                st = tn.Text.Trim();
+                while (tn.Parent != null)
+                {
+                    st = tn.Parent.Text.Trim() + "," + st;
+                    tn = tn.Parent;
+                }
+            }            
+            try
             {
-                projectTree.SelectedNode.Nodes.Add(copyNode);
-                copyNode = null;
-            }
+                XElement x = XElement.Parse(Clipboard.GetText());
+                //MessageBox.Show(x.FirstNode.ToString(), "mainDesk");
+                if (x.Name.ToString().Trim()=="Assembly")
+                {
+                    //MessageBox.Show(x.ToString(), "mainDesk");
+                    mainProject.addChildAssembly(x, st);
+                    projectTree.Nodes.Clear();
+                    projectTree.Nodes.Add(mainProject.getNode());
+                }
 
+            }
+            catch(Exception exp)
+            {
+                MessageBox.Show(exp.ToString());
+            }
+            Clipboard.Clear();
+            
         }
 
         private void toolStripComboBox1_Click(object sender, EventArgs e)
@@ -437,7 +486,14 @@ namespace Reliability_Desk
                 assembly a = mainProject.findAssembly(st);
                 if (a != null)
                 {
-                    //MessageBox.Show(a.getFullPath(), "mainDesk");
+
+                    panelProperties.Show();
+                    propertiesTable.Rows.Clear();
+                    propertiesTable.Columns.Clear();
+                    propertiesTable.Columns.Add("Field", "Field");
+                    propertiesTable.Columns.Add("Value", "Value");
+                    propertiesTable.Rows.Add(e.Node.Name, e.Node.Text);
+                    //propertiesTable.Rows.Add()
                 }
                 else
                 {
@@ -452,7 +508,8 @@ namespace Reliability_Desk
 
         private void loadPartlistToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<part> partList = TNXMLUtility.nodeUtilities.readPartsfromXML("../../partListTest1.xml");
+            //List<part> partList = TNXMLUtility.nodeUtilities.readPartsfromXML("../../partListTest1.xml");
+            List<part> partList = TNXMLUtility.nodeUtilities.readPartsfromXML("./PLNew.xml");
             activePartList = new DataTable("activePartList");
             foreach (string s in globals.dataFields)
             {
@@ -489,14 +546,20 @@ namespace Reliability_Desk
                 {
                     textBox.Text += asm.getFullPath() + "\n";
                 }
-                selectPart partFrm = new selectPart("../../partListTest1.xml");
+                //selectPart partFrm = new selectPart("../../partListTest1.xml"); old part list
+                selectPart partFrm = new selectPart("./PLNew.xml");
                 partFrm.ShowDialog();
                 part partSelected = partFrm.selectedPart;
                 string[] partData = partSelected.getData();
                 partFrm.Dispose();
-                //MessageBox.Show(partSelected.ToString());
+                MessageBox.Show(partSelected.ToString());
                 string filterExp1 = partData[(int)globals.fieldEnum.Name];
                 string filterExp2 = partData[(int)globals.fieldEnum.cmID];
+                //string filterExp3 = partData[(int)globals.fieldEnum.Package];
+                //string filterExp4 = partData[(int)globals.fieldEnum.Grade];
+                //string filterExp5 = partData[(int)globals.fieldEnum.Radiation];
+                //MessageBox.Show(filterExp1 + Environment.NewLine+ filterExp2+ Environment.NewLine + filterExp3 + Environment.NewLine + filterExp4 + Environment.NewLine + filterExp5);
+
                 DataRow[] rows = activePartList.Select("Name LIKE '%" + filterExp1 + "%' AND  cmID LIKE '%" + filterExp2 + "%'");
                 textBox.Text += "\n" + rows[0][0] + "," + rows[0][1] + "," + rows[0][2] + "," + rows[0][3] + "," + rows[0][4] + "," + rows[0][5];
                 if (rows.Count() > 0)
@@ -613,6 +676,11 @@ namespace Reliability_Desk
             }
             dlg.Dispose();
             MessageBox.Show("done");
+        }
+
+        private void closeProperties_Click(object sender, EventArgs e)
+        {
+            panelProperties.Hide();
         }
 
     }

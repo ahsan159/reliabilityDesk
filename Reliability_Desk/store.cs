@@ -48,7 +48,7 @@ namespace Reliability_Desk
             {
                 if (a.getFullPath() == s)
                 {
-                    MessageBox.Show(a.getName() + "," + a.getFullPath(), "FOUND");
+                    //MessageBox.Show(a.getName() + "," + a.getFullPath(), "FOUND");
                     return a;
                 }
             }

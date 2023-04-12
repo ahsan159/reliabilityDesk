@@ -33,7 +33,13 @@ namespace Reliability_Desk
             Manufacturer,
             Category,
             Subcategory,
-            Description
+            Description,
+            Package,
+            Grade,
+            Temperature,
+            MTBF,
+            Radiation,
+            Outgassing
         }
         enum fieldes
         {
@@ -50,13 +56,26 @@ namespace Reliability_Desk
                                "Manuafcturer",
                                "Category",
                                "Subcategory",
-                               "Description"};
+                               "Description",
+                               "Package",
+                               "Grade",
+                               "Temperature",
+                               "MTBF",
+                               "Radiation",
+                               "Outgassing"
+                                          };
         public static readonly string name = dataFields[0];
         public static readonly string cmID = dataFields[1];
         public static readonly string mftr = dataFields[2];
         public static readonly string cat = dataFields[3];
         public static readonly string scat = dataFields[4];
         public static readonly string desc = dataFields[5];
+        public static readonly string pack = dataFields[6];
+        public static readonly string grade = dataFields[7];
+        public static readonly string temp = dataFields[8];
+        public static readonly string mtbf = dataFields[9];
+        public static readonly string rad = dataFields[10];
+        public static readonly string outg = dataFields[11];
         public static readonly string partlist = "PartList";
         public static readonly string part = "Part";
         public static readonly string assembly = "Assembly";
@@ -66,6 +85,13 @@ namespace Reliability_Desk
                                                               "mftr",
                                                               "cat",
                                                               "scat",
-                                                              "des" };
+                                                              "des",
+                                                              "pack",
+                                                              "grade",
+                                                              "temp",
+                                                              "mtbf",
+                                                              "rad",
+                                                              "out"                                                              
+                                                          };
     }
 }

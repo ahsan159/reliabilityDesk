@@ -27,6 +27,8 @@ namespace Reliability_Desk
         private double FR;
         private string package;
         private string heritage;
+        private string temperatureRange;
+        private string grade;
         private string radiationData;
         private string reliabilityData;
         private string outgassingData;
@@ -83,6 +85,7 @@ namespace Reliability_Desk
         public void setPartData(XElement ele, string parent)
         {
             setPartData(ele);
+            //name = ele.FirstNode.ToString().Trim();
             fullPath = parent + "," + name;
         }
         public void setFullPath(string s)
@@ -113,7 +116,15 @@ namespace Reliability_Desk
                             this.added = DateTime.ParseExact(a.Value.ToString(),"dd-MM-yyyy",CultureInfo.CurrentCulture);
                             break;
                         case "MTBF":
-                            this.MTBF = double.Parse(a.Value.ToString());
+                            this.MTBF = -1;
+                            try
+                            {
+                                this.MTBF = double.Parse(a.Value.ToString());
+                            }
+                            catch(Exception exp)
+                            {
+
+                            }
                             break;
                         case "cat":
                             this.cat = a.Value.ToString();
@@ -144,6 +155,41 @@ namespace Reliability_Desk
                             break;
                         case "manufacturer":
                             this.manufacturer = a.Value.ToString();
+                            break;
+                        case "pack":
+                            this.package = a.Value.ToString();
+                            break;                        
+                        case "grade":
+                            this.grade = a.Value.ToString();
+                            break;                        
+                        case "temp":
+                            this.temperatureRange = a.Value.ToString();
+                            break;
+                        case "temperature":
+                            this.temperatureRange = a.Value.ToString();
+                            break;
+                        case "mtbf":
+                            this.MTBF = -1;
+                            try
+                            {
+                                this.MTBF = double.Parse(a.Value.ToString());
+                            }
+                            catch(Exception exp)
+                            {
+
+                            }
+                            break;                        
+                        case "rad":
+                            this.radiationData = a.Value.ToString();
+                            break;
+                        case "radiation":
+                            this.radiationData = a.Value.ToString();
+                            break;
+                        case "out":
+                            this.outgassingData = a.Value.ToString();
+                            break;
+                        case "outgassing":
+                            this.outgassingData = a.Value.ToString();
                             break;
                     }
                 }
@@ -186,7 +232,7 @@ namespace Reliability_Desk
                             break;
                         case "cmID":
                             this.cmID = n.Text;
-                            break;
+                            break;                            
                     }
                 }
             }
@@ -201,7 +247,19 @@ namespace Reliability_Desk
         }
         public string[] getData()
         {
-            string[] dt = { this.name, this.cmID, this.manufacturer, this.cat, this.scat, this.des };
+            string[] dt = { this.name,
+                            this.cmID, 
+                            this.manufacturer, 
+                            this.cat, 
+                            this.scat, 
+                            this.des,
+                            this.package,
+                            this.grade,
+                            this.temperatureRange,
+                            this.MTBF.ToString(),
+                            this.radiationData,
+                            this.outgassingData
+                          };
             return dt;
         }
         public void setPath(string path)
@@ -210,7 +268,8 @@ namespace Reliability_Desk
         }
         public string ToString()
         {
-            return this.name + "," + this.manufacturer + "," + this.cmID;
+            return this.name + "," + this.manufacturer + "," + this.cmID + "," + this.package + ","  +
+                this.radiationData + "," + this.outgassingData + "," + this.cat + "," + this.scat;
 
         }
         public string[] getFullData()
@@ -244,6 +303,10 @@ namespace Reliability_Desk
             attrib[i++] = new XAttribute("category", cat);
             attrib[i++] = new XAttribute("subcategory", scat);
             attrib[i++] = new XAttribute("MTBF", MTBF.ToString());
+            //attrib[i++] = new XAttribute("package",package);
+            //attrib[i++] = new XAttribute("grade", grade);
+            //attrib[i++] = new XAttribute("temperature",temperatureRange);
+            //attrib[i++] = new XAttribute("radiation",radiationData);            
             try
             {
                 attrib[i++] = new XAttribute("package", package);

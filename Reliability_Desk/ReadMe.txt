@@ -88,3 +88,7 @@ Adding the new assemblies alogrithm is implemented. Only problem I was missing w
 11-Apr-2023
 3:28PM
 added facility of saving and loading project from xml file. Adding parts and assemblies at any level us almost flawless. Time to forward this to ubaid for testing. Time to think about configuration and other illustrative aspects of reliability block diagram project.
+
+12-Apr-2023
+2:00PM
+There is some problem in adding the part to project tree. It is not correctly setting part fullpath and other properties. Good News is apart some part data problem I have correctly implemented copy, paste, delete and renaming algorithms Alhamdullilah. Next step get configuration part started as reliability engine. Furthermore, added two tabs in reliability desk have to populate it with part and assembly data in tables. 

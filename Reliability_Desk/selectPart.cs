@@ -73,6 +73,7 @@ namespace Reliability_Desk
                         p.setPath(fileName);
                         cDataset.Rows.Add(p.getData());
                     }
+                    //cDataset.WriteXml("partListNew.xml");
                     partTable.DataSource = cDataset;
                     statusLabel.Text = "File load Successfull, \'" + partList.Count + "\' parts loaded from \'" + fileName + "\'";
                     statusStrip.Refresh();
@@ -126,7 +127,7 @@ namespace Reliability_Desk
             //sw.Flush();
             //clientPipe.Close();
             //clientPipe.Dispose();
-            // set parts list display only
+            // set parts list display only            
             tableLayoutPanel1.ColumnStyles[1].SizeType = SizeType.Percent;
             tableLayoutPanel1.ColumnStyles[1].Width = 0;
             tableLayoutPanel1.ColumnStyles[0].SizeType = SizeType.Percent;
@@ -167,7 +168,7 @@ namespace Reliability_Desk
                 string name = selectedRow.Cells[globals.name].Value.ToString();
                 string cmID = selectedRow.Cells[globals.cmID].Value.ToString();
                 string mftr = selectedRow.Cells[globals.mftr].Value.ToString();
-                string desc = selectedRow.Cells[globals.desc].Value.ToString();
+                string desc = selectedRow.Cells[globals.desc].Value.ToString();                
                 //MessageBox.Show(name + mftr + cmID + desc);
                 int selectedIndex = partList.FindIndex(x =>
                     x.getData()[0].Equals(name) && // predicate 1 to search by name
@@ -309,6 +310,12 @@ namespace Reliability_Desk
             string desc = "";
             string cat = "";
             string scat = "";
+            string pack = "";
+            string grade = "";
+            string temp = "";
+            string mtbf = "";
+            string rad = "";
+            string outg = "";
             try
             {
                 if (partList.Count == 0)
@@ -322,6 +329,12 @@ namespace Reliability_Desk
                 desc = selectedRow.Cells[globals.desc].Value.ToString();
                 cat = selectedRow.Cells[globals.cat].Value.ToString();
                 scat = selectedRow.Cells[globals.scat].Value.ToString();
+                pack = selectedRow.Cells[globals.pack].Value.ToString();
+                grade = selectedRow.Cells[globals.grade].Value.ToString();
+                temp = selectedRow.Cells[globals.temp].Value.ToString();
+                mtbf = selectedRow.Cells[globals.mtbf].Value.ToString();
+                rad = selectedRow.Cells[globals.rad].Value.ToString();
+                outg = selectedRow.Cells[globals.outg].Value.ToString();
                 //MessageBox.Show(name + mftr + cmID + desc);
                 int selectedIndex = partList.FindIndex(x =>
                     x.getData()[0].Equals(name) && // predicate 1 to search by name
@@ -352,6 +365,13 @@ namespace Reliability_Desk
             indPartDataTable.Rows[3].Cells[1].Value = desc;
             indPartDataTable.Rows[4].Cells[1].Value = cat;
             indPartDataTable.Rows[5].Cells[1].Value = scat;
+            indPartDataTable.Rows[6].Cells[1].Value = pack;
+            indPartDataTable.Rows[7].Cells[1].Value = grade;
+            indPartDataTable.Rows[8].Cells[1].Value = temp;
+            indPartDataTable.Rows[9].Cells[1].Value = mtbf;
+            indPartDataTable.Rows[10].Cells[1].Value = rad;
+            indPartDataTable.Rows[11].Cells[1].Value = outg;
+            
 
         }
 

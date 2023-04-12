@@ -89,8 +89,16 @@ namespace Reliability_Desk
         }
         public void setAssemblyData(XElement ele, string parent)
         {
-            setAssemblyData(ele);
-            fullPath = parent.Trim() + "," + name.Trim();
+            //setAssemblyData(ele);
+            fullPath = name.Trim();
+            if (parent == name)
+            {
+                setAssemblyData(ele);
+            }
+            else 
+            {
+                
+            }
         }
         public void setAssemblyData(XElement ele)
         {
@@ -191,6 +199,22 @@ namespace Reliability_Desk
         {
             return node;
         }
+        public TreeNode refreshNode()
+        {
+            node.Nodes.Clear();
+            node.Name = "Project";
+            node.Text = name;
+            foreach(assembly a in childAssemblies)
+            {
+                a.refreshNode();
+                node.Nodes.Add(a.getNode());
+            }
+            foreach(part p in childParts)
+            {
+                node.Nodes.Add(p.getNode());
+            }
+            return node;
+        }
         public assembly findAssembly(string s)
         {
             // search for assemblies recursively and return null if not found
@@ -216,6 +240,23 @@ namespace Reliability_Desk
             {
                 a.addPart(p, parent);
             }            
+        }
+        public void addChildAssembly(XElement ele, string path)
+        {            
+            if (fullPath == path)
+            {
+                assembly a = new assembly();
+                a.setAssemblyData(ele, path);
+                childAssemblies.Add(a);
+                node.Nodes.Add(a.getNode());
+            }
+            else
+            {
+                for (int i = 0; i < childAssemblies.Count; i++)
+                {
+                    childAssemblies[i].addAssembly(ele, path);
+                }
+            }
         }
         public void addChildAssembly(string path, string name)
         {
@@ -260,6 +301,39 @@ namespace Reliability_Desk
             {
                 childAssemblies[i].renameSub(newName, oldName, path);
             }
+        }
+        public void deleteItem(string path)
+        {
+            // project cannot be deleted by itself
+            assembly selected = null;
+            foreach (assembly a in childAssemblies)
+            {
+                if(a.getFullPath()==path)
+                {
+                    selected = a;
+                    break;
+                }
+                a.deleteItem(path);
+            }
+            if (selected != null)
+            {
+                childAssemblies.Remove(selected);
+            }
+
+            part selectedPart = null;
+            foreach(part p in childParts)
+            {
+                if (p.getFullPath() == path)
+                {
+                    selectedPart = p;
+                    break;
+                }
+            }
+            if (selectedPart != null)
+            {
+                childParts.Remove(selectedPart);
+            }
+            refreshNode();
         }
     }
 }
