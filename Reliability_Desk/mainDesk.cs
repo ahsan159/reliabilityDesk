@@ -35,7 +35,7 @@ namespace Reliability_Desk
             //Add images to tree view from assembly and parts only
             panelProperties.Hide();
             copyNode = null;
-            tableLayoutPanel1.Dock = DockStyle.Fill;
+            //tableLayoutPanel1.Dock = DockStyle.Fill;
             imageListProjectTree = new ImageList();
             imageListProjectTree.Images.Add(Image.FromFile("../../Asm.png"));
             imageListProjectTree.Images.Add(Image.FromFile("../../Prt.png"));
@@ -46,7 +46,8 @@ namespace Reliability_Desk
             statusStrip.Refresh();            
             textBox.Text = textBox.Text + "program started \n";
             //projectFileName = "./myTestFile1.xml";
-            projectFileName = "./updateProject.xml";
+            //projectFileName = "./updateProject.xml";
+            projectFileName = "./desktop.xml";
             mainProject = new project(projectFileName);            
             projectTree.Nodes.Clear();
             projectTree.Nodes.Add(mainProject.getNode());
@@ -67,14 +68,6 @@ namespace Reliability_Desk
         private void projectTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             // this function displays the right click menu of nodes in project tree
-            if (e.Button == MouseButtons.Right)
-            {
-                statuslabel.Text = e.Node.ToString();
-                statusStrip.Refresh();
-                //Setting x,y parameters from current cursor as default menu position is  top left corner
-                treeNodeMenu.Show(Cursor.Position.X, Cursor.Position.Y);
-                projectTree.SelectedNode = e.Node;
-            }
             try
             {
                 statuslabel.Text = projectTree.SelectedNode.Name + ":" + projectTree.SelectedNode.Text + " selected";
@@ -84,6 +77,90 @@ namespace Reliability_Desk
             {
                 statuslabel.Text = "Node Selected";
                 statusStrip.Refresh();
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                statuslabel.Text = e.Node.ToString();
+                statusStrip.Refresh();
+                //Setting x,y parameters from current cursor as default menu position is  top left corner
+                treeNodeMenu.Show(Cursor.Position.X, Cursor.Position.Y);
+                projectTree.SelectedNode = e.Node;
+            }
+            else if (e.Button == MouseButtons.Left)
+            {                
+                projectTree.SelectedNode = e.Node;                
+                TreeNode tn = projectTree.SelectedNode;
+                string st = tn.Text.Trim();
+                while (tn.Parent != null)
+                {
+                    st = tn.Parent.Text.Trim() + "," + st;
+                    tn = tn.Parent;
+                }
+                if (st == projectTree.TopNode.Text) //project
+                {
+                    List<assembly> aList = mainProject.getChildAssemblies();
+                    List<part> pList = mainProject.getChildParts();
+                    if (aList.Count > 0)
+                    {
+                        DataTable dt = new DataTable("childAssemblies");
+                        dt.Columns.Add("Name");
+                        foreach (assembly asm in aList)
+                        {
+                            dt.Rows.Add(asm.getName());
+                        }
+                        assemblyTable.DataSource = dt;
+                    }
+                    if (pList.Count > 0)
+                    {
+                        DataTable dt = new DataTable("childParts");
+                        dt.Columns.Add("Name");
+                        dt.Columns.Add("CMNo");
+                        foreach (part prt in pList)
+                        {
+                            string[] data = {prt.getName(),prt.getCMNo()};
+                            dt.Rows.Add(data);
+                            
+                        }
+                        partTable.DataSource = dt;
+                    }
+                    return;
+                } //project
+                assembly a = mainProject.findAssembly(st);
+                try
+                {                    
+                    List<assembly> aList = a.getChildAssemblies();
+                    //assemblyTable.DataSource
+                    if (aList.Count > 0)
+                    {
+                        DataTable dt = new DataTable("childAssemblies");
+                        dt.Columns.Add("Name");
+                        foreach (assembly asm in aList)
+                        {
+                            dt.Rows.Add(asm.getName());
+                        }
+                        assemblyTable.DataSource = dt;
+                    }
+                }
+                catch (Exception exp)
+                { }
+                try
+                {
+                    List<part> pList = a.getChildParts();
+                    if (pList.Count > 0)
+                    {
+                        DataTable dt = new DataTable("childParts");
+                        dt.Columns.Add("Name");
+                        dt.Columns.Add("CM No");
+                        foreach (part prt in pList)
+                        {
+                            string[] data = { prt.getName(), prt.getCMNo() };
+                            dt.Rows.Add(data);
+                        }
+                        partTable.DataSource = dt;
+                    }
+                }
+                catch (Exception exp) { }
+
             }
         }
 
@@ -110,7 +187,7 @@ namespace Reliability_Desk
             projectTree.Nodes.Add(mainProject.getNode());
             projectTree.ExpandAll();
             statuslabel.Text = "New assembly " + "new subassembly" + projectTree.Nodes.Count.ToString() + " added";
-            statusStrip.Refresh();
+            statusStrip.Refresh();            
         }
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
@@ -217,11 +294,7 @@ namespace Reliability_Desk
             
             XElement ele = mainProject.getXML();            
             XDocument doc = new XDocument();
-            doc.Add(ele);
-            //XmlWriterSettings xmlsettings = new XmlWriterSettings();
-            //XmlWriter writer = XmlWriter.Create(mainProject.getFileName(),xmlsettings);
-            //xmlsettings.Indent = true;
-            //xmlsettings.NewLineOnAttributes = false;
+            doc.Add(ele);            
             doc.Save(mainProject.getFileName());
             statuslabel.Text = mainProject.getFileName() + " updated";
             statusStrip.Refresh();
@@ -393,17 +466,18 @@ namespace Reliability_Desk
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (panelProperties.Dock == DockStyle.None || panelProperties.Dock == DockStyle.Left)
-            {
-                panelProperties.Dock = DockStyle.Right;
-                tableLayoutPanel1.Dock = DockStyle.Left;
-                tableLayoutPanel1.CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble;
-            }
-            else if (panelProperties.Dock == DockStyle.Right)
-            {
-                panelProperties.Dock = DockStyle.Left;
-                tableLayoutPanel1.Dock = DockStyle.Right;
-            }
+            
+            //if (panelProperties.Dock == DockStyle.None || panelProperties.Dock == DockStyle.Left)
+            //{
+            //    panelProperties.Dock = DockStyle.Right;
+            //    tableLayoutPanel1.Dock = DockStyle.Left;
+            //    tableLayoutPanel1.CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble;
+            //}
+            //else if (panelProperties.Dock == DockStyle.Right)
+            //{
+            //    panelProperties.Dock = DockStyle.Left;
+            //    tableLayoutPanel1.Dock = DockStyle.Right;
+            //}
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -424,6 +498,8 @@ namespace Reliability_Desk
             if (e.Node.Name == "Part")
             {
                 panelProperties.Show();
+                panelProperties.Dock = DockStyle.Right;
+                //tableLayoutPanel1.Dock = DockStyle.Left;
                 propertiesTable.Rows.Clear();
                 propertiesTable.Columns.Clear();
                 propertiesTable.Columns.Add("Field", "Field");
@@ -438,29 +514,32 @@ namespace Reliability_Desk
                 statuslabel.Text = e.Node.Text + " node selected";
                 statusStrip.Refresh();
             }
-            else if (e.Node.Name == "Assembly")
-            {                
-                assembly a = mainProject.findAssembly(st);
-                if (a != null)
-                {
+            //else if (e.Node.Name == "Assembly")
+            //{                
+            //    assembly a = mainProject.findAssembly(st);
+            //    if (a != null)
+            //    {
 
-                    panelProperties.Show();
-                    propertiesTable.Rows.Clear();
-                    propertiesTable.Columns.Clear();
-                    propertiesTable.Columns.Add("Field", "Field");
-                    propertiesTable.Columns.Add("Value", "Value");
-                    propertiesTable.Rows.Add(e.Node.Name, e.Node.Text);
-                    statuslabel.Text = e.Node.Text + " node selected";
-                    statusStrip.Refresh();
-                }
-                else
-                {
-                    MessageBox.Show("NULL", "mainDesk");
-                }
-            }
+            //        panelProperties.Show();
+            //        panelProperties.Dock = DockStyle.Right;
+            //        //tableLayoutPanel1.Dock = DockStyle.Left;
+            //        propertiesTable.Rows.Clear();
+            //        propertiesTable.Columns.Clear();
+            //        propertiesTable.Columns.Add("Field", "Field");
+            //        propertiesTable.Columns.Add("Value", "Value");
+            //        propertiesTable.Rows.Add(e.Node.Name, e.Node.Text);
+            //        statuslabel.Text = e.Node.Text + " node selected";
+            //        statusStrip.Refresh();
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("NULL", "mainDesk");
+            //    }
+            //}
             else
             {
                 panelProperties.Hide();
+                tableLayoutPanel1.Dock = DockStyle.None;
             }
         }
 
@@ -605,7 +684,7 @@ namespace Reliability_Desk
         {
             // write project from tree node to xml file
             // only this file is readable in current version
-            //xmlwrite.WriteStartDocument();
+            //xmlwrite.WriteStartdocument();
             //writeXMLfromProject(parentNode, ref xmlwrite);
             //xmlwrite.WriteEndDocument();
             //xmlwrite.Close();
@@ -636,6 +715,28 @@ namespace Reliability_Desk
         private void closeProperties_Click(object sender, EventArgs e)
         {
             panelProperties.Hide();
+            tableLayoutPanel1.Dock = DockStyle.None;
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            XElement x = mainProject.getXML();
+            string name = mainProject.getName();
+            XDocument doc = new XDocument();
+            doc.Add(x);
+            doc.Save(name);
+            this.Close();
+            this.Dispose();
+        }
+
+        private void openstripBtn_Click(object sender, EventArgs e)
+        {
+            openProjectToolStripMenuItem_Click(sender, e);
+        }
+
+        private void savestripBtn_Click(object sender, EventArgs e)
+        {
+            saveProjectToolStripMenuItem_Click(sender, e);
         }
 
     }

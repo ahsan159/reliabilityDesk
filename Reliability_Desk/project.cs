@@ -340,5 +340,14 @@ namespace Reliability_Desk
             childAssemblies.Clear();
             childParts.Clear();
         }
+        public List<assembly> getChildAssemblies()
+        {
+            return childAssemblies;
+        }
+
+        public List<part> getChildParts()
+        {
+            return childParts;
+        }
     }
 }

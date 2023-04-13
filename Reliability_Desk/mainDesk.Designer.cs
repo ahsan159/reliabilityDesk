@@ -43,6 +43,7 @@ namespace Reliability_Desk
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(relDesk));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statuslabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -63,10 +64,6 @@ namespace Reliability_Desk
             this.howToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.projectTree = new System.Windows.Forms.TreeView();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox = new System.Windows.Forms.RichTextBox();
             this.imageListProjectTree = new System.Windows.Forms.ImageList(this.components);
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,19 +86,34 @@ namespace Reliability_Desk
             this.saveProperties = new System.Windows.Forms.Button();
             this.closeProperties = new System.Windows.Forms.Button();
             this.panelProperties = new System.Windows.Forms.Panel();
-            this.parts = new System.Windows.Forms.TabPage();
-            this.assemblies = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.asmnprt = new System.Windows.Forms.TabControl();
+            this.parts = new System.Windows.Forms.TabPage();
+            this.partTable = new System.Windows.Forms.DataGridView();
+            this.assemblies = new System.Windows.Forms.TabPage();
+            this.assemblyTable = new System.Windows.Forms.DataGridView();
+            this.textBox = new System.Windows.Forms.RichTextBox();
+            this.projectTree = new System.Windows.Forms.TreeView();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.openstripBtn = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.savestripBtn = new System.Windows.Forms.ToolStripButton();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.treeNodeMenu.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.propertiesTable)).BeginInit();
             this.tableLayoutPanel4.SuspendLayout();
             this.panelProperties.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.asmnprt.SuspendLayout();
+            this.parts.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.partTable)).BeginInit();
+            this.assemblies.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.assemblyTable)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -148,39 +160,40 @@ namespace Reliability_Desk
             // saveProjectToolStripMenuItem
             // 
             this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
-            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveProjectToolStripMenuItem.Text = "Save Project";
             this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.saveProjectToolStripMenuItem_Click);
             // 
             // closeProjectToolStripMenuItem
             // 
             this.closeProjectToolStripMenuItem.Name = "closeProjectToolStripMenuItem";
-            this.closeProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.closeProjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeProjectToolStripMenuItem.Text = "Close Project";
             this.closeProjectToolStripMenuItem.Click += new System.EventHandler(this.closeProjectToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(140, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
             // loadPartlistToolStripMenuItem
             // 
             this.loadPartlistToolStripMenuItem.Name = "loadPartlistToolStripMenuItem";
-            this.loadPartlistToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.loadPartlistToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadPartlistToolStripMenuItem.Text = "Load Partlist";
             this.loadPartlistToolStripMenuItem.Click += new System.EventHandler(this.loadPartlistToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(140, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // projectToolStripMenuItem
             // 
@@ -252,63 +265,6 @@ namespace Reliability_Desk
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel1.Controls.Add(this.projectTree, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1044, 586);
-            this.tableLayoutPanel1.TabIndex = 2;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
-            // 
-            // projectTree
-            // 
-            this.projectTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.projectTree.Location = new System.Drawing.Point(3, 3);
-            this.projectTree.Name = "projectTree";
-            this.projectTree.Size = new System.Drawing.Size(202, 580);
-            this.projectTree.TabIndex = 0;
-            this.projectTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.projectTree_NodeMouseClick);
-            this.projectTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.projectTree_NodeMouseDoubleClick);
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel2.ColumnCount = 1;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 76.24113F));
-            this.tableLayoutPanel2.Controls.Add(this.asmnprt, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.textBox, 0, 1);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(211, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 107F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 390F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(830, 580);
-            this.tableLayoutPanel2.TabIndex = 1;
-            // 
-            // textBox
-            // 
-            this.textBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox.Location = new System.Drawing.Point(3, 476);
-            this.textBox.Name = "textBox";
-            this.textBox.Size = new System.Drawing.Size(824, 101);
-            this.textBox.TabIndex = 3;
-            this.textBox.Text = "";
             // 
             // imageListProjectTree
             // 
@@ -434,14 +390,14 @@ namespace Reliability_Desk
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel3.ColumnCount = 1;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.propertiesTable, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 0, 1);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Controls.Add(this.propertiesTable, 0, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(7, 7);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 93.77163F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.228374F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(255, 578);
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92.44186F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.558139F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(255, 516);
             this.tableLayoutPanel3.TabIndex = 2;
             // 
             // propertiesTable
@@ -452,7 +408,7 @@ namespace Reliability_Desk
             this.propertiesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.propertiesTable.Location = new System.Drawing.Point(3, 3);
             this.propertiesTable.Name = "propertiesTable";
-            this.propertiesTable.Size = new System.Drawing.Size(249, 536);
+            this.propertiesTable.Size = new System.Drawing.Size(249, 471);
             this.propertiesTable.TabIndex = 1;
             // 
             // tableLayoutPanel4
@@ -465,18 +421,18 @@ namespace Reliability_Desk
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Controls.Add(this.saveProperties, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.closeProperties, 1, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 545);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 480);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(249, 30);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(249, 33);
             this.tableLayoutPanel4.TabIndex = 3;
             // 
             // saveProperties
             // 
             this.saveProperties.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveProperties.Location = new System.Drawing.Point(3, 3);
+            this.saveProperties.Location = new System.Drawing.Point(3, 6);
             this.saveProperties.Name = "saveProperties";
             this.saveProperties.Size = new System.Drawing.Size(118, 24);
             this.saveProperties.TabIndex = 0;
@@ -488,7 +444,7 @@ namespace Reliability_Desk
             // 
             this.closeProperties.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.closeProperties.Location = new System.Drawing.Point(127, 3);
+            this.closeProperties.Location = new System.Drawing.Point(127, 6);
             this.closeProperties.Name = "closeProperties";
             this.closeProperties.Size = new System.Drawing.Size(119, 24);
             this.closeProperties.TabIndex = 1;
@@ -500,31 +456,28 @@ namespace Reliability_Desk
             // 
             this.panelProperties.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelProperties.Controls.Add(this.tableLayoutPanel3);
-            this.panelProperties.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelProperties.Location = new System.Drawing.Point(781, 24);
+            this.panelProperties.Location = new System.Drawing.Point(781, 86);
             this.panelProperties.Name = "panelProperties";
-            this.panelProperties.Size = new System.Drawing.Size(263, 586);
+            this.panelProperties.Size = new System.Drawing.Size(263, 524);
             this.panelProperties.TabIndex = 3;
             // 
-            // parts
+            // tableLayoutPanel2
             // 
-            this.parts.Location = new System.Drawing.Point(4, 22);
-            this.parts.Name = "parts";
-            this.parts.Padding = new System.Windows.Forms.Padding(3);
-            this.parts.Size = new System.Drawing.Size(550, 434);
-            this.parts.TabIndex = 1;
-            this.parts.Text = "Parts";
-            this.parts.UseVisualStyleBackColor = true;
-            // 
-            // assemblies
-            // 
-            this.assemblies.Location = new System.Drawing.Point(4, 22);
-            this.assemblies.Name = "assemblies";
-            this.assemblies.Padding = new System.Windows.Forms.Padding(3);
-            this.assemblies.Size = new System.Drawing.Size(816, 441);
-            this.assemblies.TabIndex = 0;
-            this.assemblies.Text = "Assemblies";
-            this.assemblies.UseVisualStyleBackColor = true;
+            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 76.24113F));
+            this.tableLayoutPanel2.Controls.Add(this.textBox, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.asmnprt, 0, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(211, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 107F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 390F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(830, 552);
+            this.tableLayoutPanel2.TabIndex = 1;
             // 
             // asmnprt
             // 
@@ -536,14 +489,135 @@ namespace Reliability_Desk
             this.asmnprt.Location = new System.Drawing.Point(3, 3);
             this.asmnprt.Name = "asmnprt";
             this.asmnprt.SelectedIndex = 0;
-            this.asmnprt.Size = new System.Drawing.Size(824, 467);
+            this.asmnprt.Size = new System.Drawing.Size(824, 439);
             this.asmnprt.TabIndex = 4;
+            // 
+            // parts
+            // 
+            this.parts.Controls.Add(this.partTable);
+            this.parts.Location = new System.Drawing.Point(4, 22);
+            this.parts.Name = "parts";
+            this.parts.Padding = new System.Windows.Forms.Padding(3);
+            this.parts.Size = new System.Drawing.Size(816, 388);
+            this.parts.TabIndex = 1;
+            this.parts.Text = "Parts";
+            this.parts.UseVisualStyleBackColor = true;
+            // 
+            // partTable
+            // 
+            this.partTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.partTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.partTable.Location = new System.Drawing.Point(6, 3);
+            this.partTable.Name = "partTable";
+            this.partTable.Size = new System.Drawing.Size(807, 379);
+            this.partTable.TabIndex = 0;
+            // 
+            // assemblies
+            // 
+            this.assemblies.Controls.Add(this.assemblyTable);
+            this.assemblies.Location = new System.Drawing.Point(4, 22);
+            this.assemblies.Name = "assemblies";
+            this.assemblies.Padding = new System.Windows.Forms.Padding(3);
+            this.assemblies.Size = new System.Drawing.Size(816, 413);
+            this.assemblies.TabIndex = 0;
+            this.assemblies.Text = "Assemblies";
+            this.assemblies.UseVisualStyleBackColor = true;
+            // 
+            // assemblyTable
+            // 
+            this.assemblyTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.assemblyTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.assemblyTable.Location = new System.Drawing.Point(3, 3);
+            this.assemblyTable.Name = "assemblyTable";
+            this.assemblyTable.Size = new System.Drawing.Size(807, 404);
+            this.assemblyTable.TabIndex = 0;
+            // 
+            // textBox
+            // 
+            this.textBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox.Location = new System.Drawing.Point(3, 448);
+            this.textBox.Name = "textBox";
+            this.textBox.Size = new System.Drawing.Size(824, 101);
+            this.textBox.TabIndex = 3;
+            this.textBox.Text = "";
+            // 
+            // projectTree
+            // 
+            this.projectTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.projectTree.Location = new System.Drawing.Point(3, 3);
+            this.projectTree.Name = "projectTree";
+            this.projectTree.Size = new System.Drawing.Size(202, 552);
+            this.projectTree.TabIndex = 0;
+            this.projectTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.projectTree_NodeMouseClick);
+            this.projectTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.projectTree_NodeMouseDoubleClick);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.tableLayoutPanel1.Controls.Add(this.projectTree, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 52);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1044, 558);
+            this.tableLayoutPanel1.TabIndex = 2;
+            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openstripBtn,
+            this.toolStripSeparator8,
+            this.savestripBtn});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(1044, 25);
+            this.toolStrip1.TabIndex = 4;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // openstripBtn
+            // 
+            this.openstripBtn.Image = ((System.Drawing.Image)(resources.GetObject("openstripBtn.Image")));
+            this.openstripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openstripBtn.Name = "openstripBtn";
+            this.openstripBtn.Size = new System.Drawing.Size(56, 22);
+            this.openstripBtn.Text = "Open";
+            this.openstripBtn.Click += new System.EventHandler(this.openstripBtn_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
+            // 
+            // savestripBtn
+            // 
+            this.savestripBtn.Image = ((System.Drawing.Image)(resources.GetObject("savestripBtn.Image")));
+            this.savestripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.savestripBtn.Name = "savestripBtn";
+            this.savestripBtn.Size = new System.Drawing.Size(51, 22);
+            this.savestripBtn.Text = "Save";
+            this.savestripBtn.Click += new System.EventHandler(this.savestripBtn_Click);
             // 
             // relDesk
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1044, 632);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.panelProperties);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
@@ -555,14 +629,20 @@ namespace Reliability_Desk
             this.statusStrip.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.treeNodeMenu.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.propertiesTable)).EndInit();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.panelProperties.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.asmnprt.ResumeLayout(false);
+            this.parts.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.partTable)).EndInit();
+            this.assemblies.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.assemblyTable)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -578,11 +658,7 @@ namespace Reliability_Desk
         private System.Windows.Forms.ToolStripMenuItem howToToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TreeView projectTree;
         private System.Windows.Forms.ToolStripStatusLabel statuslabel;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.RichTextBox textBox;
         private System.Windows.Forms.ImageList imageListProjectTree;
         private System.Windows.Forms.ToolStripMenuItem saveProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeProjectToolStripMenuItem;
@@ -618,9 +694,19 @@ namespace Reliability_Desk
         private ToolStripSeparator toolStripSeparator7;
         private ToolStripMenuItem expandAllToolStripMenuItem;
         private ToolStripMenuItem collapseAllToolStripMenuItem;
+        private TableLayoutPanel tableLayoutPanel2;
+        private RichTextBox textBox;
         private TabControl asmnprt;
         private TabPage assemblies;
+        private DataGridView assemblyTable;
         private TabPage parts;
+        private DataGridView partTable;
+        private TreeView projectTree;
+        private TableLayoutPanel tableLayoutPanel1;
+        private ToolStrip toolStrip1;
+        private ToolStripButton openstripBtn;
+        private ToolStripSeparator toolStripSeparator8;
+        private ToolStripButton savestripBtn;
     }
 }
 

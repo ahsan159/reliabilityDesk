@@ -374,5 +374,16 @@ namespace Reliability_Desk
                 childParts.Remove(selectedPart);
             }
         }
+
+        public List<assembly> getChildAssemblies()
+        {
+            return childAssemblies;
+        }
+
+        public List<part> getChildParts()
+        {
+            return childParts;
+        }
+
     }
 }

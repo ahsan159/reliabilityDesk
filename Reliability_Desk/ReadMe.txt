@@ -92,3 +92,7 @@ added facility of saving and loading project from xml file. Adding parts and ass
 12-Apr-2023
 2:00PM
 There is some problem in adding the part to project tree. It is not correctly setting part fullpath and other properties. Good News is apart some part data problem I have correctly implemented copy, paste, delete and renaming algorithms Alhamdullilah. Next step get configuration part started as reliability engine. Furthermore, added two tabs in reliability desk have to populate it with part and assembly data in tables. 
+
+13-Apr-2023
+2:13PM
+Application is pretty much ready for front end. Overview from ubaid has generated a requirement to update/renmae the part/assembly from the front and datagridview. This will require sometime otherwise we have to move forward to writting reliability engine. Also, bug in the part level entry is now removed. Furthermore, parts and assemblies are providing full xml for reading and writting project. 

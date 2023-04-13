@@ -241,6 +241,10 @@ namespace Reliability_Desk
         {
             return this.name;
         }
+        public string getCMNo()
+        {
+            return this.cmID;
+        }
         public string getMTBF()
         {
             return this.MTBF.ToString();
