@@ -335,5 +335,10 @@ namespace Reliability_Desk
             }
             refreshNode();
         }
+        public void clear()
+        {
+            childAssemblies.Clear();
+            childParts.Clear();
+        }
     }
 }

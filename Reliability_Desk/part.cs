@@ -305,22 +305,22 @@ namespace Reliability_Desk
             attrib[i++] = new XAttribute("MTBF", MTBF.ToString());
             //attrib[i++] = new XAttribute("package",package);
             //attrib[i++] = new XAttribute("grade", grade);
-            //attrib[i++] = new XAttribute("temperature",temperatureRange);
             //attrib[i++] = new XAttribute("radiation",radiationData);            
             try
             {
+                attrib[i++] = new XAttribute("temperature",temperatureRange);
                 attrib[i++] = new XAttribute("package", package);
-                attrib[i++] = new XAttribute("heritage", heritage);
                 attrib[i++] = new XAttribute("radiation", radiationData);
                 attrib[i++] = new XAttribute("reliability", reliabilityData);
                 attrib[i++] = new XAttribute("outgassing", outgassingData);
+                attrib[i++] = new XAttribute("heritage", heritage);
                 attrib[i++] = new XAttribute("user", user);
                 attrib[i++] = new XAttribute("added", added.ToShortDateString());
                 attrib[i++] = new XAttribute("path", fullPath);
             }
             catch(Exception e)
             {
-
+                //MessageBox.Show(e.ToString());
             }
             foreach (XAttribute a in attrib)
             {

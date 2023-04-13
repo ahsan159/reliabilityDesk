@@ -221,6 +221,7 @@ namespace Reliability_Desk
             if (fullPath == parent)
             {
                 childParts.Add(p);// problematic part of the code data of part is not being updated properly
+                p.setFullPath(parent + "," + p.getName()); // new line added
                 node.Nodes.Add(p.getNode());
             }
             else

@@ -43,33 +43,11 @@ namespace Reliability_Desk
             imageListProjectTree.Images.Add(Image.FromFile("../../Pro.png"));
             projectTree.ImageList = imageListProjectTree;
             statuslabel.Text = " Program started";
-            statusStrip.Refresh();
-            projectTree.BeginUpdate();
-            projectTree.Nodes.Add("Project", "Project", 2, 5);
-            projectTree.EndUpdate();
+            statusStrip.Refresh();            
             textBox.Text = textBox.Text + "program started \n";
-            XmlDocument reader = new XmlDocument();
-            //reader.Load("../../sampleXML.xml");
-            reader.Load("./projectTest.xml");
-            XmlElement layout = reader.DocumentElement;
-            textBox.Text = textBox.Text + layout.Name + "\n";
-            XmlNodeList nodeList = layout.ChildNodes;
-            if (layout.HasChildNodes)
-            {
-                for (int i = 0; i < nodeList.Count; i++)
-                {
-                    textBox.Text = textBox.Text + nodeList[i].Name + "\n";
-                }
-            }
-            List<XmlNode> list = new List<XmlNode>();
-            list.Add(layout);
-            textBox.Text = textBox.Text + "Now reading file\n";
-            //writeProjecfromXML("./myTestFile1.xml");
-            //MessageBox.Show("going in");
             //projectFileName = "./myTestFile1.xml";
             projectFileName = "./updateProject.xml";
-            mainProject = new project(projectFileName);
-            //MessageBox.Show("Returned to main");
+            mainProject = new project(projectFileName);            
             projectTree.Nodes.Clear();
             projectTree.Nodes.Add(mainProject.getNode());
             projectTree.ExpandAll();
@@ -97,6 +75,16 @@ namespace Reliability_Desk
                 treeNodeMenu.Show(Cursor.Position.X, Cursor.Position.Y);
                 projectTree.SelectedNode = e.Node;
             }
+            try
+            {
+                statuslabel.Text = projectTree.SelectedNode.Name + ":" + projectTree.SelectedNode.Text + " selected";
+                statusStrip.Refresh();
+            }
+            catch(Exception exp)
+            {
+                statuslabel.Text = "Node Selected";
+                statusStrip.Refresh();
+            }
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -121,15 +109,8 @@ namespace Reliability_Desk
             projectTree.Nodes.Clear();
             projectTree.Nodes.Add(mainProject.getNode());
             projectTree.ExpandAll();
-            //projectTree.BeginUpdate();
-            //if (projectTree.SelectedNode != null)
-            //{
-
-            //    projectTree.SelectedNode.Nodes.Add("Assembly", "new subassembly" + projectTree.Nodes.Count.ToString(), 0, 0);
-            //    statuslabel.Text = "Added new assembly successfully";
-            //    statusStrip.Refresh();
-            //}
-            //projectTree.EndUpdate();
+            statuslabel.Text = "New assembly " + "new subassembly" + projectTree.Nodes.Count.ToString() + " added";
+            statusStrip.Refresh();
         }
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
@@ -137,6 +118,7 @@ namespace Reliability_Desk
             //removing subassembly menu
             // note with this version of program all the child assemblies will be deleted as well
             TreeNode tn = projectTree.SelectedNode;
+            string nodeName = tn.Name + ":" + tn.Text;
             string st;
             st = tn.Text.Trim();
             while (tn.Parent != null)
@@ -147,20 +129,8 @@ namespace Reliability_Desk
             mainProject.deleteItem(st);
             projectTree.Nodes.Clear();
             projectTree.Nodes.Add(mainProject.getNode());
-            //projectTree.BeginUpdate();
-            //if (projectTree.SelectedNode.Parent != null) // do not delete main project tree node with project name
-            //{
-            //    string str = projectTree.SelectedNode.Text;
-            //    projectTree.SelectedNode.Remove();
-            //    statuslabel.Text = "Node:" + str + " Deleted";
-            //    statusStrip.Refresh();
-            //}
-            //else
-            //{
-            //    statuslabel.Text = "Cannot delete main project node";
-            //    statusStrip.Refresh();
-            //}
-            //projectTree.EndUpdate();
+            statuslabel.Text = nodeName + " deleted";
+            statusStrip.Refresh();
         }
 
         private void renameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -178,24 +148,13 @@ namespace Reliability_Desk
                     tn = tn.Parent;
                 }
                 st = st.Substring(0, st.LastIndexOf(','));
-                //MessageBox.Show(st, "mainDesk");
-                //assembly a = mainProject.findAssembly(st);
-                //MessageBox.Show(a.getFullPath(), "mainDesk");
-                //assembly aNew = new assembly("new subassembly" + projectTree.Nodes.Count.ToString(), a.getFullPath());
-                //storeInstance.add(aNew);
-                //a.addAssembly(aNew);
-                //mainProject.addChildAssembly(a.getFullPath(), "subassembly" + mainProject.assemblyCount().ToString());
-                //textBox.Text += mainProject.assemblyCount().ToString();
-
                 mainProject.renameSub(nameText, name_old, st);
-
                 projectTree.Nodes.Clear();
                 projectTree.Nodes.Add(mainProject.getNode());
                 projectTree.ExpandAll();
 
-                //projectTree.SelectedNode.Text = nameText;
-                //statuslabel.Text = "Part/Assembly renamed " + nameText + " from " + name_old;
-                //statusStrip.Refresh();
+                statuslabel.Text = "renamed to " + nameText;
+                statusStrip.Refresh();
             }
         }
         private void displayTree(ref RichTextBox textbox, List<XmlNode> parent, int level)
@@ -264,6 +223,8 @@ namespace Reliability_Desk
             //xmlsettings.Indent = true;
             //xmlsettings.NewLineOnAttributes = false;
             doc.Save(mainProject.getFileName());
+            statuslabel.Text = mainProject.getFileName() + " updated";
+            statusStrip.Refresh();
             
         }
         private int writeProjctFile(List<TreeNode> treeNode, ref FileStream fs)
@@ -343,10 +304,6 @@ namespace Reliability_Desk
                 {
                     // part should have no childern
                     projectTree.SelectedNode.Nodes.Add(x.Name.ToString().Trim(), x.FirstNode.ToString().Trim(), 1, 1);
-                    //if(x.HasAttributes)
-                    //{
-                    //    print(x.FirstAttribute.ToString() + "\n");
-                    //}
                 }
             }
         }
@@ -367,6 +324,8 @@ namespace Reliability_Desk
             assembly a = mainProject.findAssembly(st);
             Clipboard.Clear();
             Clipboard.SetText(a.getXML().ToString());
+            statuslabel.Text = tn.Text + " node copied";
+            statusStrip.Refresh();
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -385,11 +344,9 @@ namespace Reliability_Desk
             }            
             try
             {
-                XElement x = XElement.Parse(Clipboard.GetText());
-                //MessageBox.Show(x.FirstNode.ToString(), "mainDesk");
+                XElement x = XElement.Parse(Clipboard.GetText());                
                 if (x.Name.ToString().Trim()=="Assembly")
-                {
-                    //MessageBox.Show(x.ToString(), "mainDesk");
+                {                    
                     mainProject.addChildAssembly(x, st);
                     projectTree.Nodes.Clear();
                     projectTree.Nodes.Add(mainProject.getNode());
@@ -401,6 +358,8 @@ namespace Reliability_Desk
                 MessageBox.Show(exp.ToString());
             }
             Clipboard.Clear();
+            statuslabel.Text = tn.Text + " pasted";
+            statusStrip.Refresh();
             
         }
 
@@ -461,8 +420,7 @@ namespace Reliability_Desk
                 st = tn.Parent.Text.Trim() + "," + st;
                 tn = tn.Parent;
             }
-            projectTree.SelectedNode = e.Node;
-            //MessageBox.Show(st);
+            projectTree.SelectedNode = e.Node;            
             if (e.Node.Name == "Part")
             {
                 panelProperties.Show();
@@ -470,19 +428,18 @@ namespace Reliability_Desk
                 propertiesTable.Columns.Clear();
                 propertiesTable.Columns.Add("Field", "Field");
                 propertiesTable.Columns.Add("Value", "Value");
-                propertiesTable.Rows.Add(e.Node.Name, e.Node.Text);
-                //string[] fields = globals.dataFields;
+                propertiesTable.Rows.Add(e.Node.Name, e.Node.Text);                
                 DataRow[] found = activePartList.Select("Name LIKE '%" + e.Node.Text.ToString().Trim() + "%'");
                 DataRow displayRow = found[0];
                 foreach (string s in globals.dataFields)
                 {
                     propertiesTable.Rows.Add(s, displayRow[s]);
-                }
-                //panelProperties.Show();
+                }    
+                statuslabel.Text = e.Node.Text + " node selected";
+                statusStrip.Refresh();
             }
             else if (e.Node.Name == "Assembly")
-            {
-                //MessageBox.Show(st);
+            {                
                 assembly a = mainProject.findAssembly(st);
                 if (a != null)
                 {
@@ -493,7 +450,8 @@ namespace Reliability_Desk
                     propertiesTable.Columns.Add("Field", "Field");
                     propertiesTable.Columns.Add("Value", "Value");
                     propertiesTable.Rows.Add(e.Node.Name, e.Node.Text);
-                    //propertiesTable.Rows.Add()
+                    statuslabel.Text = e.Node.Text + " node selected";
+                    statusStrip.Refresh();
                 }
                 else
                 {
@@ -519,8 +477,8 @@ namespace Reliability_Desk
             {
                 activePartList.Rows.Add(p.getData());
             }
-            //panelProperties.Show();
-            //propertiesTable.DataSource = activePartList;
+            statuslabel.Text = "active part list loaded";
+            statusStrip.Refresh();
         }
 
         private void addNewPartToolStripMenuItem_Click(object sender, EventArgs e)
@@ -537,39 +495,35 @@ namespace Reliability_Desk
                     tn = tn.Parent;
                 }
                 //MessageBox.Show(st);
-
                 textBox.Text += storeInstance.count() + Environment.NewLine;
-                assembly a = storeInstance.findAssembly(st);
-                //MessageBox.Show(a.getName() + ":" + a.getFullPath());
+                assembly a = storeInstance.findAssembly(st);                
                 textBox.Text = "";
                 foreach (assembly asm in storeInstance.getAssemblies())
                 {
                     textBox.Text += asm.getFullPath() + "\n";
                 }
                 //selectPart partFrm = new selectPart("../../partListTest1.xml"); old part list
-                selectPart partFrm = new selectPart("./PLNew.xml");
+                selectPart partFrm = new selectPart("./PLNew.xml"); // should be active part list instead of hardcore selection
                 partFrm.ShowDialog();
                 part partSelected = partFrm.selectedPart;
                 string[] partData = partSelected.getData();
-                partFrm.Dispose();
-                MessageBox.Show(partSelected.ToString());
+                partFrm.Dispose();                
                 string filterExp1 = partData[(int)globals.fieldEnum.Name];
                 string filterExp2 = partData[(int)globals.fieldEnum.cmID];
                 //string filterExp3 = partData[(int)globals.fieldEnum.Package];
                 //string filterExp4 = partData[(int)globals.fieldEnum.Grade];
-                //string filterExp5 = partData[(int)globals.fieldEnum.Radiation];
-                //MessageBox.Show(filterExp1 + Environment.NewLine+ filterExp2+ Environment.NewLine + filterExp3 + Environment.NewLine + filterExp4 + Environment.NewLine + filterExp5);
+                //string filterExp5 = partData[(int)globals.fieldEnum.Radiation];               
 
                 DataRow[] rows = activePartList.Select("Name LIKE '%" + filterExp1 + "%' AND  cmID LIKE '%" + filterExp2 + "%'");
                 textBox.Text += "\n" + rows[0][0] + "," + rows[0][1] + "," + rows[0][2] + "," + rows[0][3] + "," + rows[0][4] + "," + rows[0][5];
                 if (rows.Count() > 0)
-                {
-                    //projectTree.SelectedNode.Nodes.Add(globals.part, filterExp1, 1, 1);
-                    //a.addPart(partSelected);
+                {                    
                     mainProject.addChildPart(partSelected, st);
                     projectTree.Nodes.Clear();
                     projectTree.Nodes.Add(mainProject.getNode());
                 }
+                statuslabel.Text = partSelected.getName() + " part added";
+                statusStrip.Refresh();
             }
         }
 
@@ -605,15 +559,8 @@ namespace Reliability_Desk
 
             projectTree.Nodes.Clear();
             projectTree.Nodes.Add(mainProject.getNode());
-            //projectTree.BeginUpdate();
-            //if (projectTree.SelectedNode != null)
-            //{
-
-            //    projectTree.SelectedNode.Nodes.Add("Assembly", "new subassembly" + projectTree.Nodes.Count.ToString(), 0, 0);
-            //    statuslabel.Text = "Added new assembly successfully";
-            //    statusStrip.Refresh();
-            //}
-            //projectTree.EndUpdate();
+            statuslabel.Text = "Assembly:" + "subassembly" + mainProject.assemblyCount().ToString() + "added";
+            statusStrip.Refresh();
         }
 
         private void collapseAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -641,11 +588,17 @@ namespace Reliability_Desk
                 projectTree.ExpandAll();
             }
             dlg.Dispose();
+            statuslabel.Text = "Project loaded";
+            statusStrip.Refresh();
         }
 
         private void closeProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             projectTree.Nodes.Clear();
+            mainProject.clear();
+            statuslabel.Text = "Project closed";
+            statusStrip.Refresh();
+
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -675,7 +628,9 @@ namespace Reliability_Desk
                 doc.Save(dlg.FileName);
             }
             dlg.Dispose();
-            MessageBox.Show("done");
+            //MessageBox.Show("done");
+            statuslabel.Text = "Project Saved";
+            statusStrip.Refresh();
         }
 
         private void closeProperties_Click(object sender, EventArgs e)
