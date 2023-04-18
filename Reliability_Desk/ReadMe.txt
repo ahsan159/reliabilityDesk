@@ -98,5 +98,9 @@ There is some problem in adding the part to project tree. It is not correctly se
 Application is pretty much ready for front end. Overview from ubaid has generated a requirement to update/renmae the part/assembly from the front and datagridview. This will require sometime otherwise we have to move forward to writting reliability engine. Also, bug in the part level entry is now removed. Furthermore, parts and assemblies are providing full xml for reading and writting project. 
 
 14-Apr-2023
-11:31PM
+11:31AM
 Started working on drag and drop operations of control. Button will be used to indicate every block in block diagram analysis.
+
+18-Apr-2023
+2:23PM
+Drag and Drop of control items is done. However, planned of drawing rectangles for unit representation and line for connetion. Successfully drawn both now draging and controlling is left for these. Hope to be done in next two days before eid holidays. 
