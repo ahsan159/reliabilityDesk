@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reliability_Desk", "Reliability_Desk\Reliability_Desk.csproj", "{214939BE-3F60-413F-84DC-0833B6EBA25D}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "loginForms", "loginForms\lo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pipeClientTesting", "pipeClientTesting\pipeClientTesting.csproj", "{20A38EF3-FB16-4678-AC9C-223F27FB3BB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RBDEngine", "RBDEngine\RBDEngine.csproj", "{CB83AFB6-3D24-48D5-AA62-D34DBADEC4C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "reliabilityEngine", "reliabilityEngine\reliabilityEngine.csproj", "{33948EC4-77FD-47BC-9D14-E35BE8FD89C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,15 +35,16 @@ Global
 		{20A38EF3-FB16-4678-AC9C-223F27FB3BB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20A38EF3-FB16-4678-AC9C-223F27FB3BB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20A38EF3-FB16-4678-AC9C-223F27FB3BB7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CB83AFB6-3D24-48D5-AA62-D34DBADEC4C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CB83AFB6-3D24-48D5-AA62-D34DBADEC4C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CB83AFB6-3D24-48D5-AA62-D34DBADEC4C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CB83AFB6-3D24-48D5-AA62-D34DBADEC4C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33948EC4-77FD-47BC-9D14-E35BE8FD89C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33948EC4-77FD-47BC-9D14-E35BE8FD89C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33948EC4-77FD-47BC-9D14-E35BE8FD89C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33948EC4-77FD-47BC-9D14-E35BE8FD89C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .
+		SolutionGuid = {BC5B659A-56FB-4533-92F3-5C2DADC42D0F}
 	EndGlobalSection
 EndGlobal
