@@ -53,6 +53,28 @@ namespace reliabilityEngine
         {
             return rectList.Count;
         }
+        public void remove(string s)
+        {
+            try
+            {
+                IEnumerable<Button> bRemove = from b
+                                              in rectList
+                                              where b.Name == s
+                                              select b;
+                rectList.Remove(bRemove.FirstOrDefault());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        public void rename(string s, string new_Content)
+        {
+            IEnumerable<Button> bRename = from b in rectList
+                                          where b.Name == s
+                                          select b;
+            bRename.First().Content = new_Content;
+        }        
 
     }    
     public partial class MainWindow : Window
@@ -60,9 +82,11 @@ namespace reliabilityEngine
         public MainWindow()
         {
             InitializeComponent();
-            mainTree.Items.Add("Item1");
-            mainTree.Items.Add("Item2");
-            mainTree.Items.Add("Item3");
+            //mainTree.Items.Add("Item1");
+            //mainTree.Items.Add("Item2");
+            //mainTree.Items.Add("Item3");
+            mainTree.Items.Clear();
+            mainTree.ContextMenu = (ContextMenu)this.FindResource("itemMenu");            
             draw();
         }
 
@@ -76,12 +100,13 @@ namespace reliabilityEngine
                 Name = "BTN_" + b.id().ToString(),
                 Content = "Blocks" + b.id().ToString(),
                 Width = 80,
-                Height = 50,
-                Margin = new Thickness(0, 10, 0, 0),
+                Height = 60,
+                Margin = new Thickness(0, 10, 0, 10),
                 Background = Brushes.Aqua
             };
-            r.Click += R_Click;            
-            //rbdPanel.Children.Add(r);
+            r.Click += R_Click;
+            r.ContextMenu = (ContextMenu)this.FindResource("blkMenu");
+            mainTree.Items.Add(r.Name);
             b.AddRect(r);
             draw();
         }
@@ -99,22 +124,11 @@ namespace reliabilityEngine
             {
                 Width = 20,
                 Height = 20,
-                Margin = new Thickness(0, 5, 0, 0),
+                Margin = new Thickness(5, 20, 0, 5),
                 Stroke = Brushes.Blue,
                 Fill = Brushes.Blue
             };
             rbdPanel.Children.Add(rStart);
-            //Line nLineStart = new Line()
-            //{
-            //    X1 = 0,
-            //    Y1 = 0,
-            //    X2 = 20,
-            //    Y2 = 0,
-            //    Margin = new Thickness(0, 25, 0, 0),
-            //    Stroke = Brushes.Black
-            //};
-            //rbdPanel.Children.Add(nLineStart);
-
             blocks _blocks = blocks.Instance();
             List<Button> btn = _blocks.getBlocks();
             foreach(Button b in btn)
@@ -125,46 +139,83 @@ namespace reliabilityEngine
                     Y1 = 0,
                     X2 = 50,
                     Y2 = 0,
-                    Margin = new Thickness(0, 25+5, 0, 0),
+                    Margin = new Thickness(0, 40, 0, 0),
                     Stroke = Brushes.Black
                 };
                 rbdPanel.Children.Add(nLine1);
-
                 rbdPanel.Children.Add(b);
-
-                Line nLine2 = new Line()
-                {
-                    X1 = 0,
-                    Y1 = 0,
-                    X2 = 50,
-                    Y2 = 0,
-                    Margin = new Thickness(0, 25+5, 0, 0),
-                    Stroke = Brushes.Black
-                };
-                rbdPanel.Children.Add(nLine2);
             }
 
-
-            //Line nLineStop = new Line()
-            //{
-            //    X1 = 0,
-            //    Y1 = 0,
-            //    X2 = 20,
-            //    Y2 = 0,
-            //    Margin = new Thickness(0, 25, 0, 0),
-            //    Stroke = Brushes.Black
-            //};
-            //rbdPanel.Children.Add(nLineStop);
+            Line nLine2 = new Line()
+            {
+                X1 = 0,
+                Y1 = 0,
+                X2 = 50,
+                Y2 = 0,
+                Margin = new Thickness(0, 40, 0, 0),
+                Stroke = Brushes.Black
+            };
+            rbdPanel.Children.Add(nLine2);
             Rectangle rStop = new Rectangle()
             {
                 Width = 20,
                 Height = 20,
-                Margin = new Thickness(0, 5, 0, 0),
+                Margin = new Thickness(0, 20, 5, 5),
                 Stroke = Brushes.Red,
                 Fill = Brushes.Red
             };
             rbdPanel.Children.Add(rStop);
+        }
+        public void renameBlock(object sender, RoutedEventArgs e)
+        {
+            blocks blk = blocks.Instance();
+            Button b = null;
+            var item = sender as MenuItem;
+            while (item.Parent is MenuItem)
+            {
+                item = (MenuItem)item.Parent;
+            }
+            var menu = item.Parent as ContextMenu;
+            if(menu != null)
+            {
+                b = menu.PlacementTarget as Button;
+            }
+            MessageBox.Show(b.Name) ;
+            blk.rename(b.Name, "new Name");
+            draw();
+        }
+        public void deleteBlock(object sender, RoutedEventArgs e)
+        {            
+            blocks blk = blocks.Instance();
+            Button b = null;
+            var item = sender as MenuItem;
+            while (item.Parent is MenuItem)
+            {
+                item = (MenuItem)item.Parent;
+            }
+            var menu = item.Parent as ContextMenu;
+            if (menu != null)
+            {
+                b = menu.PlacementTarget as Button;
+            }
+            MessageBox.Show(b.Name);
+            //blk.rename(b.Name, "new Name");
+            blk.remove(b.Name);
+            mainTree.Items.Remove(b.Name);
+            draw();
+        }
 
+        private void deleteBlockItem(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void renameBlockItem(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

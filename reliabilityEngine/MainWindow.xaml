@@ -5,17 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:reliabilityEngine"
         mc:Ignorable="d"
-        Title="Reliability Block Diagram Engine" Height="450" Width="800">
+        Title="Reliability Block Diagram Engine" Height="500" Width="800">
+    <Window.Resources>        
+        <ContextMenu x:Key="blkMenu">
+            <MenuItem Header="Rename" Click="renameBlock"></MenuItem>
+            <MenuItem Header="Delete" Click="deleteBlock"></MenuItem>
+        </ContextMenu>
+        <ContextMenu x:Key="itemMenu">
+            <MenuItem Header="Rename" Click="renameBlockItem"></MenuItem>
+            <MenuItem Header="Delete" Click="deleteBlockItem"></MenuItem>
+        </ContextMenu>
+    </Window.Resources>
     <Grid Background="Aqua">
-        <DockPanel Name="treeDock" LastChildFill="False" Margin="5,25,650,5">
-            <TreeView Name="mainTree" Width="150" Background="Beige"/>
+        <DockPanel Name="treeDock" LastChildFill="true" Margin="5,25,5,5" HorizontalAlignment="Left" Background="BurlyWood" MaxWidth="150" MinWidth="150">
+            <TreeView Name="mainTree" Background="Beige" Margin="5,5,5,5" Width="140" HorizontalAlignment="Left"/>
         </DockPanel>
-        <DockPanel LastChildFill="False" Margin="155,25,5,5" Background="Coral">
-            <WrapPanel Name="rbdPanel" Width="645" Background="AliceBlue">
+        <DockPanel LastChildFill="true" Margin="155,25,5,5" Background="Green" HorizontalAlignment="Stretch">
+            <WrapPanel Name="rbdPanel" Margin="5,5,5,5" Background="AliceBlue" HorizontalAlignment="Stretch">
 
             </WrapPanel>
 
         </DockPanel>
-        <Button Name="Add" Content="Button" HorizontalAlignment="Left" Margin="509,0,0,0" VerticalAlignment="Top" Click="Add_Click"/>
+        <Button Name="Add" Content="Button" Margin="10,0,10,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Add_Click"/>
+
+        <!--<Label Content="Label" HorizontalAlignment="Left" Margin="289,481,0,0" VerticalAlignment="Top"/>-->
     </Grid>
 </Window>
