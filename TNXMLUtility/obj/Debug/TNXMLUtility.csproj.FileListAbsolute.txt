@@ -7,3 +7,14 @@ F:\Reliability_Desk\mainwc\TNXMLUtility\obj\Debug\TNXMLUtility.csprojResolveAsse
 F:\Reliability_Desk\mainwc\TNXMLUtility\obj\Debug\TNXMLUtility.TNXMLForm.resources
 F:\Reliability_Desk\mainwc\TNXMLUtility\obj\Debug\TNXMLUtility.Properties.Resources.resources
 F:\Reliability_Desk\mainwc\TNXMLUtility\obj\Debug\TNXMLUtility.csproj.GenerateResource.Cache
+F:\Reliability_Desk\gitversion\reliabilityDesk\TNXMLUtility\bin\Debug\TNXMLUtility.exe.config
+F:\Reliability_Desk\gitversion\reliabilityDesk\TNXMLUtility\bin\Debug\TNXMLUtility.exe
+F:\Reliability_Desk\gitversion\reliabilityDesk\TNXMLUtility\bin\Debug\TNXMLUtility.pdb
+F:\Reliability_Desk\gitversion\reliabilityDesk\TNXMLUtility\obj\Debug\TNXMLUtility.csproj.AssemblyReference.cache
+F:\Reliability_Desk\gitversion\reliabilityDesk\TNXMLUtility\obj\Debug\TNXMLUtility.csproj.SuggestedBindingRedirects.cache
+F:\Reliability_Desk\gitversion\reliabilityDesk\TNXMLUtility\obj\Debug\TNXMLUtility.TNXMLForm.resources
+F:\Reliability_Desk\gitversion\reliabilityDesk\TNXMLUtility\obj\Debug\TNXMLUtility.Properties.Resources.resources
+F:\Reliability_Desk\gitversion\reliabilityDesk\TNXMLUtility\obj\Debug\TNXMLUtility.csproj.GenerateResource.cache
+F:\Reliability_Desk\gitversion\reliabilityDesk\TNXMLUtility\obj\Debug\TNXMLUtility.csproj.CoreCompileInputs.cache
+F:\Reliability_Desk\gitversion\reliabilityDesk\TNXMLUtility\obj\Debug\TNXMLUtility.exe
+F:\Reliability_Desk\gitversion\reliabilityDesk\TNXMLUtility\obj\Debug\TNXMLUtility.pdb

@@ -127,22 +127,26 @@ namespace Reliability_Desk
                 } //project
                 assembly a = mainProject.findAssembly(st);
                 try
-                {                    
-                    List<assembly> aList = a.getChildAssemblies();
-                    //assemblyTable.DataSource
-                    if (aList.Count > 0)
+                {   if (a != null)
                     {
-                        DataTable dt = new DataTable("childAssemblies");
-                        dt.Columns.Add("Name");
-                        foreach (assembly asm in aList)
+                        List<assembly> aList = a.getChildAssemblies();
+                        //assemblyTable.DataSource
+                        if (aList.Count > 0)
                         {
-                            dt.Rows.Add(asm.getName());
+                            DataTable dt = new DataTable("childAssemblies");
+                            dt.Columns.Add("Name");
+                            foreach (assembly asm in aList)
+                            {
+                                dt.Rows.Add(asm.getName());
+                            }
+                            assemblyTable.DataSource = dt;
                         }
-                        assemblyTable.DataSource = dt;
                     }
                 }
                 catch (Exception exp)
-                { }
+                {
+                    MessageBox.Show(exp.ToString());
+                }
                 try
                 {
                     List<part> pList = a.getChildParts();
@@ -739,5 +743,9 @@ namespace Reliability_Desk
             saveProjectToolStripMenuItem_Click(sender, e);
         }
 
+        private void assemblyTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

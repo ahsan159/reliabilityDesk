@@ -1,0 +1,17 @@
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\mainProjectTree.csproj.AssemblyReference.cache
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\mainProjectTree_MarkupCompile.cache
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\mainProjectTree_MarkupCompile.lref
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\Views\mainProjectTreeView.g.cs
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\bin\Debug\net6.0-windows\mainProjectTree.deps.json
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\bin\Debug\net6.0-windows\mainProjectTree.dll
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\bin\Debug\net6.0-windows\mainProjectTree.pdb
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\Views\mainProjectTreeView.baml
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\mainProjectTree.g.resources
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\mainProjectTree.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\mainProjectTree.AssemblyInfoInputs.cache
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\mainProjectTree.AssemblyInfo.cs
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\mainProjectTree.csproj.CoreCompileInputs.cache
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\mainProjectTree.dll
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\refint\mainProjectTree.dll
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\mainProjectTree.pdb
+C:\Users\muhammadahsan\source\repos\prismapp\mainApp\mainProjectTree\obj\Debug\net6.0-windows\ref\mainProjectTree.dll

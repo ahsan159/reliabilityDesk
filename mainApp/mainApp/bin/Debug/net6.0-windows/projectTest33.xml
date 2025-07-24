@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Name='KEOS'>
+<Assembly Name='CDHS'>
+    <Part MTBF='87600' Name='Memory'></Part>
+    <Part Name='Processor'></Part>
+    <Assembly Name='RTU'>
+    <Assembly Name='TMIO'>
+    <Part Name='IC'></Part>
+      </Assembly>
+      <Part Name='8051'></Part>
+    </Assembly>
+  </Assembly><Assembly Name='OBC'>
+  <Part Name='Memory'></Part>
+  <Part Name='Controller'></Part>
+  </Assembly>
+  <Assembly Name='RF'>
+    <Assembly Name='TX'>
+      <Part Name='LO'></Part>
+      <Part Name='Filter'></Part >
+      <Part Name='Transponder'></Part>
+    </Assembly>
+    <Assembly Name='RX'>
+      <Assembly Name='Beacon'></Assembly>
+      <Assembly Name='Antenna'></Assembly>
+      <Part Name='LNA'></Part>
+    </Assembly>
+  </Assembly>
+  <Assembly Name='EPS'>
+  <Assembly Name='PDU'></Assembly>
+    <Part Name='Solar Panels'></Part>
+    <Assembly Name='Battery'>
+    <Part Name='BCR'></Part>
+    <Part Name='Cells'></Part>
+    </Assembly>
+  </Assembly>
+  <Assembly Name='OBC'>
+  <Part Name='Reaction Wheel'></Part>
+  <Part Name='Magneto Torquer'></Part>
+  <Part Name='Star Tracker'></Part>
+  <Assembly Name='Electronics'>
+  <Part Name='Module'></Part>
+    </Assembly>
+  </Assembly>
+</Project>

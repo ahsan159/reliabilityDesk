@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project>
+  KEOS
+  <Assembly>
+    CDHS
+    <Assembly>OBC</Assembly>
+  </Assembly>
+  <Assembly>
+    EPS
+    <Assembly>PDU</Assembly>
+    <Part>Cells</Part>
+  </Assembly>
+  <Part>Solar Panel</Part>
+</Project>

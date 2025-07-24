@@ -17,3 +17,15 @@ F:\Reliability_Desk\mainwc\Reliability_Desk\obj\Debug\Reliability_Desk.Propertie
 F:\Reliability_Desk\mainwc\Reliability_Desk\obj\Debug\Reliability_Desk.csproj.GenerateResource.Cache
 F:\Reliability_Desk\mainwc\Reliability_Desk\obj\Debug\Reliability_Desk.selectPart.resources
 F:\Reliability_Desk\mainwc\Reliability_Desk\obj\Debug\Reliability_Desk.relDesk.resources
+F:\Reliability_Desk\gitversion\reliabilityDesk\Reliability_Desk\bin\Debug\Reliability_Desk.exe.config
+F:\Reliability_Desk\gitversion\reliabilityDesk\Reliability_Desk\bin\Debug\Reliability_Desk.exe
+F:\Reliability_Desk\gitversion\reliabilityDesk\Reliability_Desk\bin\Debug\Reliability_Desk.pdb
+F:\Reliability_Desk\gitversion\reliabilityDesk\Reliability_Desk\obj\Debug\Reliability_Desk.csproj.AssemblyReference.cache
+F:\Reliability_Desk\gitversion\reliabilityDesk\Reliability_Desk\obj\Debug\Reliability_Desk.csproj.SuggestedBindingRedirects.cache
+F:\Reliability_Desk\gitversion\reliabilityDesk\Reliability_Desk\obj\Debug\Reliability_Desk.relDesk.resources
+F:\Reliability_Desk\gitversion\reliabilityDesk\Reliability_Desk\obj\Debug\Reliability_Desk.Properties.Resources.resources
+F:\Reliability_Desk\gitversion\reliabilityDesk\Reliability_Desk\obj\Debug\Reliability_Desk.selectPart.resources
+F:\Reliability_Desk\gitversion\reliabilityDesk\Reliability_Desk\obj\Debug\Reliability_Desk.csproj.GenerateResource.cache
+F:\Reliability_Desk\gitversion\reliabilityDesk\Reliability_Desk\obj\Debug\Reliability_Desk.csproj.CoreCompileInputs.cache
+F:\Reliability_Desk\gitversion\reliabilityDesk\Reliability_Desk\obj\Debug\Reliability_Desk.exe
+F:\Reliability_Desk\gitversion\reliabilityDesk\Reliability_Desk\obj\Debug\Reliability_Desk.pdb

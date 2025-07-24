@@ -1,5 +1,5 @@
 ﻿reliabilityEngine
-
+1.0.0.0
 
 winexe
 C#
@@ -8,12 +8,12 @@ F:\Reliability_Desk\gitversion\reliabilityDesk\reliabilityEngine\obj\Debug\netco
 reliabilityEngine
 none
 false
-TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1
+TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1;
 F:\Reliability_Desk\gitversion\reliabilityDesk\reliabilityEngine\App.xaml
-11151548125
+11407045341
 
-41671186852
-1921654412462
+51540367845
+192-1533232326
 MainWindow.xaml;
 
 False

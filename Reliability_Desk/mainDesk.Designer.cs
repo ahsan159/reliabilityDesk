@@ -81,18 +81,18 @@ namespace Reliability_Desk
             this.expandAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.collapseAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.propertiesTable = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.saveProperties = new System.Windows.Forms.Button();
             this.closeProperties = new System.Windows.Forms.Button();
+            this.propertiesTable = new System.Windows.Forms.DataGridView();
             this.panelProperties = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.textBox = new System.Windows.Forms.RichTextBox();
             this.asmnprt = new System.Windows.Forms.TabControl();
-            this.parts = new System.Windows.Forms.TabPage();
-            this.partTable = new System.Windows.Forms.DataGridView();
             this.assemblies = new System.Windows.Forms.TabPage();
             this.assemblyTable = new System.Windows.Forms.DataGridView();
-            this.textBox = new System.Windows.Forms.RichTextBox();
+            this.parts = new System.Windows.Forms.TabPage();
+            this.partTable = new System.Windows.Forms.DataGridView();
             this.projectTree = new System.Windows.Forms.TreeView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -103,15 +103,15 @@ namespace Reliability_Desk
             this.menuStrip1.SuspendLayout();
             this.treeNodeMenu.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.propertiesTable)).BeginInit();
             this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.propertiesTable)).BeginInit();
             this.panelProperties.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.asmnprt.SuspendLayout();
-            this.parts.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.partTable)).BeginInit();
             this.assemblies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.assemblyTable)).BeginInit();
+            this.parts.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.partTable)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -160,38 +160,38 @@ namespace Reliability_Desk
             // saveProjectToolStripMenuItem
             // 
             this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
-            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.saveProjectToolStripMenuItem.Text = "Save Project";
             this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.saveProjectToolStripMenuItem_Click);
             // 
             // closeProjectToolStripMenuItem
             // 
             this.closeProjectToolStripMenuItem.Name = "closeProjectToolStripMenuItem";
-            this.closeProjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.closeProjectToolStripMenuItem.Text = "Close Project";
             this.closeProjectToolStripMenuItem.Click += new System.EventHandler(this.closeProjectToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(140, 6);
             // 
             // loadPartlistToolStripMenuItem
             // 
             this.loadPartlistToolStripMenuItem.Name = "loadPartlistToolStripMenuItem";
-            this.loadPartlistToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadPartlistToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.loadPartlistToolStripMenuItem.Text = "Load Partlist";
             this.loadPartlistToolStripMenuItem.Click += new System.EventHandler(this.loadPartlistToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(140, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -400,17 +400,6 @@ namespace Reliability_Desk
             this.tableLayoutPanel3.Size = new System.Drawing.Size(255, 516);
             this.tableLayoutPanel3.TabIndex = 2;
             // 
-            // propertiesTable
-            // 
-            this.propertiesTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.propertiesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.propertiesTable.Location = new System.Drawing.Point(3, 3);
-            this.propertiesTable.Name = "propertiesTable";
-            this.propertiesTable.Size = new System.Drawing.Size(249, 471);
-            this.propertiesTable.TabIndex = 1;
-            // 
             // tableLayoutPanel4
             // 
             this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -452,6 +441,17 @@ namespace Reliability_Desk
             this.closeProperties.UseVisualStyleBackColor = true;
             this.closeProperties.Click += new System.EventHandler(this.closeProperties_Click);
             // 
+            // propertiesTable
+            // 
+            this.propertiesTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.propertiesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.propertiesTable.Location = new System.Drawing.Point(3, 3);
+            this.propertiesTable.Name = "propertiesTable";
+            this.propertiesTable.Size = new System.Drawing.Size(249, 471);
+            this.propertiesTable.TabIndex = 1;
+            // 
             // panelProperties
             // 
             this.panelProperties.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -479,6 +479,17 @@ namespace Reliability_Desk
             this.tableLayoutPanel2.Size = new System.Drawing.Size(830, 552);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
+            // textBox
+            // 
+            this.textBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox.Location = new System.Drawing.Point(3, 448);
+            this.textBox.Name = "textBox";
+            this.textBox.Size = new System.Drawing.Size(824, 101);
+            this.textBox.TabIndex = 3;
+            this.textBox.Text = "";
+            // 
             // asmnprt
             // 
             this.asmnprt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -491,28 +502,6 @@ namespace Reliability_Desk
             this.asmnprt.SelectedIndex = 0;
             this.asmnprt.Size = new System.Drawing.Size(824, 439);
             this.asmnprt.TabIndex = 4;
-            // 
-            // parts
-            // 
-            this.parts.Controls.Add(this.partTable);
-            this.parts.Location = new System.Drawing.Point(4, 22);
-            this.parts.Name = "parts";
-            this.parts.Padding = new System.Windows.Forms.Padding(3);
-            this.parts.Size = new System.Drawing.Size(816, 388);
-            this.parts.TabIndex = 1;
-            this.parts.Text = "Parts";
-            this.parts.UseVisualStyleBackColor = true;
-            // 
-            // partTable
-            // 
-            this.partTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.partTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.partTable.Location = new System.Drawing.Point(6, 3);
-            this.partTable.Name = "partTable";
-            this.partTable.Size = new System.Drawing.Size(807, 379);
-            this.partTable.TabIndex = 0;
             // 
             // assemblies
             // 
@@ -535,17 +524,29 @@ namespace Reliability_Desk
             this.assemblyTable.Name = "assemblyTable";
             this.assemblyTable.Size = new System.Drawing.Size(807, 404);
             this.assemblyTable.TabIndex = 0;
+            this.assemblyTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.assemblyTable_CellContentClick);
             // 
-            // textBox
+            // parts
             // 
-            this.textBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.parts.Controls.Add(this.partTable);
+            this.parts.Location = new System.Drawing.Point(4, 22);
+            this.parts.Name = "parts";
+            this.parts.Padding = new System.Windows.Forms.Padding(3);
+            this.parts.Size = new System.Drawing.Size(816, 413);
+            this.parts.TabIndex = 1;
+            this.parts.Text = "Parts";
+            this.parts.UseVisualStyleBackColor = true;
+            // 
+            // partTable
+            // 
+            this.partTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox.Location = new System.Drawing.Point(3, 448);
-            this.textBox.Name = "textBox";
-            this.textBox.Size = new System.Drawing.Size(824, 101);
-            this.textBox.TabIndex = 3;
-            this.textBox.Text = "";
+            this.partTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.partTable.Location = new System.Drawing.Point(6, 3);
+            this.partTable.Name = "partTable";
+            this.partTable.Size = new System.Drawing.Size(807, 379);
+            this.partTable.TabIndex = 0;
             // 
             // projectTree
             // 
@@ -631,15 +632,15 @@ namespace Reliability_Desk
             this.menuStrip1.PerformLayout();
             this.treeNodeMenu.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.propertiesTable)).EndInit();
             this.tableLayoutPanel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.propertiesTable)).EndInit();
             this.panelProperties.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.asmnprt.ResumeLayout(false);
-            this.parts.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.partTable)).EndInit();
             this.assemblies.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.assemblyTable)).EndInit();
+            this.parts.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.partTable)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

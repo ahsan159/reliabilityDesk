@@ -1,0 +1,108 @@
+﻿<Window x:Class="PartListSelector.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PartListSelector" 
+        xmlns:viewmodels="clr-namespace:PartListSelector.ViewModels" 
+        xmlns:sync="http://schemas.syncfusion.com/wpf" 
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        mc:Ignorable="d"
+        Title="Active Part List: Name" Height="450" Width="800">
+        <!--d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"-->
+    <Grid>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="85"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0"                    
+                    Margin="0 5 5 0">
+            <Button Content="Save" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="60" Margin="5 2 5 0" ></Button>
+            <Button Content="Open" HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="60" Margin="5 2 5 0">
+            </Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                    Width="60" Margin="5 2 5 0" 
+                    Command="{Binding OpenFileCommand}">
+                <Button.Content>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center"
+                               >Active Part List</TextBlock>
+                </Button.Content>
+            </Button>
+            <Button 
+                HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                Width="60" Margin="5 2 5 0" >
+                <Button.Content>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center"
+                               >Default Part List</TextBlock>
+                </Button.Content>
+            </Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                    Width="60" Margin="5 2 5 0" >
+                <Button.Content>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center"
+                               >New Part</TextBlock>
+                </Button.Content>
+            </Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                     Width="60" Margin="5 2 5 0" Command="{Binding TestCommand}">
+                <Button.Content>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center"
+                               >Delete Part</TextBlock>
+                </Button.Content>
+            </Button>
+
+        </StackPanel>
+        <Grid Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*">
+                </ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <DataGrid Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                          Grid.Column="0"
+                          IsReadOnly="True"
+                          AutoGenerateColumns="False"
+                          SelectionUnit="FullRow"
+                          SelectionMode="Single"
+                          ItemsSource="{Binding collection}"            
+                          SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          >
+                <!--SelectedIndex="{Binding SelectedIndex}"-->
+                <!--<i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding TestCommand}" CommandParameter="{Binding ElementName=collection, Path=SelectedItem}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>-->                
+                <DataGrid.Columns>                    
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Part No"
+                                        FontWeight="Bold"
+                                        Width="120"
+                                        CanUserResize="False"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Category}" Header="Category"
+                                        Width="100"
+                                        CanUserResize="False"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Subcategory}" Header="Subcategory"
+                                        Width="140"
+                                        CanUserResize="False"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Manufacturer}" Header="Manufacturer"
+                                        Width="100"
+                                        CanUserResize="False"
+                                        ></DataGridTextColumn>                                        
+                    <DataGridTextColumn Binding="{Binding MTBF}" Header="MTBF"
+                                        Width="100"                                        
+                                        CanUserResize="False"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Description}"                                        
+                                        Header="Description"
+                                        Width="*"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <sync:PropertyGrid SelectedObject="{Binding SelectedItem}"
+                               Grid.Column="1"
+                               Margin="0 5 5 5">
+            </sync:PropertyGrid>
+
+        </Grid>
+
+    </Grid>
+</Window>

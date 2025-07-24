@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<BookStore>
+  <BookStoreInfo>
+    <Address />
+    <Tel />
+    <Fax />
+  </BookStoreInfo>
+  <Book>
+    Book from Library
+    <BookName realone="Real">
+      The Girl who played with fire
+    </BookName>
+    <ISBN>
+      978-0-307-47456-8
+    </ISBN>
+    <PublishDate>
+      01-July-2009
+    </PublishDate>
+  </Book>
+  <Book>
+    Also from Library
+    <BookName>
+      The Revenge of Geography
+    </BookName>
+    <ISBN>
+      978-0-8129-8222-0
+    </ISBN>
+    <PublishDate>
+      01-Jan-2023
+    </PublishDate>
+  </Book>
+  <Book>
+    <BookName />
+    <ISBN />
+    <PublishDate>
+      <Date />
+      <Month />
+      <Year />
+    </PublishDate>
+  </Book>
+</BookStore>
