@@ -1,9 +1,0 @@
-F:\Reliability_Desk\mainwc\RBDEngine\bin\Debug\RBDEngine.exe.config
-F:\Reliability_Desk\mainwc\RBDEngine\bin\Debug\RBDEngine.exe
-F:\Reliability_Desk\mainwc\RBDEngine\bin\Debug\RBDEngine.pdb
-F:\Reliability_Desk\mainwc\RBDEngine\obj\Debug\RBDEngine.Form1.resources
-F:\Reliability_Desk\mainwc\RBDEngine\obj\Debug\RBDEngine.Properties.Resources.resources
-F:\Reliability_Desk\mainwc\RBDEngine\obj\Debug\RBDEngine.csproj.GenerateResource.Cache
-F:\Reliability_Desk\mainwc\RBDEngine\obj\Debug\RBDEngine.exe
-F:\Reliability_Desk\mainwc\RBDEngine\obj\Debug\RBDEngine.pdb
-F:\Reliability_Desk\mainwc\RBDEngine\obj\Debug\RBDEngine.csprojResolveAssemblyReference.cache

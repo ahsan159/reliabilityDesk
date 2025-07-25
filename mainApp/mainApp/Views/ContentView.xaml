@@ -5,10 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:mainApp.Views"
         xmlns:sync="http://schemas.syncfusion.com/wpf"
-        xmlns:viewmodel="clr-namespace:mainApp.ViewModels"                
-        mc:Ignorable="d"
+        xmlns:viewmodel="clr-namespace:mainApp.ViewModels"   
+        xmlns:stencil="clr-namespace:Syncfusion.UI.Xaml.Diagram.Stencil;assembly=Syncfusion.SfDiagram.Wpf"
+        xmlns:RulerControl="clr-namespace:Syncfusion.UI.Xaml.Diagram.Controls;assembly=Syncfusion.SfDiagram.Wpf"
+        xmlns:diagramcontrol="clr-namespace:Syncfusion.UI.Xaml.Diagram;assembly=Syncfusion.SfDiagram.WPF" d:DataContext="{d:DesignInstance Type=viewmodel:ContentViewModel}"
+             mc:Ignorable="d"        
         >
-    <Grid>
+    <Grid x:Name="grid">
         <Grid.Resources>
             <Style TargetType="{x:Type sync:Node}">
                 <!--Any Geomtry can be assigned for Shape-->
@@ -17,7 +20,6 @@
                         <RectangleGeometry Rect="10,10,10,10"></RectangleGeometry>
                     </Setter.Value>
                 </Setter>
-
                 <!--Style to customize Shape and it is based on Path-->
                 <Setter Property="ShapeStyle">
                     <Setter.Value>
@@ -29,13 +31,62 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <Style TargetType="Path" x:Key="ConnectorGeometryStyle">
+                <Setter Property="Stroke" Value="DarkGray" />
+                <Setter Property="StrokeThickness" Value="2" />
+            </Style>
+
+            <Style TargetType="{x:Type sync:Connector}">
+                <Setter Property="ConnectorGeometryStyle"
+                        Value="{StaticResource  ConnectorGeometryStyle}">
+                </Setter>
+            </Style>
+
+            <Style TargetType="{x:Type sync:NodePort}">
+                <Setter Property="Shape">
+                    <Setter.Value>
+                        <RectangleGeometry RadiusX="3" RadiusY="3"></RectangleGeometry>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ShapeStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Stretch" Value="Fill">                                
+                            </Setter>
+                            <Setter Property="Fill" Value="#FF808081"></Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </Grid.Resources>
-        <sync:SfDiagram x:Name="RBDiagram" 
-                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"                        
+        <sync:SfDiagram x:Name="RBDiagram"                                               
                         MinHeight="500" MinWidth="400"
-                        Margin="5"
-                        Background="PaleGreen"
+                        Margin="5"                        
+                        PortVisibility="Visible"
+                        Nodes="{Binding NodeCollection}"
+                        Connectors="{Binding ConnectorCollection}"
+                        
                         >
+            <sync:SfDiagram.PageSettings>
+                <sync:PageSettings
+                    PageWidth="950"
+                    PageHeight="850"
+                    ShowPageBreaks="False"
+                    MultiplePage="False"
+                    PageBackground="LightGreen"
+                    PageBorderBrush="Black"
+                    PageBorderThickness="3"
+                    
+                    >
+                </sync:PageSettings>
+            </sync:SfDiagram.PageSettings>
+            <sync:SfDiagram.SnapSettings>
+                <sync:SnapSettings SnapConstraints="ShowLines"></sync:SnapSettings>
+            </sync:SfDiagram.SnapSettings>
+            <sync:SfDiagram.Theme>
+                <sync:OfficeTheme></sync:OfficeTheme>
+            </sync:SfDiagram.Theme>
             <!--<sync:SfDiagram.Nodes>
                 <sync:NodeCollection>
                     <sync:NodeViewModel ID="node1" OffsetX="0" OffsetY="0" 
@@ -63,5 +114,6 @@
             </sync:SfDiagram.Connectors>-->
 
         </sync:SfDiagram>
+
     </Grid>
 </UserControl>

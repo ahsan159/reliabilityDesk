@@ -1,7 +1,0 @@
-F:\Reliability_Desk\mainwc\pipeClientTesting\bin\Debug\pipeClientTesting.exe.config
-F:\Reliability_Desk\mainwc\pipeClientTesting\bin\Debug\pipeClientTesting.exe
-F:\Reliability_Desk\mainwc\pipeClientTesting\bin\Debug\pipeClientTesting.pdb
-F:\Reliability_Desk\mainwc\pipeClientTesting\obj\Debug\pipeClientTesting.exe
-F:\Reliability_Desk\mainwc\pipeClientTesting\obj\Debug\pipeClientTesting.pdb
-F:\Reliability_Desk\mainwc\pipeClientTesting\obj\Debug\pipeClientTesting.csproj.AssemblyReference.cache
-F:\Reliability_Desk\mainwc\pipeClientTesting\obj\Debug\pipeClientTesting.csproj.CoreCompileInputs.cache

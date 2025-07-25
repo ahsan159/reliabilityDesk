@@ -31,4 +31,8 @@
     <ProjectReference Include="..\mainProjectTree\mainProjectTree.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resource\" />
+  </ItemGroup>
+
 </Project>

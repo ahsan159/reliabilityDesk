@@ -1,4 +1,5 @@
-﻿using Prism.Events;
+﻿using mainApp.Template;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,15 @@ using System.Threading.Tasks;
 
 namespace mainApp
 {
-    public class OpenProjectFileEvent:PubSubEvent<string>
+    public class OpenProjectFileEvent : PubSubEvent<string>
     {
+
     }
+    public class CreateNodeEvent : PubSubEvent<ReliabilityEntity>
+    {
+
+    }
+
+    public class SaveDiagramFileEvent : PubSubEvent<string>
+    { }
 }

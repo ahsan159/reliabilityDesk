@@ -27,12 +27,16 @@
                     <ContentControl prism:RegionManager.RegionName="PropertiesRegion"></ContentControl>
                 </StackPanel>
             </Border>
-            <Border BorderBrush="Silver" BorderThickness="1" >
+            <Border BorderBrush="Silver" BorderThickness="1" DockPanel.Dock="Right" 
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    >
                 <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <ContentControl  prism:RegionManager.RegionName="MainRegion" HorizontalAlignment="Stretch"  
-                              VerticalAlignment="Stretch"></ContentControl>
-                    </StackPanel>
+                    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <ContentControl  prism:RegionManager.RegionName="MainRegion"                                          
+                                         >                            
+                        </ContentControl>
+                    </DockPanel>
                 </ScrollViewer>
             </Border>
         </DockPanel>
