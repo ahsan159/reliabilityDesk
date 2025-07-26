@@ -57,7 +57,7 @@
                     <ContextMenu>
                         <MenuItem Margin="0" Padding="0" 
                                   >
-                                  <!--Command="{Binding NewAssembly}"-->
+                            <!--Command="{Binding NewAssembly}"-->
                             <MenuItem.Header>Add Assembly</MenuItem.Header>
                         </MenuItem>
                         <MenuItem Margin="0" Padding="0" Command="{Binding NewPart}">
@@ -89,8 +89,8 @@
                   Margin="5,0,5,0"
                   MaxHeight="500"
                    >
-            <Expander.Header>                
-                    <TextBlock>Propery Editor</TextBlock>                
+            <Expander.Header>
+                <TextBlock>Propery Editor</TextBlock>
             </Expander.Header>
             <sync:PropertyGrid Name="grid1" Height="auto" 
                                    VerticalAlignment="Top" HorizontalAlignment="Stretch" 

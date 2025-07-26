@@ -114,7 +114,7 @@ namespace mainApp.ViewModels
             XElement element = _projectTreeRel[0].GetXElement();
             XDocument doc = new XDocument(element);
             doc.Save(FileName);
-            //_ea.GetEvent<SaveDiagramFileEvent>().Publish(FileName+"Diagram.xml");
+            _ea.GetEvent<SaveDiagramFileEvent>().Publish(FileName+"Diagram.xml");
         }
 
         public void AddToDiagram(ReliabilityEntity rel)

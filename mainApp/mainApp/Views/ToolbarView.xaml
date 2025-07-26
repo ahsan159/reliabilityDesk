@@ -5,20 +5,79 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:mainApp.Views"        
         xmlns:viewmodels="clr-namespace:mainApp.ViewModels"
-        xmlns:views="clr-namespace:mainApp.Views"     
+        xmlns:views="clr-namespace:mainApp.Views"
         mc:Ignorable="d"
              >
-        <!--Height="100" Width="80"-->
+    <!--Height="100" Width="80"-->
     <Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-            
-        <Button Content="Save" Margin="10 0" Width="60" 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ToolBar Band="1" BandIndex="1" Grid.Column="0">
+            <Button Margin="5 0" Width="60" 
+                        ToolTip=" New File"
+                        Command="{Binding SaveDiagramCommand}"                        
+                >
+                <Button.Content>
+                    <Image Source="/Resources/Images/NewFile.png"></Image>
+                </Button.Content>
+            </Button>
+            <Button ToolTip="Open File" 
+                        Margin="5 0" Width="60"
+                        Command="{Binding openProjectCommand}"                        
+                    >
+                <Button.Content>
+                    <Image Source="/Resources/Images/OpenFile.png"></Image>
+                </Button.Content>
+            </Button>
+            <Button Margin="5 0" Width="60" 
+                        ToolTip=" Save File"
+                        Command="{Binding SaveDiagramCommand}"
+                >
+                <Button.Content>
+                    <Image Source="/Resources/Images/SaveFile.png"></Image>
+                </Button.Content>
+            </Button>
+        </ToolBar>
+        <ToolBar Band="2" BandIndex="2" Grid.Column="1">
+            <Button Margin="5 0" Width="60" 
+                        ToolTip="Delete"
+                >
+                <!--Command="{Binding SaveDiagramCommand}"-->
+                <Button.Content>
+                    <Image Source="/Resources/Images/Delete.png"></Image>
+                </Button.Content>
+            </Button>
+        </ToolBar>
+        <ToolBar Band="3" BandIndex="3" Grid.Column="2">
+            <Button Margin="5 0" Width="60" 
+                        ToolTip="Solve Tree"
+                >
+                <!--Command="{Binding SaveDiagramCommand}"-->
+                <Button.Content>
+                    <Image Source="/Resources/Images/SolveTree.png"></Image>
+                </Button.Content>
+            </Button>
+            <Button Margin="5 0" Width="60" 
+                        ToolTip="Solve Diagram"
+                >
+                <!--Command="{Binding SaveDiagramCommand}"-->
+                <Button.Content>
+                    <Image Source="/Resources/Images/SolveDiagram.png"></Image>
+                </Button.Content>
+            </Button>
+        </ToolBar>
+        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+
+            <Button Content="Save" Margin="10 0" Width="60" 
                 Command="{Binding SaveDiagramCommand}"
                 ></Button>
             <Button Content="Open" Margin="10 0" Width="60"
                     Command="{Binding openProjectCommand}"
                     ></Button>
-        </StackPanel>
-        
+        </StackPanel>-->
+
     </Grid>
 </UserControl>
