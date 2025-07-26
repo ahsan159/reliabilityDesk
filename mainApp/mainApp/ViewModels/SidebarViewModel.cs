@@ -21,7 +21,7 @@ namespace mainApp.ViewModels
     class SidebarViewModel : BindableBase
     {
         #region parameters
-        public ReliabilityEntity? selectedEntity = null;        
+        public ReliabilityEntity? selectedEntity = null;
         public DelegateCommand NewPart { get; private set; }
         public DelegateCommand<ReliabilityEntity> RemoveChildItem { get; private set; }
         public DelegateCommand OpenProperties { get; private set; }
@@ -59,16 +59,18 @@ namespace mainApp.ViewModels
             _ea = ea;
             _ea.GetEvent<OpenProjectFileEvent>().Subscribe(openProjectFile);
             _ea.GetEvent<SaveProjectFileEvent>().Subscribe(SaveProjectFile);
+            _ea.GetEvent<ReliabilityTreeCalculationEvent>().Subscribe(CalculateReliability);
             _projectTreeRel = new ObservableCollection<ReliabilityEntity>();
 
             TreeViewSelectionChanged = new DelegateCommand<ReliabilityEntity>(SelectionChanged);
-            RemoveChildItem = new DelegateCommand<ReliabilityEntity>(RemoveItemFromTree);            
+            RemoveChildItem = new DelegateCommand<ReliabilityEntity>(RemoveItemFromTree);
             AddToDiagramCommand = new DelegateCommand<ReliabilityEntity>(AddToDiagram);
             //NewAssembly = new DelegateCommand(AddNewAssembly)
         }
+
         #endregion
 
-        #region Delegate command functions
+        #region Event Aggregated function from toolbar
         /// <summary>
         /// Open a project file 
         /// name will be provided by toolbar
@@ -85,7 +87,31 @@ namespace mainApp.ViewModels
             var r1 = getProjectTreeRel(element);
             projectTreeRel.Add(r1);
         }
+        /// <summary>
+        /// save project in both projecttree and diagram form
+        /// for diagram saving event is published which will 
+        /// be subscribed by content view
+        /// </summary>
+        /// <param name="FileName"></param>
+        public void SaveProjectFile(string FileName)
+        {
+            XElement element = _projectTreeRel[0].GetXElement();
+            XDocument doc = new XDocument(element);
+            doc.Save(FileName);
+            _ea.GetEvent<SaveDiagramFileEvent>().Publish(FileName + "Diagram.xml");
+        }
 
+        /// <summary>
+        /// Function for calculation of reliability
+        /// this is actual function  for calculating reliability
+        /// </summary>
+        /// <param name="TimeReliability"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void CalculateReliability(double TimeReliability)
+        {
+            projectTreeRel[0].CalculateReliability(TimeReliability);
+        }
+        #endregion
         /// <summary>
         /// this will fire only on tree view selection changed event
         /// parameter will be passed for newly selected item
@@ -96,6 +122,8 @@ namespace mainApp.ViewModels
             //MessageBox.Show(rel.Name + "," + rel.EntityType + "," + rel.MTBF);
             selectedEntity = rel;
         }
+
+        #region Delegate command functions
         public void RemoveItemFromTree(ReliabilityEntity rel)
         {
             if (selectedEntity.id == _projectTreeRel[0].id)
@@ -107,14 +135,6 @@ namespace mainApp.ViewModels
                 projectTreeRel[0].RemoveChild(selectedEntity);
             }
             //MessageBox.Show("Deteting" + selectedEntity.Name + "," + selectedEntity.EntityType + "," + selectedEntity.MTBF);
-        }
-
-        public void SaveProjectFile(string FileName)
-        {
-            XElement element = _projectTreeRel[0].GetXElement();
-            XDocument doc = new XDocument(element);
-            doc.Save(FileName);
-            _ea.GetEvent<SaveDiagramFileEvent>().Publish(FileName+"Diagram.xml");
         }
 
         public void AddToDiagram(ReliabilityEntity rel)
@@ -131,6 +151,7 @@ namespace mainApp.ViewModels
 
         #endregion
 
+        #region populate Project Tree from Observable collection 
         private TreeViewItem getProjectTree(XElement element)
         {
             var tree = new TreeViewItem();
@@ -185,6 +206,7 @@ namespace mainApp.ViewModels
             //}
             return tree;
         }
+        #endregion
 
     }
 }

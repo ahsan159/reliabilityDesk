@@ -192,6 +192,8 @@ namespace mainApp.Template
             MTBF = _MTBF.ToString();
         }
         #endregion
+
+        #region help functions to manage project tree
         public void AddChild(ReliabilityEntity rel)
         {
             Child.Add(rel);
@@ -289,5 +291,53 @@ namespace mainApp.Template
             }
             return element;
         }
+        #endregion
+
+        #region reliability Calculation
+        /// <summary>
+        /// Thisi is the original functional that will calculate reliability
+        /// and MTBF of entity using subassemblies
+        /// </summary>
+        /// <param name="TimeHour"></param>
+        public void CalculateReliability(double TimeHour)
+        {
+            // variable to store reliability of assembly/project
+            double finalReliability = 1;
+            if (EntityType == ReliabilityEntityType.Part)
+            {
+                double MTBFDouble;
+                if (!double.TryParse(MTBF, out MTBFDouble))
+                {
+                    //do something if conversino fails
+                    //throw Exception
+                    Reliability = "-1";
+                }
+                else
+                {
+                    double ReliabilityDouble = Math.Exp(-TimeHour / MTBFDouble);
+                    Reliability = ReliabilityDouble.ToString();
+                }
+            }
+            else
+            {
+                if (Child.Count > 0)
+                {
+                    foreach (ReliabilityEntity c in Child)
+                    {
+                        c.CalculateReliability(TimeHour);
+                        finalReliability *= double.Parse(c.Reliability);
+                    }
+                    Reliability = finalReliability.ToString();
+                    double MTBFCalculation = -TimeHour / Math.Log(finalReliability);
+                    MTBF = MTBFCalculation.ToString();
+                }
+                else
+                {
+                    MTBF = "1";
+                    Reliability = "1";
+                }
+            }
+        }
+        #endregion
     }
 }

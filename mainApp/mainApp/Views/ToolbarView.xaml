@@ -54,8 +54,8 @@
         <ToolBar Band="3" BandIndex="3" Grid.Column="2">
             <Button Margin="5 0" Width="60" 
                         ToolTip="Solve Tree"
+                        Command="{Binding SolveProjectTreeCommand}"                        
                 >
-                <!--Command="{Binding SaveDiagramCommand}"-->
                 <Button.Content>
                     <Image Source="/Resources/Images/SolveTree.png"></Image>
                 </Button.Content>
