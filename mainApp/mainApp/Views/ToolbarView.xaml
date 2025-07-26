@@ -4,15 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:mainApp.Views"        
-         xmlns:viewmodels="clr-namespace:mainApp.ViewModels"
+        xmlns:viewmodels="clr-namespace:mainApp.ViewModels"
+        xmlns:views="clr-namespace:mainApp.Views"     
         mc:Ignorable="d"
              >
         <!--Height="100" Width="80"-->
     <Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
             
-        <Button Content="Save" Margin="10 0" Width="60" Command="{Binding SaveDiagramCommand}"></Button>
-            <Button Content="Open" Margin="10 0" Width="60" Command="{Binding openProjectCommand}"></Button>
+        <Button Content="Save" Margin="10 0" Width="60" 
+                Command="{Binding SaveDiagramCommand}"
+                ></Button>
+            <Button Content="Open" Margin="10 0" Width="60"
+                    Command="{Binding openProjectCommand}"
+                    ></Button>
         </StackPanel>
         
     </Grid>

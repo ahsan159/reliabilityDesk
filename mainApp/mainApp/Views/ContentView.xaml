@@ -8,8 +8,10 @@
         xmlns:viewmodel="clr-namespace:mainApp.ViewModels"   
         xmlns:stencil="clr-namespace:Syncfusion.UI.Xaml.Diagram.Stencil;assembly=Syncfusion.SfDiagram.Wpf"
         xmlns:RulerControl="clr-namespace:Syncfusion.UI.Xaml.Diagram.Controls;assembly=Syncfusion.SfDiagram.Wpf"
-        xmlns:diagramcontrol="clr-namespace:Syncfusion.UI.Xaml.Diagram;assembly=Syncfusion.SfDiagram.WPF" d:DataContext="{d:DesignInstance Type=viewmodel:ContentViewModel}"
-             mc:Ignorable="d"        
+        xmlns:diagramcontrol="clr-namespace:Syncfusion.UI.Xaml.Diagram;assembly=Syncfusion.SfDiagram.WPF"        
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        d:DataContext="{d:DesignInstance Type=viewmodel:ContentViewModel}"
+        mc:Ignorable="d"        
         >
     <Grid x:Name="grid">
         <Grid.Resources>
@@ -52,7 +54,7 @@
                 <Setter Property="ShapeStyle">
                     <Setter.Value>
                         <Style TargetType="Path">
-                            <Setter Property="Stretch" Value="Fill">                                
+                            <Setter Property="Stretch" Value="Fill">
                             </Setter>
                             <Setter Property="Fill" Value="#FF808081"></Setter>
                         </Style>
@@ -65,9 +67,17 @@
                         Margin="5"                        
                         PortVisibility="Visible"
                         Nodes="{Binding NodeCollection}"
-                        Connectors="{Binding ConnectorCollection}"
+                        Connectors="{Binding ConnectorCollection}"   
                         
                         >
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="ItemAddedCommand">
+                    <i:InvokeCommandAction Command="{Binding SerializeDataCommand}" 
+                                           CommandParameter="{Binding Name,RelativeSource={RelativeSource Self}}">
+
+                    </i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
             <sync:SfDiagram.PageSettings>
                 <sync:PageSettings
                     PageWidth="950"
@@ -76,8 +86,7 @@
                     MultiplePage="False"
                     PageBackground="LightGreen"
                     PageBorderBrush="Black"
-                    PageBorderThickness="3"
-                    
+                    PageBorderThickness="3"                    
                     >
                 </sync:PageSettings>
             </sync:SfDiagram.PageSettings>

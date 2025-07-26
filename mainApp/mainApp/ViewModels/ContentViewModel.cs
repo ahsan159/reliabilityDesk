@@ -15,10 +15,11 @@ using System.Windows;
 
 namespace mainApp.ViewModels
 {
-    internal class ContentViewModel:BindableBase
+    internal class ContentViewModel : BindableBase
     {
-        IEventAggregator _ea;
+        public IEventAggregator _ea;
         public DelegateCommand ItemAddCommand { get; set; }
+        public DelegateCommand<SfDiagram> SerializeDataCommand { get; set; }
 
         private ObservableCollection<NodeViewModel> _NodeCollection;
 
@@ -36,13 +37,14 @@ namespace mainApp.ViewModels
             set { SetProperty(ref _ConnectorCollection, value); }
         }
 
-        public ContentViewModel()
+        public ContentViewModel(IEventAggregator ea)
         {
-
+            _ea = ea;
             _ea.GetEvent<SaveDiagramFileEvent>().Subscribe(SaveDiagram);
             _NodeCollection = new ObservableCollection<NodeViewModel>();
             _ConnectorCollection = new ObservableCollection<ConnectorViewModel>();
             ItemAddCommand = new DelegateCommand(AddItem);
+            SerializeDataCommand = new DelegateCommand<SfDiagram>(SerializeData);
 
             AnnotationCollection a1 = new AnnotationCollection();
             AnnotationEditorViewModel t1 = new AnnotationEditorViewModel();
@@ -82,21 +84,33 @@ namespace mainApp.ViewModels
             c1.TargetNode = n2;
             c1.CornerRadius = 0;
             _ConnectorCollection.Add(c1);
+
+
         }
 
         private void AddItem()
         {
-            
+
         }
-       
+
         private void SaveDiagram(string FileName)
         {
             MessageBox.Show(FileName);
-            
-            //using (Stream str = File.Open(FileName, FileMode.CreateNew))
-            //{
-                
-            //}
+            SfDiagram d = new SfDiagram();
+            d.Nodes = _NodeCollection;
+            d.Connectors = _ConnectorCollection;
+            using (Stream str = File.Open(FileName, FileMode.CreateNew))
+            {
+                d.Save(str);
+            }
+        }
+
+        private void SerializeData(SfDiagram diagram)
+        {
+            using (Stream str = File.Open("dummyData.xml", FileMode.CreateNew))
+            {
+                diagram.Save(str);
+            }
         }
     }
 }

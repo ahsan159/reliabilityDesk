@@ -16,7 +16,4 @@ namespace mainApp
     {
 
     }
-
-    public class SaveDiagramFileEvent : PubSubEvent<string>
-    { }
 }

@@ -51,7 +51,7 @@ namespace mainApp.ViewModels
             bool result = (bool)saveFileDlg.ShowDialog();
             if (result)
             {
-                _ea.GetEvent<SaveDiagramFileEvent>().Publish(saveFileDlg.FileName);
+                _ea.GetEvent<SaveDiagramFileEvent>().Publish(saveFileDlg.FileName);                
             }
         }
     }
