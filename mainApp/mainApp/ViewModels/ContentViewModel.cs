@@ -17,9 +17,12 @@ namespace mainApp.ViewModels
 {
     internal class ContentViewModel : BindableBase
     {
-        public IEventAggregator _ea;
-        public DelegateCommand ItemAddCommand { get; set; }
-        public DelegateCommand<SfDiagram> SerializeDataCommand { get; set; }
+        #region class members
+        IEventAggregator _eaSave;
+
+        IEventAggregator _eaAddNode;
+
+        public DelegateCommand<ReliabilityEntity> ItemAddCommand { get; set; }
 
         private ObservableCollection<NodeViewModel> _NodeCollection;
 
@@ -37,80 +40,97 @@ namespace mainApp.ViewModels
             set { SetProperty(ref _ConnectorCollection, value); }
         }
 
+        #endregion
+
+        #region constructor
+        /// <summary>
+        /// Only consturctor with event aggregator for file saving 
+        /// and node addition
+        /// </summary>
+        /// <param name="ea"></param>
         public ContentViewModel(IEventAggregator ea)
         {
-            _ea = ea;
-            _ea.GetEvent<SaveDiagramFileEvent>().Subscribe(SaveDiagram);
+            _eaSave = ea;
+            _eaAddNode = ea;
+            _eaSave.GetEvent<SaveDiagramFileEvent>().Subscribe(SaveDiagram);
+            _eaAddNode.GetEvent<AddNewNodeEvent>().Subscribe(AddItem);
             _NodeCollection = new ObservableCollection<NodeViewModel>();
             _ConnectorCollection = new ObservableCollection<ConnectorViewModel>();
-            ItemAddCommand = new DelegateCommand(AddItem);
-            SerializeDataCommand = new DelegateCommand<SfDiagram>(SerializeData);
-
-            AnnotationCollection a1 = new AnnotationCollection();
-            AnnotationEditorViewModel t1 = new AnnotationEditorViewModel();
-            t1.ReadOnly = true;
-            t1.Content = "Begin";
-            a1.Add(t1);
-
-            AnnotationCollection a2 = new AnnotationCollection();
-            AnnotationEditorViewModel t2 = new AnnotationEditorViewModel();
-            t2.Content = "End";
-            t2.ReadOnly = true;
-            a2.Add(t2);
-
-            NodeViewModel n1 = new NodeViewModel();
-            n1.ID = "Begin";
-            n1.OffsetX = 300;
-            n1.OffsetY = 400;
-            n1.UnitHeight = 80;
-            n1.UnitWidth = 160;
-            n1.Shape = Syncfusion.UI.Xaml.Diagram.Shapes.Star;
-            _NodeCollection.Add(n1);
-            n1.Annotations = a1;
-
-            NodeViewModel n2 = new NodeViewModel();
-            n2.ID = "End";
-            n2.OffsetX = 400;
-            n2.OffsetY = 500;
-            n2.UnitHeight = 60;
-            n2.UnitWidth = 120;
-            n2.Shape = Syncfusion.UI.Xaml.Diagram.Shapes.Octagon;
-            _NodeCollection.Add(n2);
-            n2.Annotations = a2;
-
-
-            ConnectorViewModel c1 = new ConnectorViewModel();
-            c1.SourceNode = n1;
-            c1.TargetNode = n2;
-            c1.CornerRadius = 0;
-            _ConnectorCollection.Add(c1);
-
-
+            ItemAddCommand = new DelegateCommand<ReliabilityEntity>(AddItem);
         }
 
-        private void AddItem()
+        #endregion
+
+        #region command function
+        // part where delegate command function are referenced
+
+        /// <summary>
+        /// add a new node a event called from project tree in
+        /// side bar
+        /// </summary>
+        private void AddItem(ReliabilityEntity rel)
         {
+            //MessageBox.Show(rel.id.ToString() + "," + rel.Name);
 
+            // Display Node Text
+            AnnotationCollection aCollect = new AnnotationCollection();
+            AnnotationEditorViewModel a = new AnnotationEditorViewModel();
+            a.Content = rel.Name;
+            a.FontSize = 24;
+            a.ReadOnly = true;
+            aCollect.Add(a);
+
+            // Add points to connect with connector
+            PortCollection pCollect = new PortCollection();
+            NodePortViewModel PLeft = new NodePortViewModel();
+            PLeft.NodeOffsetX = 0;
+            PLeft.NodeOffsetY = 0.5;
+            NodePortViewModel PRight = new NodePortViewModel();
+            PRight.NodeOffsetX = 1;
+            PRight.NodeOffsetY = 0.5;
+            pCollect.Add(PLeft);
+            pCollect.Add(PRight);
+
+            NodeViewModel AddedNode = new NodeViewModel();            
+            AddedNode.ID = rel.id;
+            AddedNode.Key = rel.id;
+            AddedNode.OffsetX = 400;
+            AddedNode.OffsetY = 500;
+            AddedNode.UnitHeight = 60;
+            AddedNode.UnitWidth = 120;
+            AddedNode.Ports = pCollect;
+            AddedNode.Annotations = aCollect;
+
+            _NodeCollection.Add(AddedNode);
+
+            // Add
         }
 
+        /// <summary>
+        /// save diagram data
+        /// saving diagram data has proven difficult in MVVM
+        /// because I am unable to understand referencing from 
+        /// other view models without exposing view to viewmodel
+        /// therefore i have crated a dummy diagram and add
+        /// nodes and ports to it and serializing dummy diagram
+        /// has worked.
+        /// </summary>
+        /// <param name="FileName"></param>
         private void SaveDiagram(string FileName)
         {
-            MessageBox.Show(FileName);
+            //MessageBox.Show(FileName);
             SfDiagram d = new SfDiagram();
             d.Nodes = _NodeCollection;
             d.Connectors = _ConnectorCollection;
-            using (Stream str = File.Open(FileName, FileMode.CreateNew))
+            //using (Stream str = File.Open(FileName, FileMode.Create))
+
+            using (Stream str = File.Open(FileName, FileMode.Create))
             {
                 d.Save(str);
             }
         }
 
-        private void SerializeData(SfDiagram diagram)
-        {
-            using (Stream str = File.Open("dummyData.xml", FileMode.CreateNew))
-            {
-                diagram.Save(str);
-            }
-        }
+        #endregion
+
     }
 }

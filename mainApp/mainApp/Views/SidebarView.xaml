@@ -14,10 +14,16 @@
     >
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="320"></RowDefinition>
         </Grid.RowDefinitions>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="0">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Visible" 
+                      HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                      Grid.Row="0"
+                      BorderThickness="0"
+                      Background="White"
+                      MaxHeight="600">
             <!--<Button Content="Add" Command="{Binding AddCommand}"></Button>
             <TextBlock Text="this is sidebar"></TextBlock>-->
             <!--<TreeView x:Name="projectTree" ItemsSource="{Binding projectTree}" VerticalAlignment="Stretch" Height="auto">                
@@ -30,6 +36,8 @@
             <TreeView x:Name="projectTreeRelTV" ItemsSource="{Binding projectTreeRel}" 
                       VerticalAlignment="Stretch" Height="auto" 
                       Margin="5"
+                      Background="White"
+                      BorderThickness="0"                      
                       >
                 <!--This part required installation of nuget package of windows.interactivity.wpf-->
                 <i:Interaction.Triggers>
@@ -47,14 +55,23 @@
                 </TreeView.ItemTemplate>
                 <TreeView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Margin="0" Padding="0" Command="{Binding NewAssembly}">
+                        <MenuItem Margin="0" Padding="0" 
+                                  >
+                            <!--Command="{Binding NewAssembly}"-->
                             <MenuItem.Header>Add Assembly</MenuItem.Header>
                         </MenuItem>
                         <MenuItem Margin="0" Padding="0" Command="{Binding NewPart}">
                             <MenuItem.Header>Add Part</MenuItem.Header>
                         </MenuItem>
+                        <MenuItem Margin="0" Padding="0" 
+                                  Command="{Binding AddToDiagramCommand}"
+                                  CommandParameter="{Binding ElementName=projectTreeRelTV,Path=SelectedItem}"
+                                  >
+                            <MenuItem.Header>Add to Diagram</MenuItem.Header>
+                        </MenuItem>
                         <!--<Separator Margin="0" Padding="0" />-->
-                        <MenuItem Margin="0" Padding="0" Command="{Binding RemoveChildItem}" CommandParameter="{Binding ElementName=projectTreeRelTV,Path=SelectedItem}">
+                        <MenuItem Margin="0" Padding="0" Command="{Binding RemoveChildItem}" 
+                                  CommandParameter="{Binding ElementName=projectTreeRelTV,Path=SelectedItem}">
                             <MenuItem.Header>Delete</MenuItem.Header>
                         </MenuItem>
                         <!--<Separator Margin="0" Padding="0" />-->
@@ -66,12 +83,14 @@
             </TreeView>
         </ScrollViewer>
 
-        <Expander Grid.Row="1" ExpandDirection="Down"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
-                       Margin="5,0,5,0"
-                       MaxHeight="500"
+        <Expander Grid.Row="1" 
+                  ExpandDirection="Down"  
+                  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
+                  Margin="5,0,5,0"
+                  MaxHeight="500"
                    >
-            <Expander.Header>                
-                    <TextBlock>Propery Editor</TextBlock>                
+            <Expander.Header>
+                <TextBlock>Propery Editor</TextBlock>
             </Expander.Header>
             <sync:PropertyGrid Name="grid1" Height="auto" 
                                    VerticalAlignment="Top" HorizontalAlignment="Stretch" 

@@ -14,15 +14,26 @@ namespace mainApp.ViewModels
     class ToolbarViewModel : BindableBase
     {
         private static IEventAggregator _ea;
+        public DelegateCommand openProjectCommand { get; }
+        public DelegateCommand SaveDiagramCommand { get; set; }
+
+        public DelegateCommand SolveProjectTreeCommand { get; set; }
         public ToolbarViewModel(IEventAggregator ea)
         {
             openProjectCommand = new DelegateCommand(OpenProject);
             SaveDiagramCommand = new DelegateCommand(SaveProject);
+            SolveProjectTreeCommand = new DelegateCommand(SolveProjectTree);
             _ea = ea;
             //_ea.GetEvent<OpenProjectFileEvent>().Publish("openFile");
         }
-        public DelegateCommand openProjectCommand { get; }
-        public DelegateCommand SaveDiagramCommand { get; set; }
+
+        private void SolveProjectTree()
+        {
+            // open window asking for the calculation point for project 
+            // value added for testing purposes only
+            _ea.GetEvent<ReliabilityTreeCalculationEvent>().Publish(87600);
+        }
+
         private static void OpenProject()
         {
             //MessageBox.Show("This is Open project");
@@ -51,7 +62,7 @@ namespace mainApp.ViewModels
             bool result = (bool)saveFileDlg.ShowDialog();
             if (result)
             {
-                _ea.GetEvent<SaveDiagramFileEvent>().Publish(saveFileDlg.FileName);                
+                _ea.GetEvent<SaveProjectFileEvent>().Publish(saveFileDlg.FileName);                
             }
         }
     }

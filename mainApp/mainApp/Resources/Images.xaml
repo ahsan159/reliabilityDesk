@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:mainApp">
+    <Image x:Key="OpenFile" Source="pack://application:,,,/Resources/Images/OpenFile.bmp"></Image>
+    <Image x:Key="NewFile" Source="pack://application:,,,/Resources/Images/NewFile.bmp"></Image>
+    <Image x:Key="SaveFile" Source="pack://application:,,,/Resources/Images/SaveFile.bmp"></Image>
+    <Image x:Key="SolveTree" Source="pack://application:,,,/Resources/Images/SolveTree.bmp"></Image>
+    <Image x:Key="SolveDiagram" Source="pack://application:,,,/Resources/Images/SolveDiagram.bmp"></Image>
+    <Image x:Key="Delete" Source="pack://application:,,,/Resources/Images/Delete.bmp"></Image>
+    
+</ResourceDictionary>

@@ -129,6 +129,10 @@ namespace mainApp.Template
                     {
                         MTBF = a.Value;
                     }
+                    else if (a.Name == "id")
+                    {
+                        id = a.Value;
+                    }
                     else if (a.Name == "Reliability")
                     {
                         Reliability = a.Value;
@@ -161,6 +165,7 @@ namespace mainApp.Template
 
         #endregion
 
+        #region member function 
         public void setBase(string _name, string _entity)
         {
             Name = _name;
@@ -186,11 +191,18 @@ namespace mainApp.Template
         {
             MTBF = _MTBF.ToString();
         }
+        #endregion
+
+        #region help functions to manage project tree
         public void AddChild(ReliabilityEntity rel)
         {
             Child.Add(rel);
             Count = Count + 1;
         }
+        /// <summary>
+        /// Setting parent is for future expected use
+        /// </summary>
+        /// <param name="_rel"></param>
         public void SetParent(ReliabilityEntity _rel)
         {
             Parent = _rel;
@@ -239,9 +251,19 @@ namespace mainApp.Template
 
             }
         }
+        /// <summary>
+        /// function used when project is being saved and all the 
+        /// reliability entities and thier children are being fetched
+        /// and converted into xml data file
+        /// </summary>
+        /// <returns></returns>
         public XElement GetXElement()
         {
             XElement element = new XElement(EntityType.ToString());
+            if (id.Length > 0)
+            {
+                element.Add(new XAttribute(nameof(id), id));
+            }
             if (Name.Length > 0)
             {
                 element.Add(new XAttribute(nameof(Name), Name));
@@ -269,5 +291,53 @@ namespace mainApp.Template
             }
             return element;
         }
+        #endregion
+
+        #region reliability Calculation
+        /// <summary>
+        /// Thisi is the original functional that will calculate reliability
+        /// and MTBF of entity using subassemblies
+        /// </summary>
+        /// <param name="TimeHour"></param>
+        public void CalculateReliability(double TimeHour)
+        {
+            // variable to store reliability of assembly/project
+            double finalReliability = 1;
+            if (EntityType == ReliabilityEntityType.Part)
+            {
+                double MTBFDouble;
+                if (!double.TryParse(MTBF, out MTBFDouble))
+                {
+                    //do something if conversino fails
+                    //throw Exception
+                    Reliability = "-1";
+                }
+                else
+                {
+                    double ReliabilityDouble = Math.Exp(-TimeHour / MTBFDouble);
+                    Reliability = ReliabilityDouble.ToString();
+                }
+            }
+            else
+            {
+                if (Child.Count > 0)
+                {
+                    foreach (ReliabilityEntity c in Child)
+                    {
+                        c.CalculateReliability(TimeHour);
+                        finalReliability *= double.Parse(c.Reliability);
+                    }
+                    Reliability = finalReliability.ToString();
+                    double MTBFCalculation = -TimeHour / Math.Log(finalReliability);
+                    MTBF = MTBFCalculation.ToString();
+                }
+                else
+                {
+                    MTBF = "1";
+                    Reliability = "1";
+                }
+            }
+        }
+        #endregion
     }
 }
