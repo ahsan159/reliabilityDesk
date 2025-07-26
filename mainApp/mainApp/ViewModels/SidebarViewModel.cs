@@ -21,12 +21,12 @@ namespace mainApp.ViewModels
     class SidebarViewModel : BindableBase
     {
         #region parameters
-        public ReliabilityEntity? selectedEntity = null;
-        public DelegateCommand NewAssembly { get; private set; }
+        public ReliabilityEntity? selectedEntity = null;        
         public DelegateCommand NewPart { get; private set; }
         public DelegateCommand<ReliabilityEntity> RemoveChildItem { get; private set; }
         public DelegateCommand OpenProperties { get; private set; }
         public DelegateCommand<ReliabilityEntity> TreeViewSelectionChanged { get; private set; }
+        public DelegateCommand<ReliabilityEntity> AddToDiagramCommand { get; private set; }
         //public DelegateCommand AddCommand { get; private set; }
 
         private ObservableCollection<ReliabilityEntity> _projectTreeRel;
@@ -41,8 +41,8 @@ namespace mainApp.ViewModels
             {
                 SetProperty(ref _projectTreeRel, value);
             }
-        }        
-        
+        }
+
         IEventAggregator _ea;
         #endregion
 
@@ -55,14 +55,15 @@ namespace mainApp.ViewModels
         /// </summary>
         /// <param name="ea"></param>
         public SidebarViewModel(IEventAggregator ea)
-        {            
+        {
             _ea = ea;
-            _ea.GetEvent<OpenProjectFileEvent>().Subscribe(openProjectFile);            
-            _projectTreeRel = new ObservableCollection<ReliabilityEntity>();            
+            _ea.GetEvent<OpenProjectFileEvent>().Subscribe(openProjectFile);
+            _ea.GetEvent<SaveProjectFileEvent>().Subscribe(SaveProjectFile);
+            _projectTreeRel = new ObservableCollection<ReliabilityEntity>();
 
             TreeViewSelectionChanged = new DelegateCommand<ReliabilityEntity>(SelectionChanged);
-            RemoveChildItem = new DelegateCommand<ReliabilityEntity>(RemoveItemFromTree);
-            NewAssembly = new DelegateCommand(saveProjectFile);
+            RemoveChildItem = new DelegateCommand<ReliabilityEntity>(RemoveItemFromTree);            
+            AddToDiagramCommand = new DelegateCommand<ReliabilityEntity>(AddToDiagram);
             //NewAssembly = new DelegateCommand(AddNewAssembly)
         }
         #endregion
@@ -80,14 +81,9 @@ namespace mainApp.ViewModels
         {
             //MessageBox.Show("Opening File : " + fileName);
             XDocument doc = XDocument.Load(fileName);
-            XElement element = doc.Root;            
-            var r1 = getProjectTreeRel(element);            
+            XElement element = doc.Root;
+            var r1 = getProjectTreeRel(element);
             projectTreeRel.Add(r1);
-        }
-
-        private void saveProjectFile()
-        {
-            savefileXelement();
         }
 
         /// <summary>
@@ -106,15 +102,31 @@ namespace mainApp.ViewModels
             {
                 MessageBox.Show("Cannot Delete project" + projectTreeRel[0].id);
             }
-            projectTreeRel[0].RemoveChild(selectedEntity);
+            else
+            {
+                projectTreeRel[0].RemoveChild(selectedEntity);
+            }
             //MessageBox.Show("Deteting" + selectedEntity.Name + "," + selectedEntity.EntityType + "," + selectedEntity.MTBF);
         }
 
-        public void savefileXelement()
+        public void SaveProjectFile(string FileName)
         {
             XElement element = _projectTreeRel[0].GetXElement();
             XDocument doc = new XDocument(element);
-            doc.Save("mynefile.xml");
+            doc.Save(FileName);
+            //_ea.GetEvent<SaveDiagramFileEvent>().Publish(FileName+"Diagram.xml");
+        }
+
+        public void AddToDiagram(ReliabilityEntity rel)
+        {
+            if (selectedEntity.id == _projectTreeRel[0].id)
+            {
+                MessageBox.Show("cannot add project to diagram");
+            }
+            else
+            {
+                _ea.GetEvent<AddNewNodeEvent>().Publish(selectedEntity);
+            }
         }
 
         #endregion
@@ -124,13 +136,13 @@ namespace mainApp.ViewModels
             var tree = new TreeViewItem();
             if (element.HasAttributes)
             {
-                foreach(XAttribute attrib in element.Attributes())
+                foreach (XAttribute attrib in element.Attributes())
                 {
-                    if(attrib.Name=="Name")
+                    if (attrib.Name == "Name")
                     {
-                        tree.Header = element.Name+","+attrib.Value;
-                    }    
-                    else if(attrib.Name=="MTBF")
+                        tree.Header = element.Name + "," + attrib.Value;
+                    }
+                    else if (attrib.Name == "MTBF")
                     {
                         tree.Tag = attrib.Value;
                     }
@@ -148,29 +160,29 @@ namespace mainApp.ViewModels
 
         private ReliabilityEntity getProjectTreeRel(XElement element)
         {
-            var tree = new ReliabilityEntity();
-            if (element.HasAttributes)
-            {
-                foreach (XAttribute attrib in element.Attributes())
-                {
-                    if (attrib.Name == "Name")
-                    {
-                        //tree.Header = element.Name + "," + attrib.Value;
-                        tree.setBase(attrib.Value, element.Name.ToString());
-                    }
-                    else if (attrib.Name == "MTBF")
-                    {
-                        tree.setMTBF(attrib.Value);
-                    }
-                }
-            }
-            if (element.HasElements)
-            {
-                foreach (XElement child in element.Elements())
-                {
-                    tree.AddChild(getProjectTreeRel(child));
-                }
-            }
+            var tree = new ReliabilityEntity(element);
+            //if (element.HasAttributes)
+            //{
+            //    foreach (XAttribute attrib in element.Attributes())
+            //    {
+            //        if (attrib.Name == "Name")
+            //        {
+            //            //tree.Header = element.Name + "," + attrib.Value;
+            //            tree.setBase(attrib.Value, element.Name.ToString());
+            //        }
+            //        else if (attrib.Name == "MTBF")
+            //        {
+            //            tree.setMTBF(attrib.Value);
+            //        }
+            //    }
+            //}
+            //if (element.HasElements)
+            //{
+            //    foreach (XElement child in element.Elements())
+            //    {
+            //        tree.AddChild(getProjectTreeRel(child));
+            //    }
+            //}
             return tree;
         }
 
