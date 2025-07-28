@@ -112,6 +112,8 @@ namespace mainApp.ViewModels
             projectTreeRel[0].CalculateReliability(TimeReliability);
         }
         #endregion
+
+        #region selection changed method
         /// <summary>
         /// this will fire only on tree view selection changed event
         /// parameter will be passed for newly selected item
@@ -122,6 +124,7 @@ namespace mainApp.ViewModels
             //MessageBox.Show(rel.Name + "," + rel.EntityType + "," + rel.MTBF);
             selectedEntity = rel;
         }
+        #endregion
 
         #region Delegate command functions
         public void RemoveItemFromTree(ReliabilityEntity rel)

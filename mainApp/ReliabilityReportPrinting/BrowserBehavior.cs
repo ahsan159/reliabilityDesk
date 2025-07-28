@@ -8,6 +8,13 @@ using System.Windows;
 
 namespace ReliabilityReportPrinting
 {
+
+    /// <summary>
+    /// This class is taken from the example provided by 
+    /// https://stackoverflow.com/questions/263551/databind-the-source-property-of-the-webbrowser-in-wpf
+    /// this is dependency injection method implmeneted to make 
+    /// web browser accept binable sources. which by default it does not.
+    /// </summary>
     internal class BrowserBehavior
     {
 
@@ -26,7 +33,7 @@ namespace ReliabilityReportPrinting
 
         public static void BindableSourcePropertyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            WebBrowser browser = o as WebBrowser;                
+            WebBrowser browser = o as WebBrowser;
             if (browser != null)
             {
                 string uri = e.NewValue as string;

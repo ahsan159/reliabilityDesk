@@ -14,6 +14,7 @@ namespace mainApp.ViewModels
 {
     class ToolbarViewModel : BindableBase
     {
+        #region member functions
         private string ActiveFileName = "";
         private static IEventAggregator _ea;
         public DelegateCommand openProjectCommand { get; }
@@ -22,6 +23,9 @@ namespace mainApp.ViewModels
         public DelegateCommand SolveProjectTreeCommand { get; set; }
         public DelegateCommand SaveAsDiagramCommand { get; set; }
         public DelegateCommand PrintProjectCommand { get; set; }
+        #endregion
+
+        #region consturctor 
         public ToolbarViewModel(IEventAggregator ea)
         {
             openProjectCommand = new DelegateCommand(OpenProject);
@@ -33,7 +37,13 @@ namespace mainApp.ViewModels
             ActiveFileName = "";
             //_ea.GetEvent<OpenProjectFileEvent>().Publish("openFile");
         }
+        #endregion
 
+        #region command implementations
+
+        /// <summary>
+        /// This function will publish a reliability calculation event
+        /// </summary>
         private void SolveProjectTree()
         {
             // open window asking for the calculation point for project 
@@ -93,6 +103,9 @@ namespace mainApp.ViewModels
             _ea.GetEvent<SaveProjectFileEvent>().Publish(ActiveFileName);
         }
 
+        /// <summary>
+        /// function to call for opening report viewer program
+        /// </summary>
         private void PrintProject()
         {
             string TransformationFile = "C:\\Users\\muhammadahsan\\source\\repos\\reliabilityDesk\\mainApp\\mainApp\\XSLTransformation\\ReportTransformation.xslt";
@@ -111,5 +124,6 @@ namespace mainApp.ViewModels
             proc.Start();
 
         }
+        #endregion
     }
 }

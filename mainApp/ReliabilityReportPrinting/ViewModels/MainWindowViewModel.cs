@@ -14,6 +14,7 @@ namespace ReliabilityReportPrinting.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
+        #region class member functions
         private string _XmlFilePath;
         public string XmlFilePath
         {
@@ -27,18 +28,25 @@ namespace ReliabilityReportPrinting.ViewModels
             get { return _DisplayDocument; }
             set { SetProperty(ref _DisplayDocument, value); }
         }
-
+        #endregion
+        
+        #region constructor
+        /// <summary>
+        /// Constructor to initialize class.
+        /// Please, note that this class constructor must be public
+        /// to set the member variables to initialize correctly.
+        /// </summary>
         public MainWindowViewModel()
         {
-            string[] str = Environment.GetCommandLineArgs();
-            //MessageBox.Show(str.Count().ToString());
-            //foreach(string s in str)
-            //{
-            //    MessageBox.Show(s);
-            //}
+            // get the command line argument 
+            // command line argument will have the path of the project
+            // xml file which will be converted into html or pdf format
+            // for report viewing
+            string[] str = Environment.GetCommandLineArgs();            
             _XmlFilePath = str[1];
             _DisplayDocument = new FileStream(_XmlFilePath, FileMode.Open);
 
         }
+        #endregion
     }
 }

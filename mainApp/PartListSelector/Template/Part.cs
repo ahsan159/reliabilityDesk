@@ -18,13 +18,21 @@ namespace PartListSelector.Template
         public string MTBF { get; set; }
         public string Package { get; set; }
         public string Manufacturer { get; set; }
-        #endregion
         //public ObservableCollection<Part> PartCollection;
+        #endregion
 
+        #region constructor
+        /// <summary>
+        /// blank constructor for part initiation
+        /// </summary>
         public Part()
         {
 
         }
+        /// <summary>
+        /// function to initialize and set part member parameters
+        /// </summary>
+        /// <param name="element"></param>
         public Part(XElement element)
         {
             //PartCollection = new ObservableCollection<Part>();
@@ -63,6 +71,14 @@ namespace PartListSelector.Template
 
         }
 
+        #endregion
+
+        #region get command implementation
+
+        /// <summary>
+        /// Part data formatted as xml node
+        /// </summary>
+        /// <returns> XElement</returns>
         public XElement toXElement()
         {
             XElement element = new XElement(Name); ;
@@ -75,5 +91,6 @@ namespace PartListSelector.Template
 
             return element;
         }
+        #endregion
     }
 }

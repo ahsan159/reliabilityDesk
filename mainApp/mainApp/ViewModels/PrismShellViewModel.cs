@@ -9,11 +9,13 @@ namespace mainApp.ViewModels
 {
     public class PrismShellViewModel:BindableBase
     {
-        private string _title = "Welcome to MVVM using Prism";
+        #region class member 
+        private string _title = "Reliabilty Desk";
         public string Title
         {
             get { return _title; }
             set { SetProperty(ref _title, value); }
         }
+        #endregion
     }
 }

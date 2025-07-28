@@ -12,6 +12,7 @@
     <PackageReference Include="Prism.Unity" Version="8.1.97" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
     <PackageReference Include="Syncfusion.Compression.Base" Version="30.1.41" />
+    <PackageReference Include="Syncfusion.Licensing" Version="27.2.5" />
     <PackageReference Include="Syncfusion.Pdf.Wpf" Version="27.2.5" />
     <PackageReference Include="Syncfusion.PdfToImageConverter.WPF" Version="27.2.5" />
     <PackageReference Include="Syncfusion.PdfViewer.WPF" Version="27.2.5" />
