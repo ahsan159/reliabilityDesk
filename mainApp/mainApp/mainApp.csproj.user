@@ -21,6 +21,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Update="XSLTransformation\ReportTransformation.xslt">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Resources\Images.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -3,27 +3,34 @@ using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-
+using System.Xml.Xsl;
 
 namespace mainApp.ViewModels
 {
     class ToolbarViewModel : BindableBase
     {
+        private string ActiveFileName = "";
         private static IEventAggregator _ea;
         public DelegateCommand openProjectCommand { get; }
         public DelegateCommand SaveDiagramCommand { get; set; }
 
         public DelegateCommand SolveProjectTreeCommand { get; set; }
+        public DelegateCommand SaveAsDiagramCommand { get; set; }
+        public DelegateCommand PrintProjectCommand { get; set; }
         public ToolbarViewModel(IEventAggregator ea)
         {
             openProjectCommand = new DelegateCommand(OpenProject);
             SaveDiagramCommand = new DelegateCommand(SaveProject);
             SolveProjectTreeCommand = new DelegateCommand(SolveProjectTree);
+            SaveAsDiagramCommand = new DelegateCommand(SaveAsProject);
+            PrintProjectCommand = new DelegateCommand(PrintProject);
             _ea = ea;
+            ActiveFileName = "";
             //_ea.GetEvent<OpenProjectFileEvent>().Publish("openFile");
         }
 
@@ -34,7 +41,7 @@ namespace mainApp.ViewModels
             _ea.GetEvent<ReliabilityTreeCalculationEvent>().Publish(87600);
         }
 
-        private static void OpenProject()
+        private void OpenProject()
         {
             //MessageBox.Show("This is Open project");
             Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
@@ -46,12 +53,15 @@ namespace mainApp.ViewModels
             bool result = (bool)openFileDlg.ShowDialog();
             if (result)
             {
+                ActiveFileName = openFileDlg.FileName;
                 _ea.GetEvent<OpenProjectFileEvent>().Publish(openFileDlg.FileName);
+                //_ea.GetEvent<OpenProjectFileEvent>().Publish(ActiveFileName);
             }
+
 
         }
 
-        private void SaveProject()
+        private void SaveAsProject()
         {
             Microsoft.Win32.SaveFileDialog saveFileDlg = new Microsoft.Win32.SaveFileDialog();
             saveFileDlg.Filter = "Project File (*.prj)|*.prj|XML File (*.xml)|*.xml|All Files (*.*)|*.*";
@@ -62,8 +72,44 @@ namespace mainApp.ViewModels
             bool result = (bool)saveFileDlg.ShowDialog();
             if (result)
             {
-                _ea.GetEvent<SaveProjectFileEvent>().Publish(saveFileDlg.FileName);                
+                ActiveFileName = saveFileDlg.FileName;
+                _ea.GetEvent<SaveProjectFileEvent>().Publish(saveFileDlg.FileName);
             }
+        }
+
+        private void SaveProject()
+        {
+            //Microsoft.Win32.SaveFileDialog saveFileDlg = new Microsoft.Win32.SaveFileDialog();
+            //saveFileDlg.Filter = "Project File (*.prj)|*.prj|XML File (*.xml)|*.xml|All Files (*.*)|*.*";
+            //saveFileDlg.FilterIndex = 2;
+            //saveFileDlg.RestoreDirectory = true;
+            ////saveFileDlg.Multiselect = false;
+            //saveFileDlg.InitialDirectory = System.IO.Directory.GetCurrentDirectory();
+            //bool result = (bool)saveFileDlg.ShowDialog();
+            //if (result)
+            //{
+            //    _ea.GetEvent<SaveProjectFileEvent>().Publish(ActiveFileName);
+            //}
+            _ea.GetEvent<SaveProjectFileEvent>().Publish(ActiveFileName);
+        }
+
+        private void PrintProject()
+        {
+            string TransformationFile = "C:\\Users\\muhammadahsan\\source\\repos\\reliabilityDesk\\mainApp\\mainApp\\XSLTransformation\\ReportTransformation.xslt";
+            //string outputFile = "output.html";
+            string outputFile = "C:\\Users\\muhammadahsan\\source\\repos\\reliabilityDesk\\mainApp\\mainApp\\bin\\Debug\\net6.0-windows\\output.html";
+            string xmlFile = ActiveFileName;
+            XslCompiledTransform xslt = new XslCompiledTransform();
+            xslt.Load(TransformationFile);
+            xslt.Transform(ActiveFileName, outputFile);
+            ProcessStartInfo StartInfo = new ProcessStartInfo();
+            StartInfo.FileName = "C:\\Users\\muhammadahsan\\source\\repos\\reliabilityDesk\\mainApp\\ReliabilityReportPrinting\\bin\\Debug\\net6.0-windows\\ReliabilityReportPrinting.exe";
+            StartInfo.ArgumentList.Add(outputFile);
+            StartInfo.CreateNoWindow = true;
+            Process proc = new Process();
+            proc.StartInfo = StartInfo;
+            proc.Start();
+
         }
     }
 }

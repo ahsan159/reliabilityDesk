@@ -26,11 +26,12 @@ namespace ReliabilityReportPrinting
 
         public static void BindableSourcePropertyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            WebBrowser browser = o as WebBrowser;
+            WebBrowser browser = o as WebBrowser;                
             if (browser != null)
             {
                 string uri = e.NewValue as string;
                 browser.Source = !String.IsNullOrEmpty(uri) ? new Uri(uri) : null;
+                //browser.Navigate(uri);
             }
         }
     }

@@ -14,6 +14,7 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <ToolBar Band="1" BandIndex="1" Grid.Column="0">
             <Button Margin="5 0" Width="60" 
@@ -40,8 +41,26 @@
                     <Image Source="/Resources/Images/SaveFile.png"></Image>
                 </Button.Content>
             </Button>
+            <Button Margin="5 0" Width="60" 
+                        ToolTip=" Save As"
+                        Command="{Binding SaveAsDiagramCommand}"
+                >
+                <Button.Content>
+                    <Image Source="/Resources/Images/SaveFileAs.png"></Image>
+                </Button.Content>
+            </Button>
         </ToolBar>
-        <ToolBar Band="2" BandIndex="2" Grid.Column="1">
+        <ToolBar Band="4" BandIndex="4" Grid.Column="1">
+            <Button Margin="5 0" Width="60" 
+                    ToolTip="Print"
+                    Command="{Binding PrintProjectCommand}"
+                >
+                <Button.Content>
+                    <Image Source="/Resources/Images/Print.png"></Image>
+                </Button.Content>
+            </Button>
+        </ToolBar>
+        <ToolBar Band="2" BandIndex="2" Grid.Column="2">
             <Button Margin="5 0" Width="60" 
                         ToolTip="Delete"
                 >
@@ -51,7 +70,7 @@
                 </Button.Content>
             </Button>
         </ToolBar>
-        <ToolBar Band="3" BandIndex="3" Grid.Column="2">
+        <ToolBar Band="3" BandIndex="3" Grid.Column="3">
             <Button Margin="5 0" Width="60" 
                         ToolTip="Solve Tree"
                         Command="{Binding SolveProjectTreeCommand}"                        

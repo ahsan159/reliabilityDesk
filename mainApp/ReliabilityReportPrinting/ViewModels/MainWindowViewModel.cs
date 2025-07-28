@@ -6,10 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
+using System.Collections.ObjectModel;
+using System.IO;
 
 namespace ReliabilityReportPrinting.ViewModels
 {
-    internal class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : BindableBase
     {
         private string _XmlFilePath;
         public string XmlFilePath
@@ -18,14 +21,24 @@ namespace ReliabilityReportPrinting.ViewModels
             set { SetProperty(ref _XmlFilePath, value); }
         }
 
-        MainWindowViewModel()
+        private Stream _DisplayDocument;
+        public Stream DisplayDocumnet
         {
-            string[] args  = Environment.GetCommandLineArgs();
-            foreach(string arg in args)
-            {
-                MessageBox.Show(arg);
-            }
-            _XmlFilePath = "C:/users/ahsan/source/output.html";
+            get { return _DisplayDocument; }
+            set { SetProperty(ref _DisplayDocument, value); }
+        }
+
+        public MainWindowViewModel()
+        {
+            string[] str = Environment.GetCommandLineArgs();
+            //MessageBox.Show(str.Count().ToString());
+            //foreach(string s in str)
+            //{
+            //    MessageBox.Show(s);
+            //}
+            _XmlFilePath = str[1];
+            _DisplayDocument = new FileStream(_XmlFilePath, FileMode.Open);
+
         }
     }
 }

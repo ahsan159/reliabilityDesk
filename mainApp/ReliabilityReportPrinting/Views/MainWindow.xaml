@@ -4,17 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ReliabilityReportPrinting" 
-        xmlns:viewmodels="clr-namespace:ReliabilityReportPrinting.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
+        xmlns:viewmodels="clr-namespace:ReliabilityReportPrinting.ViewModels" 
         xmlns:ns="clr-namespace:ReliabilityReportPrinting"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <WebBrowser
-            x:Name="Browser"            
-            Source="C:/users/ahsan/source/output.html"
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Stretch"
-            >
-        </WebBrowser>
+        mc:Ignorable="d"                
+        xmlns:syncfusion="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF"        
+        Title="MainWindow" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
+        >
+    
+    <Grid>        
+        <!--<syncfusion:PdfViewerControl x:Name="pdfViewer" ItemSource="{Binding DisplayDocumnet}"></syncfusion:PdfViewerControl>-->
+        <WebBrowser local:BrowserBehavior.BindableSource="{Binding XmlFilePath}"></WebBrowser>
     </Grid>
 </Window>

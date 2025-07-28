@@ -19,7 +19,9 @@
     <None Remove="Resources\Images\NewFile.png" />
     <None Remove="Resources\Images\OpenFile.png" />
     <None Remove="Resources\Images\pencil.png" />
+    <None Remove="Resources\Images\Print.png" />
     <None Remove="Resources\Images\SaveFile.png" />
+    <None Remove="Resources\Images\SaveFileAs.png" />
     <None Remove="Resources\Images\SolveDiagram.png" />
     <None Remove="Resources\Images\SolveTree.png" />
   </ItemGroup>
@@ -62,7 +64,13 @@
     <Resource Include="Resources\Images\pencil.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\Print.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\SaveFile.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\SaveFileAs.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\SolveDiagram.png">
