@@ -15,6 +15,7 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <ToolBar Band="1" BandIndex="1" Grid.Column="0">
             <Button Margin="5 0" Width="60" 
@@ -85,6 +86,24 @@
                 <!--Command="{Binding SaveDiagramCommand}"-->
                 <Button.Content>
                     <Image Source="/Resources/Images/SolveDiagram.png"></Image>
+                </Button.Content>
+            </Button>
+        </ToolBar>
+        <ToolBar Band="5" BandIndex="5" Grid.Column="4">
+            <Button Margin="5 0" Width="60" 
+                    ToolTip="Set Active Part List"
+                    Command="{Binding SetActivePartListCommand}"
+                >
+                <Button.Content>
+                    <Image Source="/Resources/Images/Part.png"></Image>
+                </Button.Content>
+            </Button>
+            <Button Margin="5 0" Width="60" 
+                    ToolTip="View Part List"
+                    Command="{Binding ViewActivePartListCommand}"
+                >
+                <Button.Content>
+                    <Image Source="/Resources/Images/Assembly.png"></Image>
                 </Button.Content>
             </Button>
         </ToolBar>

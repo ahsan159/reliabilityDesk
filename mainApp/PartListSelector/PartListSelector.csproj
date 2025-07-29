@@ -8,12 +8,98 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\Assembly.png" />
+    <None Remove="Resources\Images\Delete.bmp" />
+    <None Remove="Resources\Images\Delete.png" />
+    <None Remove="Resources\Images\GreenTick.png" />
+    <None Remove="Resources\Images\NewFile.bmp" />
+    <None Remove="Resources\Images\NewFile.png" />
+    <None Remove="Resources\Images\OpenFile.bmp" />
+    <None Remove="Resources\Images\OpenFile.png" />
+    <None Remove="Resources\Images\Part.png" />
+    <None Remove="Resources\Images\pencil.bmp" />
+    <None Remove="Resources\Images\pencil.png" />
+    <None Remove="Resources\Images\Print.png" />
+    <None Remove="Resources\Images\Project.png" />
+    <None Remove="Resources\Images\SaveFile.bmp" />
+    <None Remove="Resources\Images\SaveFile.png" />
+    <None Remove="Resources\Images\SaveFileAs.png" />
+    <None Remove="Resources\Images\SolveDiagram.bmp" />
+    <None Remove="Resources\Images\SolveDiagram.png" />
+    <None Remove="Resources\Images\SolveTree.bmp" />
+    <None Remove="Resources\Images\SolveTree.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Prism.Unity" Version="8.1.97" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
     <PackageReference Include="Syncfusion.PropertyGrid.WPF" Version="27.2.5" />
     <PackageReference Include="Syncfusion.SfDiagram.WPF" Version="27.2.5" />
     <PackageReference Include="Syncfusion.Shared.WPF" Version="27.2.5" />
     <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\Assembly.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Delete.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Delete.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\GreenTick.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\NewFile.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\NewFile.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\OpenFile.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\OpenFile.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Part.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\pencil.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\pencil.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Print.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Project.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\SaveFile.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\SaveFile.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\SaveFileAs.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\SolveDiagram.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\SolveDiagram.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\SolveTree.bmp">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\SolveTree.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

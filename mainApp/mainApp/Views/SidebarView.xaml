@@ -42,7 +42,9 @@
                 <!--This part required installation of nuget package of windows.interactivity.wpf-->
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedItemChanged">
-                        <i:InvokeCommandAction Command="{Binding TreeViewSelectionChanged}" CommandParameter="{Binding ElementName=projectTreeRelTV, Path=SelectedItem}"></i:InvokeCommandAction>
+                        <i:InvokeCommandAction Command="{Binding TreeViewSelectionChanged}"                                               
+                                               CommandParameter="{Binding ElementName=projectTreeRelTV, Path=SelectedItem}"
+                                               ></i:InvokeCommandAction>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <TreeView.ItemTemplate>
@@ -60,7 +62,7 @@
                             <!--Command="{Binding NewAssembly}"-->
                             <MenuItem.Header>Add Assembly</MenuItem.Header>
                         </MenuItem>
-                        <MenuItem Margin="0" Padding="0" Command="{Binding NewPart}">
+                        <MenuItem Margin="0" Padding="0" Command="{Binding NewPartAdditionCommand}">
                             <MenuItem.Header>Add Part</MenuItem.Header>
                         </MenuItem>
                         <MenuItem Margin="0" Padding="0" 
@@ -93,14 +95,13 @@
                 <TextBlock>Propery Editor</TextBlock>
             </Expander.Header>
             <sync:PropertyGrid Name="grid1" Height="auto" 
-                                   VerticalAlignment="Top" HorizontalAlignment="Stretch" 
-                                   Margin="0 5 0 5" 
-                                   SelectedObject="{Binding ElementName=projectTreeRelTV, Path=SelectedItem}"                               
-                                   >
+                               VerticalAlignment="Top" HorizontalAlignment="Stretch" 
+                               Margin="0 5 0 5" 
+                               SelectedObject="{Binding ElementName=projectTreeRelTV, Path=SelectedItem}"
+                               >
+                               <!--SelectedObject="{Binding selectedEntity}"-->
 
             </sync:PropertyGrid>
         </Expander>
-        <!--<TextBlock Text="this is sidebar"></TextBlock>-->
-
     </Grid>
 </UserControl>

@@ -15,9 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\Assembly.png" />
     <None Remove="Resources\Images\Delete.png" />
     <None Remove="Resources\Images\NewFile.png" />
     <None Remove="Resources\Images\OpenFile.png" />
+    <None Remove="Resources\Images\Part.png" />
     <None Remove="Resources\Images\pencil.png" />
     <None Remove="Resources\Images\Print.png" />
     <None Remove="Resources\Images\SaveFile.png" />
@@ -52,6 +54,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\Assembly.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\Delete.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -59,6 +64,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\OpenFile.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Part.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\pencil.png">

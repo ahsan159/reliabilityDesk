@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -8,16 +9,59 @@ using System.Xml.Linq;
 
 namespace PartListSelector.Template
 {
-    public class Part
+    public class Part : BindableBase
     {
         #region members of class
-        public string Name { get; set; }
-        public string Category { get; set; }
-        public string Subcategory { get; set; }
-        public string Description { get; set; }
-        public string MTBF { get; set; }
-        public string Package { get; set; }
-        public string Manufacturer { get; set; }
+        private string _Name = "";
+        private string _Category = "";
+        private string _Subcategory = "";
+        private string _Description = "";
+        private string _MTBF = "";
+        private string _Package = "";
+        private string _Manufacturer = "";
+
+        public string Name
+        {
+            set { SetProperty(ref _Name, value); }
+            get { return _Name; }
+        }
+
+        public string Category
+        {
+            set { SetProperty(ref _Category, value); }
+            get { return _Category; }
+        }
+
+        public string Subcategory
+        {
+            set { SetProperty(ref _Subcategory, value); }
+            get { return _Subcategory; }
+        }
+
+        public string MTBF
+        {
+            set { SetProperty(ref _MTBF, value); }
+            get { return _MTBF; }
+        }
+
+        public string Description
+        {
+            set { SetProperty(ref _Description, value); }
+            get { return _Description; }
+        }
+
+        public string Package
+        {
+            set { SetProperty(ref _Package, value); }
+            get { return _Package; }
+        }
+
+        public string Manufacturer
+        {
+            set { SetProperty(ref _Manufacturer, value); }
+            get { return _Manufacturer; }
+        }
+
         //public ObservableCollection<Part> PartCollection;
         #endregion
 
@@ -36,36 +80,36 @@ namespace PartListSelector.Template
         public Part(XElement element)
         {
             //PartCollection = new ObservableCollection<Part>();
-            Name = element.Value;
+            _Name = element.Value;
             foreach (XAttribute a in element.Attributes())
             {
                 if (a.Name == "Name")
                 {
-                    Name = a.Value;
+                    _Name = a.Value;
                 }
-                else if (a.Name == "mtbf")
+                else if (a.Name == "mtbf" | a.Name == "MTBF")
                 {
-                    MTBF = a.Value;
+                    _MTBF = a.Value;
                 }
-                else if (a.Name == "des")
+                else if (a.Name == "des" | a.Name == "Description")
                 {
-                    Description = a.Value;
+                    _Description = a.Value;
                 }
-                else if (a.Name == "pack")
+                else if (a.Name == "pack" | a.Name == "Package")
                 {
-                    Package = a.Value;
+                    _Package = a.Value;
                 }
-                else if (a.Name == "cat")
+                else if (a.Name == "cat" | a.Name == "Category")
                 {
-                    Category = a.Value;
+                    _Category = a.Value;
                 }
-                else if (a.Name == "scat")
+                else if (a.Name == "scat" | a.Name == "Subcategory")
                 {
-                    Subcategory = a.Value;
+                    _Subcategory = a.Value;
                 }
-                else if (a.Name == "mftr")
+                else if (a.Name == "mftr" | a.Name == "Manufacturer")
                 {
-                    Manufacturer = a.Value;
+                    _Manufacturer = a.Value;
                 }
             }
 
@@ -81,14 +125,31 @@ namespace PartListSelector.Template
         /// <returns> XElement</returns>
         public XElement toXElement()
         {
-            XElement element = new XElement(Name); ;
-            element.Add(new XAttribute(nameof(Name), Name));
-            element.Add(new XAttribute(nameof(Category), Category));
-            element.Add(new XAttribute(nameof(Subcategory), Subcategory));
-            element.Add(new XAttribute(nameof(MTBF), MTBF));
-            element.Add(new XAttribute(nameof(Description), Description));
-            element.Add(new XAttribute(nameof(Manufacturer), Manufacturer));
-
+            XElement element = new XElement("Part");
+            if (_Name.Count() > 0)
+            {
+                element.Add(new XAttribute(nameof(Name), _Name));
+            }
+            if (_Category.Count() > 0)
+            {
+                element.Add(new XAttribute(nameof(Category), _Category));
+            }
+            if (_Subcategory.Count() > 0)
+            {
+                element.Add(new XAttribute(nameof(Subcategory), _Subcategory));
+            }
+            if (_MTBF.Count() > 0)
+            {
+                element.Add(new XAttribute(nameof(MTBF), _MTBF));
+            }
+            if (_Description.Count() > 0)
+            {
+                element.Add(new XAttribute(nameof(Description), _Description));
+            }
+            if (_Manufacturer.Count() > 0)
+            {
+                element.Add(new XAttribute(nameof(Manufacturer), _Manufacturer));
+            }
             return element;
         }
         #endregion

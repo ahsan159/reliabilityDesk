@@ -9,7 +9,7 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         Title="Active Part List: Name" Height="450" Width="800">
-        <!--d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"-->
+    <!--d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"-->
     <Grid>
         <Grid.RowDefinitions >
             <RowDefinition Height="85"></RowDefinition>
@@ -17,37 +17,53 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0"                    
                     Margin="0 5 5 0">
-            <Button Content="Save" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="60" Margin="5 2 5 0" ></Button>
-            <Button Content="Open" HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="60" Margin="5 2 5 0">
+            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                    Width="60" Margin="5 2 5 0" 
+                    ToolTip="Open partlist"
+                    Command="{Binding OpenFileCommand}">
+                <Button.Content>
+                    <Image Source="pack://application:,,,/Resources/Images/OpenFile.png"></Image>
+                </Button.Content>
+            </Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="60" Margin="5 2 5 0" 
+                    ToolTip="Save partlist"
+                    Command="{Binding SaveFileCommand}">
+                <Button.Content>
+                    <Image Source="pack://application:,,,/Resources/Images/SaveFile.png"></Image>
+                </Button.Content>
+            </Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="60" Margin="5 2 5 0"
+                    ToolTip="Save partlist with new name"
+                    Command="{Binding SaveFileAsCommand}">
+                <Button.Content>
+                    <Image Source="pack://application:,,,/Resources/Images/SaveFileAs.png"></Image>
+                </Button.Content>
             </Button>
             <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"
                     Width="60" Margin="5 2 5 0" 
-                    Command="{Binding OpenFileCommand}">
+                    ToolTip="Add new part to partlist"
+                    Command="{Binding AddNewPart}">
                 <Button.Content>
-                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center"
-                               >Active Part List</TextBlock>
+                    <Image Source="pack://application:,,,/Resources/Images/Part.png"></Image>
+                </Button.Content>
+            </Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                     Width="60" Margin="5 2 5 0" 
+                    ToolTip="Delete part from partlist"
+                    Command="{Binding DeletePartCommand}"
+                    >
+                <Button.Content>
+                    <Image Source="pack://application:,,,/Resources/Images/Delete.png"></Image>
                 </Button.Content>
             </Button>
             <Button 
                 HorizontalAlignment="Left" VerticalAlignment="Stretch"
-                Width="60" Margin="5 2 5 0" >
+                Width="60" Margin="5 2 5 0" 
+                ToolTip="Select Part"
+                Command="{Binding SelectPartCommand}"
+                >
                 <Button.Content>
-                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center"
-                               >Default Part List</TextBlock>
-                </Button.Content>
-            </Button>
-            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"
-                    Width="60" Margin="5 2 5 0" >
-                <Button.Content>
-                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center"
-                               >New Part</TextBlock>
-                </Button.Content>
-            </Button>
-            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"
-                     Width="60" Margin="5 2 5 0" Command="{Binding TestCommand}">
-                <Button.Content>
-                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center"
-                               >Delete Part</TextBlock>
+                    <Image Source="pack://application:,,,/Resources/Images/GreenTick.png"></Image>
                 </Button.Content>
             </Button>
 
@@ -72,8 +88,8 @@
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding TestCommand}" CommandParameter="{Binding ElementName=collection, Path=SelectedItem}"></i:InvokeCommandAction>
                         </i:EventTrigger>
-                    </i:Interaction.Triggers>-->                
-                <DataGrid.Columns>                    
+                    </i:Interaction.Triggers>-->
+                <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" Header="Part No"
                                         FontWeight="Bold"
                                         Width="120"
@@ -87,7 +103,7 @@
                     <DataGridTextColumn Binding="{Binding Manufacturer}" Header="Manufacturer"
                                         Width="100"
                                         CanUserResize="False"
-                                        ></DataGridTextColumn>                                        
+                                        ></DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding MTBF}" Header="MTBF"
                                         Width="100"                                        
                                         CanUserResize="False"></DataGridTextColumn>

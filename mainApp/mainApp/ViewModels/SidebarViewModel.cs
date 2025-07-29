@@ -15,14 +15,17 @@ using mainApp.Template;
 using System.Collections.ObjectModel;
 using Prism.Commands;
 using System.Windows.Markup;
+using System.Diagnostics;
+using System.IO.Pipes;
 
 namespace mainApp.ViewModels
 {
     class SidebarViewModel : BindableBase
     {
         #region parameters
+        private string ActivePartListName = "";
         public ReliabilityEntity? selectedEntity = null;
-        public DelegateCommand NewPart { get; private set; }
+        public DelegateCommand NewPartAdditionCommand { get; private set; }
         public DelegateCommand<ReliabilityEntity> RemoveChildItem { get; private set; }
         public DelegateCommand OpenProperties { get; private set; }
         public DelegateCommand<ReliabilityEntity> TreeViewSelectionChanged { get; private set; }
@@ -60,11 +63,14 @@ namespace mainApp.ViewModels
             _ea.GetEvent<OpenProjectFileEvent>().Subscribe(openProjectFile);
             _ea.GetEvent<SaveProjectFileEvent>().Subscribe(SaveProjectFile);
             _ea.GetEvent<ReliabilityTreeCalculationEvent>().Subscribe(CalculateReliability);
+            _ea.GetEvent<SetActivePartListEvent>().Subscribe(SetActivePartList);
             _projectTreeRel = new ObservableCollection<ReliabilityEntity>();
 
             TreeViewSelectionChanged = new DelegateCommand<ReliabilityEntity>(SelectionChanged);
             RemoveChildItem = new DelegateCommand<ReliabilityEntity>(RemoveItemFromTree);
             AddToDiagramCommand = new DelegateCommand<ReliabilityEntity>(AddToDiagram);
+            NewPartAdditionCommand = new DelegateCommand(NewPartAddition);
+
             //NewAssembly = new DelegateCommand(AddNewAssembly)
         }
 
@@ -111,6 +117,16 @@ namespace mainApp.ViewModels
         {
             projectTreeRel[0].CalculateReliability(TimeReliability);
         }
+        /// <summary>
+        /// set active partlist name
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void SetActivePartList(string obj)
+        {
+            ActivePartListName = obj;
+        }
+
         #endregion
 
         #region selection changed method
@@ -127,6 +143,35 @@ namespace mainApp.ViewModels
         #endregion
 
         #region Delegate command functions
+
+
+        /// <summary>
+        /// this function will add new part to selected
+        /// assembly/project
+        /// </summary>
+        private void NewPartAddition()
+        {
+            
+            // start the part list selector for selection of part
+            Process proc = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.ArgumentList.Add(ActivePartListName);
+            startInfo.FileName = "C:\\Users\\muhammadahsan\\source\\repos\\reliabilityDesk\\mainApp\\PartListSelector\\bin\\Debug\\net6.0-windows\\PartListSelector.exe";
+            proc.StartInfo = startInfo;
+            proc.Start();
+
+            // get xml of selected part and convert to Xelement for addition in 
+            // selected assembly
+            NamedPipeClientStream client = new NamedPipeClientStream(".", "partTransferStream", PipeDirection.InOut, PipeOptions.Asynchronous);
+            client.Connect();
+            StreamReader reader = new StreamReader(client);
+            string str = reader.ReadToEnd();            
+            client.Dispose();
+            XElement element = XElement.Parse(str);
+            ReliabilityEntity rel = new ReliabilityEntity(element);
+            selectedEntity.AddChild(rel);
+
+        }
         public void RemoveItemFromTree(ReliabilityEntity rel)
         {
             if (selectedEntity.id == _projectTreeRel[0].id)

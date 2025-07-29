@@ -4,6 +4,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace mainApp.ViewModels
     {
         #region member functions
         private string ActiveFileName = "";
+        private string ActivePartListName = "";
         private static IEventAggregator _ea;
         public DelegateCommand openProjectCommand { get; }
         public DelegateCommand SaveDiagramCommand { get; set; }
@@ -23,6 +25,8 @@ namespace mainApp.ViewModels
         public DelegateCommand SolveProjectTreeCommand { get; set; }
         public DelegateCommand SaveAsDiagramCommand { get; set; }
         public DelegateCommand PrintProjectCommand { get; set; }
+        public DelegateCommand SetActivePartListCommand { get; set; }
+        public DelegateCommand ViewActivePartListCommand { get; set; }
         #endregion
 
         #region consturctor 
@@ -33,8 +37,14 @@ namespace mainApp.ViewModels
             SolveProjectTreeCommand = new DelegateCommand(SolveProjectTree);
             SaveAsDiagramCommand = new DelegateCommand(SaveAsProject);
             PrintProjectCommand = new DelegateCommand(PrintProject);
+            SetActivePartListCommand = new DelegateCommand(setActivePartList);
+            ViewActivePartListCommand = new DelegateCommand(ViewActivePartList);
             _ea = ea;
-            ActiveFileName = "";
+            ActiveFileName = "projectID3.xml";
+            if (File.Exists(ActiveFileName))
+            {
+                _ea.GetEvent<OpenProjectFileEvent>().Publish(ActiveFileName);
+            }
             //_ea.GetEvent<OpenProjectFileEvent>().Publish("openFile");
         }
         #endregion
@@ -67,8 +77,6 @@ namespace mainApp.ViewModels
                 _ea.GetEvent<OpenProjectFileEvent>().Publish(openFileDlg.FileName);
                 //_ea.GetEvent<OpenProjectFileEvent>().Publish(ActiveFileName);
             }
-
-
         }
 
         private void SaveAsProject()
@@ -124,6 +132,35 @@ namespace mainApp.ViewModels
             proc.Start();
 
         }
+
+        private void setActivePartList()
+        {
+
+            Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
+            openFileDlg.Filter = "Project File (*.prj)|*.prj|XML File (*.xml)|*.xml|All Files (*.*)|*.*";
+            openFileDlg.FilterIndex = 2;
+            openFileDlg.RestoreDirectory = true;
+            openFileDlg.Multiselect = false;
+            openFileDlg.InitialDirectory = System.IO.Directory.GetCurrentDirectory();
+            bool result = (bool)openFileDlg.ShowDialog();
+            if (result)
+            {
+                ActivePartListName = openFileDlg.FileName;
+                _ea.GetEvent<SetActivePartListEvent>().Publish(ActivePartListName);
+
+            }
+        }
+
+        private void ViewActivePartList()
+        {
+            Process proc = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = "C:\\Users\\muhammadahsan\\source\\repos\\reliabilityDesk\\mainApp\\PartListSelector\\bin\\Debug\\net6.0-windows\\PartListSelector.exe";
+            startInfo.ArgumentList.Add(ActivePartListName);
+            proc.StartInfo = startInfo;
+            proc.Start();
+        }
+
         #endregion
     }
 }
