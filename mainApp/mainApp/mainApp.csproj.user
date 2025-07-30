@@ -10,6 +10,9 @@
     <Compile Update="Views\ContentView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\InputDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\PrismShell.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -30,6 +33,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\ContentView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\InputDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\PrismShell.xaml">

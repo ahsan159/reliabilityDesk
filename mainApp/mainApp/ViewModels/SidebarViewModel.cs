@@ -17,6 +17,7 @@ using Prism.Commands;
 using System.Windows.Markup;
 using System.Diagnostics;
 using System.IO.Pipes;
+using mainApp.Views;
 
 namespace mainApp.ViewModels
 {
@@ -26,11 +27,14 @@ namespace mainApp.ViewModels
         private string ActivePartListName = "";
         public ReliabilityEntity? selectedEntity = null;
         public DelegateCommand NewPartAdditionCommand { get; private set; }
+        public DelegateCommand NewAssemblyAdditionCommand { get; private set; }
         public DelegateCommand<ReliabilityEntity> RemoveChildItem { get; private set; }
+        public DelegateCommand<ReliabilityEntity> RenameChildItemCommand { get; private set; }
         public DelegateCommand OpenProperties { get; private set; }
         public DelegateCommand<ReliabilityEntity> TreeViewSelectionChanged { get; private set; }
         public DelegateCommand<ReliabilityEntity> AddToDiagramCommand { get; private set; }
         //public DelegateCommand AddCommand { get; private set; }
+
 
         private ObservableCollection<ReliabilityEntity> _projectTreeRel;
 
@@ -70,10 +74,11 @@ namespace mainApp.ViewModels
             RemoveChildItem = new DelegateCommand<ReliabilityEntity>(RemoveItemFromTree);
             AddToDiagramCommand = new DelegateCommand<ReliabilityEntity>(AddToDiagram);
             NewPartAdditionCommand = new DelegateCommand(NewPartAddition);
+            NewAssemblyAdditionCommand = new DelegateCommand(NewAssemblyAddition);
+            RenameChildItemCommand = new DelegateCommand<ReliabilityEntity>(RenameChildItem);
 
             //NewAssembly = new DelegateCommand(AddNewAssembly)
         }
-
         #endregion
 
         #region Event Aggregated function from toolbar
@@ -151,7 +156,7 @@ namespace mainApp.ViewModels
         /// </summary>
         private void NewPartAddition()
         {
-            
+
             // start the part list selector for selection of part
             Process proc = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -165,7 +170,7 @@ namespace mainApp.ViewModels
             NamedPipeClientStream client = new NamedPipeClientStream(".", "partTransferStream", PipeDirection.InOut, PipeOptions.Asynchronous);
             client.Connect();
             StreamReader reader = new StreamReader(client);
-            string str = reader.ReadToEnd();            
+            string str = reader.ReadToEnd();
             client.Dispose();
             XElement element = XElement.Parse(str);
             ReliabilityEntity rel = new ReliabilityEntity(element);
@@ -185,6 +190,19 @@ namespace mainApp.ViewModels
             //MessageBox.Show("Deteting" + selectedEntity.Name + "," + selectedEntity.EntityType + "," + selectedEntity.MTBF);
         }
 
+        public void RenameChildItem(ReliabilityEntity rel)
+        {
+            InputDialog inDialog = new InputDialog();
+            inDialog.ShowDialog();
+            if (inDialog.result)
+            {
+                selectedEntity.Name = inDialog.UpdatedName;
+            }
+            SaveProjectFile("temp.xml.temp");
+            projectTreeRel.Clear();
+            openProjectFile("temp.xml.temp");
+        }
+
         public void AddToDiagram(ReliabilityEntity rel)
         {
             if (selectedEntity.id == _projectTreeRel[0].id)
@@ -196,6 +214,16 @@ namespace mainApp.ViewModels
                 _ea.GetEvent<AddNewNodeEvent>().Publish(selectedEntity);
             }
         }
+        /// <summary>
+        /// Adding new Assembly as child
+        /// </summary>        
+        private void NewAssemblyAddition()
+        {
+            ReliabilityEntity rel = new ReliabilityEntity("NewAssembly", ReliabilityEntityType.Assembly);
+            selectedEntity.AddChild(rel);
+            //throw new NotImplementedException();
+        }
+
 
         #endregion
 

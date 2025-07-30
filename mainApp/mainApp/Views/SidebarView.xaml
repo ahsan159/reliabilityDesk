@@ -57,29 +57,37 @@
                 </TreeView.ItemTemplate>
                 <TreeView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Margin="0" Padding="0" 
+                        <MenuItem Margin="5 0" Padding="0" 
+                                  Command="{Binding NewAssemblyAdditionCommand}"
                                   >
                             <!--Command="{Binding NewAssembly}"-->
                             <MenuItem.Header>Add Assembly</MenuItem.Header>
                         </MenuItem>
-                        <MenuItem Margin="0" Padding="0" Command="{Binding NewPartAdditionCommand}">
+                        <MenuItem Margin="5 0" Padding="0" Command="{Binding NewPartAdditionCommand}">
                             <MenuItem.Header>Add Part</MenuItem.Header>
                         </MenuItem>
-                        <MenuItem Margin="0" Padding="0" 
+                        <Separator Margin="0" Padding="0"></Separator>
+                        <MenuItem Margin="5 0" Padding="0" 
                                   Command="{Binding AddToDiagramCommand}"
                                   CommandParameter="{Binding ElementName=projectTreeRelTV,Path=SelectedItem}"
                                   >
                             <MenuItem.Header>Add to Diagram</MenuItem.Header>
                         </MenuItem>
+                        <Separator Margin="0" Padding="0"></Separator>
                         <!--<Separator Margin="0" Padding="0" />-->
-                        <MenuItem Margin="0" Padding="0" Command="{Binding RemoveChildItem}" 
+                        <MenuItem Margin="5 0" Padding="0" Command="{Binding RemoveChildItem}" 
                                   CommandParameter="{Binding ElementName=projectTreeRelTV,Path=SelectedItem}">
                             <MenuItem.Header>Delete</MenuItem.Header>
                         </MenuItem>
-                        <!--<Separator Margin="0" Padding="0" />-->
-                        <MenuItem Margin="0" Padding="0" Command="{Binding OpenProperties}">
-                            <MenuItem.Header>Properties</MenuItem.Header>
+                        <MenuItem Margin="5 0" Padding="0" Command="{Binding RenameChildItemCommand}" 
+                                  CommandParameter="{Binding ElementName=projectTreeRelTV,Path=SelectedItem}">
+                            <MenuItem.Header>Rename</MenuItem.Header>
                         </MenuItem>
+                        <Separator Margin="0" Padding="0"></Separator>                        
+                        <!--<Separator Margin="0" Padding="0" />-->
+                        <!--<MenuItem Margin="5 0" Padding="0" Command="{Binding OpenProperties}">
+                            <MenuItem.Header>Properties</MenuItem.Header>
+                        </MenuItem>-->
                     </ContextMenu>
                 </TreeView.ContextMenu>
             </TreeView>
@@ -99,7 +107,7 @@
                                Margin="0 5 0 5" 
                                SelectedObject="{Binding ElementName=projectTreeRelTV, Path=SelectedItem}"
                                >
-                               <!--SelectedObject="{Binding selectedEntity}"-->
+                <!--SelectedObject="{Binding selectedEntity}"-->
 
             </sync:PropertyGrid>
         </Expander>
