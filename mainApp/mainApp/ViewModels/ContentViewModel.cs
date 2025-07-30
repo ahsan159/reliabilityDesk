@@ -57,6 +57,60 @@ namespace mainApp.ViewModels
             _NodeCollection = new ObservableCollection<NodeViewModel>();
             _ConnectorCollection = new ObservableCollection<ConnectorViewModel>();
             ItemAddCommand = new DelegateCommand<ReliabilityEntity>(AddItem);
+
+            // Create Begin Node
+            AnnotationCollection aCollect = new AnnotationCollection();
+            AnnotationEditorViewModel a = new AnnotationEditorViewModel();
+            a.Content = "Begin";
+            a.FontSize = 24;
+            a.ReadOnly = true;
+            aCollect.Add(a);
+
+            // Add points to connect with connector
+            PortCollection pCollect = new PortCollection();
+            NodePortViewModel PRight = new NodePortViewModel();
+            PRight.NodeOffsetX = 1;
+            PRight.NodeOffsetY = 0.5;            
+            pCollect.Add(PRight);
+
+            NodeViewModel AddedNode = new NodeViewModel();
+            AddedNode.ID = "begin";
+            AddedNode.Key = "begin";
+            AddedNode.OffsetX = 400;
+            AddedNode.OffsetY = 500;
+            AddedNode.UnitHeight = 60;
+            AddedNode.UnitWidth = 120;            
+            AddedNode.Ports = pCollect;
+            AddedNode.Annotations = aCollect;
+
+            _NodeCollection.Add(AddedNode);
+
+            // Create End Node
+            AnnotationCollection aCollect1 = new AnnotationCollection();
+            AnnotationEditorViewModel a1 = new AnnotationEditorViewModel();
+            a1.Content = "End";
+            a1.FontSize = 24;
+            a1.ReadOnly = true;
+            aCollect1.Add(a1);
+
+            // Add points to connect with connector
+            PortCollection pCollect1 = new PortCollection();
+            NodePortViewModel PLeft = new NodePortViewModel();
+            PLeft.NodeOffsetX = 0;
+            PLeft.NodeOffsetY = 0.5;            
+            pCollect.Add(PLeft);            
+
+            NodeViewModel AddedNode1 = new NodeViewModel();
+            AddedNode1.ID = "begin";
+            AddedNode1.Key = "begin";
+            AddedNode1.OffsetX = 400;
+            AddedNode1.OffsetY = 500;
+            AddedNode1.UnitHeight = 60;
+            AddedNode1.UnitWidth = 120;
+            AddedNode1.Ports = pCollect1;
+            AddedNode1.Annotations = aCollect1;
+
+            _NodeCollection.Add(AddedNode1);
         }
 
         #endregion
