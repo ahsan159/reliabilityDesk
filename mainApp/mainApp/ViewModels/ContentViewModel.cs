@@ -70,7 +70,7 @@ namespace mainApp.ViewModels
             PortCollection pCollect = new PortCollection();
             NodePortViewModel PRight = new NodePortViewModel();
             PRight.NodeOffsetX = 1;
-            PRight.NodeOffsetY = 0.5;            
+            PRight.NodeOffsetY = 0.5;                    
             pCollect.Add(PRight);
 
             NodeViewModel AddedNode = new NodeViewModel();

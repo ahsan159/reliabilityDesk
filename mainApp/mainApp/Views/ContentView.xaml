@@ -15,6 +15,7 @@
         >
     <Grid x:Name="grid">
         <Grid.Resources>
+            
             <Style TargetType="{x:Type sync:Node}">
                 <!--Any Geomtry can be assigned for Shape-->
                 <Setter Property="Shape">
@@ -63,13 +64,16 @@
             </Style>
         </Grid.Resources>
         <sync:SfDiagram x:Name="RBDiagram"                                               
-                        MinHeight="500" MinWidth="400"
                         Margin="5"                        
                         PortVisibility="Visible"
                         Nodes="{Binding NodeCollection}"
                         Connectors="{Binding ConnectorCollection}"   
-                        
+                        ScrollViewer.VerticalScrollBarVisibility="Hidden"                        
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
                         >
+                        <!--MinHeight="500" MinWidth="400"-->
+                        <!--ScrollViewer.HorizontalScrollBarVisibility="Hidden"-->
             <!--<i:Interaction.Triggers>
                 <i:EventTrigger EventName="ItemAddedCommand">
                     <i:InvokeCommandAction Command="{Binding SerializeDataCommand}" 
@@ -80,13 +84,11 @@
             </i:Interaction.Triggers>-->
             <sync:SfDiagram.PageSettings>
                 <sync:PageSettings
-                    PageWidth="950"
-                    PageHeight="850"
                     ShowPageBreaks="False"
                     MultiplePage="False"
                     PageBackground="LightGreen"
                     PageBorderBrush="Black"
-                    PageBorderThickness="3"                    
+                    PageBorderThickness="3"                                        
                     >
                 </sync:PageSettings>
             </sync:SfDiagram.PageSettings>

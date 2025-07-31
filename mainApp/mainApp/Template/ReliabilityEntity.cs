@@ -25,8 +25,11 @@ namespace mainApp.Template
         public string Description { get; set; } = "";
         public string Designators { get; set; } = "";
         public ReliabilityEntity? Parent { get; set; } = null;
+
+        public ReliabilityCalculation CalculationType { get; set; } = ReliabilityCalculation.Series;
         public ObservableCollection<ReliabilityEntity> Child { get; set; } = null;
         public int Count { get; private set; } = 0;
+        public string Quantity { get; set; } = "1";
         #endregion
 
         #region constructor
@@ -149,6 +152,21 @@ namespace mainApp.Template
                     {
                         Designators = a.Value;
                     }
+                    else if (a.Name == "CalculationType")
+                    {
+                        if (a.Value == "Parallel")
+                        {
+                            CalculationType = ReliabilityCalculation.Parallel;
+                        }
+                        else
+                        {
+                            CalculationType = ReliabilityCalculation.Series;
+                        }
+                    }
+                    else if (a.Name == "Quantity")
+                    {
+                        Quantity = a.Value;
+                    }
                 }
             }
             if (element.HasElements)
@@ -194,10 +212,16 @@ namespace mainApp.Template
         #endregion
 
         #region help functions to manage project tree
+        /// <summary>
+        /// Add Child if it is not part
+        /// </summary>
+        /// <param name="rel"></param>
         public void AddChild(ReliabilityEntity rel)
         {
-            Child.Add(rel);
-            Count = Count + 1;
+            if (EntityType != ReliabilityEntityType.Part)
+            {
+                Child.Add(rel);
+            }
         }
         /// <summary>
         /// Setting parent is for future expected use
@@ -285,6 +309,14 @@ namespace mainApp.Template
             {
                 element.Add(new XAttribute(nameof(Designators), Designators));
             }
+            if (CalculationType == ReliabilityCalculation.Series || CalculationType == ReliabilityCalculation.Parallel)
+            {
+                element.Add(new XAttribute(nameof(CalculationType), CalculationType.ToString()));
+            }
+            if (Quantity.Length > 0)
+            {
+                element.Add(new XAttribute(nameof(Quantity), Quantity));
+            }
             foreach (ReliabilityEntity c in Child)
             {
                 element.Add(c.GetXElement());
@@ -303,6 +335,11 @@ namespace mainApp.Template
         {
             // variable to store reliability of assembly/project
             double finalReliability = 1;
+            double finalQuantity = -1;
+            if (!double.TryParse(Quantity, out finalQuantity))
+            {
+                finalQuantity = -1;
+            }
             if (EntityType == ReliabilityEntityType.Part)
             {
                 double MTBFDouble;
@@ -315,6 +352,14 @@ namespace mainApp.Template
                 else
                 {
                     double ReliabilityDouble = Math.Exp(-TimeHour / MTBFDouble);
+                    if (CalculationType == ReliabilityCalculation.Series)
+                    {
+                        ReliabilityDouble = Math.Pow(ReliabilityDouble, finalQuantity);
+                    }
+                    else if (CalculationType == ReliabilityCalculation.Parallel)
+                    {
+                        ReliabilityDouble = 1 - Math.Pow((1 - ReliabilityDouble), finalQuantity);
+                    }
                     Reliability = ReliabilityDouble.ToString();
                 }
             }
