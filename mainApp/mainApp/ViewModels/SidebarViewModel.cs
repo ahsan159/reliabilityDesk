@@ -68,6 +68,7 @@ namespace mainApp.ViewModels
             _ea.GetEvent<SaveProjectFileEvent>().Subscribe(SaveProjectFile);
             _ea.GetEvent<ReliabilityTreeCalculationEvent>().Subscribe(CalculateReliability);
             _ea.GetEvent<SetActivePartListEvent>().Subscribe(SetActivePartList);
+            _ea.GetEvent<RefreshTreeEvent>().Subscribe(RefreshTree);
             _projectTreeRel = new ObservableCollection<ReliabilityEntity>();
 
             TreeViewSelectionChanged = new DelegateCommand<ReliabilityEntity>(SelectionChanged);
@@ -82,6 +83,15 @@ namespace mainApp.ViewModels
         #endregion
 
         #region Event Aggregated function from toolbar
+        /// <summary>
+        /// this will refresh tree view for all project tree items
+        /// </summary>
+        /// <param name="fileName"></param>
+        private void RefreshTree(string fileName)
+        {
+            _projectTreeRel.Clear();
+            openProjectFile(fileName);
+        }
         /// <summary>
         /// Open a project file 
         /// name will be provided by toolbar

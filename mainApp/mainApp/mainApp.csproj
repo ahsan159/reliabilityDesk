@@ -22,6 +22,7 @@
     <None Remove="Resources\Images\Part.png" />
     <None Remove="Resources\Images\pencil.png" />
     <None Remove="Resources\Images\Print.png" />
+    <None Remove="Resources\Images\Refresh.png" />
     <None Remove="Resources\Images\SaveFile.png" />
     <None Remove="Resources\Images\SaveFileAs.png" />
     <None Remove="Resources\Images\SolveDiagram.png" />
@@ -73,6 +74,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\Print.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Refresh.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\SaveFile.png">

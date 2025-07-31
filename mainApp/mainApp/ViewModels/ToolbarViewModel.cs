@@ -27,6 +27,7 @@ namespace mainApp.ViewModels
         public DelegateCommand PrintProjectCommand { get; set; }
         public DelegateCommand SetActivePartListCommand { get; set; }
         public DelegateCommand ViewActivePartListCommand { get; set; }
+        public DelegateCommand RefreshTreeCommand { get; set; }
         #endregion
 
         #region consturctor 
@@ -39,6 +40,7 @@ namespace mainApp.ViewModels
             PrintProjectCommand = new DelegateCommand(PrintProject);
             SetActivePartListCommand = new DelegateCommand(setActivePartList);
             ViewActivePartListCommand = new DelegateCommand(ViewActivePartList);
+            RefreshTreeCommand = new DelegateCommand(RefreshTree);
             _ea = ea;
             ActiveFileName = "projectID3.xml";
             if (File.Exists(ActiveFileName))
@@ -50,6 +52,11 @@ namespace mainApp.ViewModels
         #endregion
 
         #region command implementations
+
+        private void RefreshTree()
+        {
+            _ea.GetEvent<RefreshTreeEvent>().Publish(ActiveFileName);
+        }
 
         /// <summary>
         /// This function will publish a reliability calculation event
