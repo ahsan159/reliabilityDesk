@@ -12,6 +12,9 @@ using Syncfusion.UI.Xaml.Diagram;
 using Prism.Events;
 using System.IO;
 using System.Windows;
+using Syncfusion.UI.Xaml.Diagram.Controls;
+using Syncfusion.UI.Xaml.Diagram.Serializer;
+using System.Windows.Media;
 
 namespace mainApp.ViewModels
 {
@@ -70,7 +73,7 @@ namespace mainApp.ViewModels
             PortCollection pCollect = new PortCollection();
             NodePortViewModel PRight = new NodePortViewModel();
             PRight.NodeOffsetX = 1;
-            PRight.NodeOffsetY = 0.5;                    
+            PRight.NodeOffsetY = 0.5;
             pCollect.Add(PRight);
 
             NodeViewModel AddedNode = new NodeViewModel();
@@ -79,7 +82,7 @@ namespace mainApp.ViewModels
             AddedNode.OffsetX = 400;
             AddedNode.OffsetY = 500;
             AddedNode.UnitHeight = 60;
-            AddedNode.UnitWidth = 120;            
+            AddedNode.UnitWidth = 120;
             AddedNode.Ports = pCollect;
             AddedNode.Annotations = aCollect;
 
@@ -97,8 +100,8 @@ namespace mainApp.ViewModels
             PortCollection pCollect1 = new PortCollection();
             NodePortViewModel PLeft = new NodePortViewModel();
             PLeft.NodeOffsetX = 0;
-            PLeft.NodeOffsetY = 0.5;            
-            pCollect.Add(PLeft);            
+            PLeft.NodeOffsetY = 0.5;
+            pCollect.Add(PLeft);
 
             NodeViewModel AddedNode1 = new NodeViewModel();
             AddedNode1.ID = "begin";
@@ -128,9 +131,11 @@ namespace mainApp.ViewModels
 
             // Display Node Text
             AnnotationCollection aCollect = new AnnotationCollection();
-            AnnotationEditorViewModel a = new AnnotationEditorViewModel();
-            a.Content = rel.Name;
-            a.FontSize = 24;
+            TextAnnotationViewModel a = new TextAnnotationViewModel();
+            a.Text = rel.Name;
+            a.VerticalAlignment = VerticalAlignment.Bottom;
+            a.FontSize = 36;
+            a.FontWeight = FontWeights.Bold;
             a.ReadOnly = true;
             aCollect.Add(a);
 
@@ -145,7 +150,7 @@ namespace mainApp.ViewModels
             pCollect.Add(PLeft);
             pCollect.Add(PRight);
 
-            NodeViewModel AddedNode = new NodeViewModel();            
+            NodeViewModel AddedNode = new NodeViewModel();
             AddedNode.ID = rel.id;
             AddedNode.Key = rel.id;
             AddedNode.OffsetX = 400;
@@ -155,9 +160,44 @@ namespace mainApp.ViewModels
             AddedNode.Ports = pCollect;
             AddedNode.Annotations = aCollect;
 
+            // Add context menu to node
+            DiagramMenuItem menueItem = new DiagramMenuItem()
+            {
+                Content = "Properties",
+                Command = new DelegateCommand<NodeViewModel>(NodeProperties),
+                CommandParameter = AddedNode
+            };
+            AddedNode.Constraints = AddedNode.Constraints | NodeConstraints.Menu;
+            //AddedNode.Constraints = AddedNode.Constraints & ~NodeConstraints.InheritMenu;
+            AddedNode.Menu = new DiagramMenu();
+            AddedNode.Menu.MenuItems = new ObservableCollection<DiagramMenuItem>();
+            (AddedNode.Menu.MenuItems as ICollection<DiagramMenuItem>).Add(menueItem);
             _NodeCollection.Add(AddedNode);
 
             // Add
+        }
+
+        /// <summary>
+        /// Add a series or parallel diagram status
+        /// </summary>
+        /// <param name="obj"></param>
+        private void NodeProperties(NodeViewModel obj)
+        {
+            MessageBox.Show(obj.Key.ToString());
+            AnnotationCollection NodeAnnotations = (AnnotationCollection)obj.Annotations;
+            TextAnnotationViewModel a = new TextAnnotationViewModel();
+            a.Text = "Series";
+            a.TextDecorations = TextDecorations.Underline;
+            a.VerticalAlignment = VerticalAlignment.Top;
+            a.FontSize = 24;
+            a.FontWeight = FontWeights.Light;
+            a.ReadOnly = true;
+            a.TextWrapping = TextWrapping.NoWrap;          
+
+            NodeAnnotations.Add(a);
+            obj.Annotations = NodeAnnotations;
+
+            //throw new NotImplementedException();
         }
 
         /// <summary>
