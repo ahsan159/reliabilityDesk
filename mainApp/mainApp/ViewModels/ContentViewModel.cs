@@ -15,6 +15,7 @@ using System.Windows;
 using Syncfusion.UI.Xaml.Diagram.Controls;
 using Syncfusion.UI.Xaml.Diagram.Serializer;
 using System.Windows.Media;
+using mainApp.Views;
 
 namespace mainApp.ViewModels
 {
@@ -133,7 +134,7 @@ namespace mainApp.ViewModels
             AnnotationCollection aCollect = new AnnotationCollection();
             TextAnnotationViewModel a = new TextAnnotationViewModel();
             a.Text = rel.Name;
-            a.VerticalAlignment = VerticalAlignment.Bottom;
+            a.VerticalAlignment = VerticalAlignment.Top;
             a.FontSize = 36;
             a.FontWeight = FontWeights.Bold;
             a.ReadOnly = true;
@@ -161,7 +162,7 @@ namespace mainApp.ViewModels
             AddedNode.Annotations = aCollect;
 
             // Add context menu to node
-            DiagramMenuItem menueItem = new DiagramMenuItem()
+            DiagramMenuItem PropertiesMenuItem = new DiagramMenuItem()
             {
                 Content = "Properties",
                 Command = new DelegateCommand<NodeViewModel>(NodeProperties),
@@ -171,7 +172,7 @@ namespace mainApp.ViewModels
             //AddedNode.Constraints = AddedNode.Constraints & ~NodeConstraints.InheritMenu;
             AddedNode.Menu = new DiagramMenu();
             AddedNode.Menu.MenuItems = new ObservableCollection<DiagramMenuItem>();
-            (AddedNode.Menu.MenuItems as ICollection<DiagramMenuItem>).Add(menueItem);
+            (AddedNode.Menu.MenuItems as ICollection<DiagramMenuItem>).Add(PropertiesMenuItem);
             _NodeCollection.Add(AddedNode);
 
             // Add
@@ -183,19 +184,35 @@ namespace mainApp.ViewModels
         /// <param name="obj"></param>
         private void NodeProperties(NodeViewModel obj)
         {
-            MessageBox.Show(obj.Key.ToString());
             AnnotationCollection NodeAnnotations = (AnnotationCollection)obj.Annotations;
-            TextAnnotationViewModel a = new TextAnnotationViewModel();
-            a.Text = "Series";
-            a.TextDecorations = TextDecorations.Underline;
-            a.VerticalAlignment = VerticalAlignment.Top;
-            a.FontSize = 24;
-            a.FontWeight = FontWeights.Light;
-            a.ReadOnly = true;
-            a.TextWrapping = TextWrapping.NoWrap;          
+            if (NodeAnnotations.Count == 2)
+            {
+                // remove last annotation 
+                // this will happen if user wants to 
+                // add another configuration of 
+                // series or parallel 
+                NodeAnnotations.RemoveAt(1);
+            }
+            TextAnnotationViewModel? old = NodeAnnotations[0] as TextAnnotationViewModel;
+            string unitName = old.Text;
+            DiagramInputPropery diagramInputPorpertyDlg = new DiagramInputPropery(unitName);
+            //MessageBox.Show(unitName);
+            diagramInputPorpertyDlg.ShowDialog();
+            if (diagramInputPorpertyDlg.result)
+            {
+                TextAnnotationViewModel a = new TextAnnotationViewModel();
+                a.Text = diagramInputPorpertyDlg.ConfigurationString;
+                //a.TextDecorations = TextDecorations.Underline;
+                a.VerticalAlignment = VerticalAlignment.Bottom;
+                a.FontSize = 20;
+                a.FontWeight = FontWeights.Light;
+                a.ReadOnly = true;
+                a.TextWrapping = TextWrapping.NoWrap;
 
-            NodeAnnotations.Add(a);
-            obj.Annotations = NodeAnnotations;
+                NodeAnnotations.Add(a);
+                obj.Annotations = NodeAnnotations;
+            }
+
 
             //throw new NotImplementedException();
         }

@@ -19,11 +19,13 @@ namespace mainApp.Views
     /// </summary>
     public partial class DiagramInputPropery : Window
     {
-        public string UnitName;
-        public string[] Items = {"Series", "Parallel"};
+        public string UnitName = "Input";
+        public string[] Items = { "Series", "Parallel" };
         public string SelectedValue = "";
-        public string Quantity;
-        public string QuantityRequired;
+        public string Quantity = "0";
+        public string QuantityRequired = "0";
+        public string ConfigurationString = "";
+        public bool result = false;
         public DiagramInputPropery()
         {
             InitializeComponent();
@@ -32,7 +34,75 @@ namespace mainApp.Views
         {
             InitializeComponent();
             UnitName = _name;
-            this.Title = "Properties: " + UnitName; 
+            this.Title = "Properties: " + UnitName;
+            comboselect.ItemsSource = Items;
+        }
+
+        private void comboselect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboselect.SelectedIndex == 0)
+            {
+                qTotal.IsEnabled = false;
+                qRequired.IsEnabled = false;
+            }
+            else if (comboselect.SelectedIndex == 1)
+            {
+                qTotal.IsEnabled = true;
+                qRequired.IsEnabled = true;
+            }
+        }
+        /// <summary>
+        /// analyze data if OK is selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OKClick_Click(object sender, RoutedEventArgs e)
+        {
+            if (comboselect.SelectedIndex == 0)
+            {
+                // if selected index in series
+                ConfigurationString = Items[comboselect.SelectedIndex];
+                //MessageBox.Show(ConfigurationString);
+                result = true;
+                this.Close();
+            }
+            else if (comboselect.SelectedIndex == 1)
+            {
+                // if selected index in parallel
+                int qT;
+                int qR;
+                bool TResult = int.TryParse(qTotal.Text, out qT);
+                bool RResult = int.TryParse(qRequired.Text, out qR);
+                if (TResult & RResult)
+                {
+
+                    ConfigurationString = Items[comboselect.SelectedIndex] + " " + qT.ToString() + ":" + qR.ToString();
+                }
+                else
+                {
+                    // return warning if input is invalid
+                    MessageBox.Show("Warning: Invalid Configuration", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                //MessageBox.Show(ConfigurationString);
+                result = true;
+                this.Close();
+            }
+            else
+            {
+                // return warning if nothing is selected
+                MessageBox.Show("Warning: Invalid Configuration", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+        /// <summary>
+        /// return nothing if cancel is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CancelClick_Click(object sender, RoutedEventArgs e)
+        {
+            // return nothing if cancel is selected
+            result = false;
+            this.Close();
         }
     }
 }

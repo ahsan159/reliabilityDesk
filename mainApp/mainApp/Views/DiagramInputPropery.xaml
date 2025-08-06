@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:mainApp.Views"
         mc:Ignorable="d"
-        Title="DiagramInputPropery" Height="450" Width="450"
+        Title="DiagramInputPropery" Height="250" Width="250"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel Orientation="Vertical" Width="200">
@@ -17,16 +17,50 @@
                >
             </Label>
             <ComboBox x:Name="comboselect"
-                >
+                      Margin="5"
+                      SelectionChanged="comboselect_SelectionChanged"
+                      >
             </ComboBox>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Quantity"
-                       >                    
-                </Label>
-                <TextBox x:Name="qTotal" Text="{Binding Quantity}"></TextBox><Label Content="Quantity"
-                       >                    
-                </Label>
-                <TextBox x:Name="qRequired" Text="{Binding QuantityRequired}"></TextBox>
+            <StackPanel Orientation="Vertical"
+                        Margin="5"
+                        >
+                <DockPanel Margin="5">
+                    <Label Content="Quantity:"></Label>
+                    <TextBox x:Name="qTotal" 
+                             Text="{Binding Quantity}"
+                             Width="60"
+                             DockPanel.Dock="Right"
+                             HorizontalAlignment="Right"
+                             ></TextBox>
+                </DockPanel>
+                <DockPanel Margin="5">
+                    <Label Content="Quantity Required:"></Label>
+                    <TextBox x:Name="qRequired"
+                             Text="{Binding QuantityRequired}"
+                             Width="60"
+                             DockPanel.Dock="Right"
+                             HorizontalAlignment="Right"
+                             ></TextBox>
+                </DockPanel>
+                <DockPanel Margin="5">
+                    <Button x:Name="OKClick" DockPanel.Dock="Left"
+                            Margin="10 5 5 5"
+                            Width="70"
+                            Height="40"
+                            HorizontalAlignment="Left"
+                            Content="OK"
+                            Click="OKClick_Click"
+                            >
+                    </Button><Button x:Name="CancelClick" DockPanel.Dock="Right"
+                            Margin="5 5 10 5"
+                            Width="70"
+                            Height="40"
+                            HorizontalAlignment="Right"
+                            Content="Cancel"
+                            Click="CancelClick_Click"
+                            >
+                    </Button>
+                </DockPanel>
             </StackPanel>
         </StackPanel>
     </Grid>
