@@ -95,7 +95,8 @@
                 </Button.Content>
             </Button>
             <Button Margin="5 0" Width="60" 
-                        ToolTip="Solve Diagram"
+                    ToolTip="Solve Diagram"
+                    Command="{Binding SolveDiagramCommand}"
                 >
                 <!--Command="{Binding SaveDiagramCommand}"-->
                 <Button.Content>

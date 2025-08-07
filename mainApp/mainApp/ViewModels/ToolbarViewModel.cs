@@ -28,6 +28,7 @@ namespace mainApp.ViewModels
         public DelegateCommand SetActivePartListCommand { get; set; }
         public DelegateCommand ViewActivePartListCommand { get; set; }
         public DelegateCommand RefreshTreeCommand { get; set; }
+        public DelegateCommand SolveDiagramCommand { get; set; }
         #endregion
 
         #region consturctor 
@@ -41,6 +42,7 @@ namespace mainApp.ViewModels
             SetActivePartListCommand = new DelegateCommand(setActivePartList);
             ViewActivePartListCommand = new DelegateCommand(ViewActivePartList);
             RefreshTreeCommand = new DelegateCommand(RefreshTree);
+            SolveDiagramCommand = new DelegateCommand(SolveDiagram);
             _ea = ea;
             ActiveFileName = "projectID3.xml";
             if (File.Exists(ActiveFileName))
@@ -49,9 +51,18 @@ namespace mainApp.ViewModels
             }
             //_ea.GetEvent<OpenProjectFileEvent>().Publish("openFile");
         }
+
         #endregion
 
         #region command implementations
+
+
+        private void SolveDiagram()
+        {
+            _ea.GetEvent<SolveDiagramEvent>().Publish(87600);
+
+            //throw new NotImplementedException();
+        }
 
         private void RefreshTree()
         {

@@ -58,6 +58,7 @@ namespace mainApp.ViewModels
             _eaAddNode = ea;
             _eaSave.GetEvent<SaveDiagramFileEvent>().Subscribe(SaveDiagram);
             _eaAddNode.GetEvent<AddNewNodeEvent>().Subscribe(AddItem);
+            _eaSave.GetEvent<SolveDiagramEvent>().Subscribe(SolveDiagram);
             _NodeCollection = new ObservableCollection<NodeViewModel>();
             _ConnectorCollection = new ObservableCollection<ConnectorViewModel>();
             ItemAddCommand = new DelegateCommand<ReliabilityEntity>(AddItem);
@@ -115,6 +116,45 @@ namespace mainApp.ViewModels
             AddedNode1.Annotations = aCollect1;
 
             _NodeCollection.Add(AddedNode1);
+        }
+
+        #endregion
+
+        #region Event Aggregated functions
+
+        /// <summary>
+        /// This function to solve the diagram
+        /// of the project.
+        /// </summary>
+        /// <param name="MissionTime"></param>
+        private void SolveDiagram(double MissionTime)
+        {
+            MessageBox.Show("Solving the tree");
+        }
+
+
+        /// <summary>
+        /// save diagram data
+        /// saving diagram data has proven difficult in MVVM
+        /// because I am unable to understand referencing from 
+        /// other view models without exposing view to viewmodel
+        /// therefore i have crated a dummy diagram and add
+        /// nodes and ports to it and serializing dummy diagram
+        /// has worked.
+        /// </summary>
+        /// <param name="FileName"></param>
+        private void SaveDiagram(string FileName)
+        {
+            //MessageBox.Show(FileName);
+            SfDiagram d = new SfDiagram();
+            d.Nodes = _NodeCollection;
+            d.Connectors = _ConnectorCollection;
+            //using (Stream str = File.Open(FileName, FileMode.Create))
+
+            using (Stream str = File.Open(FileName, FileMode.Create))
+            {
+                d.Save(str);
+            }
         }
 
         #endregion
@@ -215,30 +255,6 @@ namespace mainApp.ViewModels
 
 
             //throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// save diagram data
-        /// saving diagram data has proven difficult in MVVM
-        /// because I am unable to understand referencing from 
-        /// other view models without exposing view to viewmodel
-        /// therefore i have crated a dummy diagram and add
-        /// nodes and ports to it and serializing dummy diagram
-        /// has worked.
-        /// </summary>
-        /// <param name="FileName"></param>
-        private void SaveDiagram(string FileName)
-        {
-            //MessageBox.Show(FileName);
-            SfDiagram d = new SfDiagram();
-            d.Nodes = _NodeCollection;
-            d.Connectors = _ConnectorCollection;
-            //using (Stream str = File.Open(FileName, FileMode.Create))
-
-            using (Stream str = File.Open(FileName, FileMode.Create))
-            {
-                d.Save(str);
-            }
         }
 
         #endregion
