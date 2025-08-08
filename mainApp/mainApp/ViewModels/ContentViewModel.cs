@@ -204,9 +204,39 @@ namespace mainApp.ViewModels
             XElement nodes = schemaLess.Element(nameNodes);
             MessageBox.Show(nodes.Elements().Count().ToString());
 
+            
             foreach(XElement n in nodes.Elements())
             {
+                NodeViewModel node = new NodeViewModel();
+                XElement nodeAnnot = n.Element("Annotations");
+                AnnotationCollection aCollect = new AnnotationCollection();
+                foreach(XElement anot in nodeAnnot.Elements())
+                {
+                    aCollect.Add(this.GetAnnotation(anot));
+                }
 
+                // Add points to connect with connector
+                PortCollection pCollect = new PortCollection();
+                NodePortViewModel PLeft = new NodePortViewModel();
+                PLeft.NodeOffsetX = 0;
+                PLeft.NodeOffsetY = 0.5;
+                NodePortViewModel PRight = new NodePortViewModel();
+                PRight.NodeOffsetX = 1;
+                PRight.NodeOffsetY = 0.5;
+                pCollect.Add(PLeft);
+                pCollect.Add(PRight);
+
+
+                node.Annotations = aCollect;
+                node.Ports = pCollect;
+
+                node.UnitHeight = int.Parse(n.Element("Height").Value);
+                node.UnitWidth = int.Parse(n.Element("Width").Value);
+                node.OffsetX = int.Parse(n.Element("OffsetX").Value);
+                node.OffsetY = int.Parse(n.Element("OffsetY").Value);
+                node.Key = n.Element("Key").Value;
+
+                _NodeCollection.Add(node);
             }
 
             XElement connectors = schemaLess.Element(nameConnectors);
@@ -243,6 +273,30 @@ namespace mainApp.ViewModels
             //_NodeCollection = (ObservableCollection<NodeViewModel>)d.Nodes;
             //_ConnectorCollection = (ObservableCollection<ConnectorViewModel>)d.Connectors;
 
+        }
+
+        private TextAnnotationViewModel GetAnnotation(XElement ele)
+        {
+            TextAnnotationViewModel a = new TextAnnotationViewModel();
+            a.Text = ele.Element("Text").Value.ToString();
+            string vAlign = ele.Element("VerticalAlignment").Value;
+            if (vAlign == "Top")
+            {
+                a.VerticalAlignment = VerticalAlignment.Top;
+            }
+            else if(vAlign == "Bottom")
+            {
+                a.VerticalAlignment = VerticalAlignment.Bottom;
+            }
+            else if (vAlign == "Center")
+            {
+                a.VerticalAlignment = VerticalAlignment.Center;
+            }            
+            a.FontSize = 20;
+            a.FontWeight = FontWeights.Light;
+            a.ReadOnly = true;
+            a.TextWrapping = TextWrapping.NoWrap;
+            return a;
         }
         /// <summary>
         /// This function removes all the schema from the xml
