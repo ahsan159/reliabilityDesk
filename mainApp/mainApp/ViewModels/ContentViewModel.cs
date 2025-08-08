@@ -16,6 +16,10 @@ using Syncfusion.UI.Xaml.Diagram.Controls;
 using Syncfusion.UI.Xaml.Diagram.Serializer;
 using System.Windows.Media;
 using mainApp.Views;
+using Microsoft.Win32;
+using System.Xml.Schema;
+using System.Xml;
+using System.Windows.Xps.Packaging;
 
 namespace mainApp.ViewModels
 {
@@ -42,7 +46,7 @@ namespace mainApp.ViewModels
         {
             get { return _ConnectorCollection; }
             set { SetProperty(ref _ConnectorCollection, value); }
-        }
+        }        
 
         #endregion
 
@@ -57,8 +61,9 @@ namespace mainApp.ViewModels
             _eaSave = ea;
             _eaAddNode = ea;
             _eaSave.GetEvent<SaveDiagramFileEvent>().Subscribe(SaveDiagram);
-            _eaAddNode.GetEvent<AddNewNodeEvent>().Subscribe(AddItem);
             _eaSave.GetEvent<SolveDiagramEvent>().Subscribe(SolveDiagram);
+            _eaSave.GetEvent<OpenProjectDiagramEvent>().Subscribe(LoadDiagram);
+            _eaAddNode.GetEvent<AddNewNodeEvent>().Subscribe(AddItem);
             _NodeCollection = new ObservableCollection<NodeViewModel>();
             _ConnectorCollection = new ObservableCollection<ConnectorViewModel>();
             ItemAddCommand = new DelegateCommand<ReliabilityEntity>(AddItem);
@@ -106,8 +111,8 @@ namespace mainApp.ViewModels
             pCollect.Add(PLeft);
 
             NodeViewModel AddedNode1 = new NodeViewModel();
-            AddedNode1.ID = "begin";
-            AddedNode1.Key = "begin";
+            AddedNode1.ID = "end";
+            AddedNode1.Key = "end";
             AddedNode1.OffsetX = 400;
             AddedNode1.OffsetY = 500;
             AddedNode1.UnitHeight = 60;
@@ -129,7 +134,19 @@ namespace mainApp.ViewModels
         /// <param name="MissionTime"></param>
         private void SolveDiagram(double MissionTime)
         {
+            string tempFileName = ".solvetempdiagram.xml";
             MessageBox.Show("Solving the tree");
+            SaveDiagram(tempFileName);
+            XDocument document = XDocument.Load(tempFileName);
+            XName nameConnectors = "Connectors";
+            XName nameNodes = "Nodes";
+            XElement connectors = document.Element(nameConnectors);
+            XElement nodes = document.Element(nameNodes);
+
+            IEnumerable<XElement> connectorCollection = connectors.Descendants();
+            IEnumerable<XElement> nodeCollection = nodes.Descendants();
+
+            MessageBox.Show("Connectors: " + connectorCollection.Count().ToString() + ", Nodes: " + nodeCollection.Count().ToString());
         }
 
 
@@ -145,7 +162,7 @@ namespace mainApp.ViewModels
         /// <param name="FileName"></param>
         private void SaveDiagram(string FileName)
         {
-            //MessageBox.Show(FileName);
+            //MessageBox.Show(FileName);            
             SfDiagram d = new SfDiagram();
             d.Nodes = _NodeCollection;
             d.Connectors = _ConnectorCollection;
@@ -155,6 +172,105 @@ namespace mainApp.ViewModels
             {
                 d.Save(str);
             }
+        }
+
+        private void LoadDiagram(string FileName)
+        {
+            SfDiagram d = new SfDiagram();
+            //d.Nodes = _NodeCollection;
+            string diagramFileName = FileName + "Diagram.xml";
+            //MessageBox.Show(diagramFileName);
+            if (!File.Exists(diagramFileName))
+            {
+                MessageBox.Show(diagramFileName);
+            }
+
+            XDocument doc = XDocument.Load(diagramFileName);
+            XElement ele = doc.Root;
+            XElement schemaLess = RemoveSchema(ele);            
+
+
+            XName nameNodes = "Nodes";
+            XName nameConnectors = "Connectors";
+            
+            //schemaLess.Save("tempSchemaless.xml");
+            //MessageBox.Show(name.LocalName);            
+            //IEnumerable<XElement> nodes = schemaLess.Descendants(name);
+            //MessageBox.Show(nodes.Count().ToString());
+
+            _NodeCollection.Clear();
+            _ConnectorCollection.Clear();
+
+            XElement nodes = schemaLess.Element(nameNodes);
+            MessageBox.Show(nodes.Elements().Count().ToString());
+
+            foreach(XElement n in nodes.Elements())
+            {
+
+            }
+
+            XElement connectors = schemaLess.Element(nameConnectors);
+            MessageBox.Show(connectors.Elements().Count().ToString());
+
+
+
+
+            //using (Stream fileStream = File.Open(diagramFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            //{
+            //    try
+            //    {
+            //        d.Upgrade(fileStream);
+            //        d.Load(fileStream);
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        MessageBox.Show(e.ToString());
+            //    }
+            //}
+
+            //SfDiagram diagram = new SfDiagram();
+            //OpenFileDialog openfile = new OpenFileDialog();
+            //openfile.ShowDialog();
+            //using (Stream fileStream = openfile.OpenFile())
+            //{
+            //    diagram.Upgrade(fileStream);
+            //    diagram.Load(fileStream);
+            //}
+
+
+
+
+            //_NodeCollection = (ObservableCollection<NodeViewModel>)d.Nodes;
+            //_ConnectorCollection = (ObservableCollection<ConnectorViewModel>)d.Connectors;
+
+        }
+        /// <summary>
+        /// This function removes all the schema from the xml
+        /// file. which makes retrieving data from file
+        /// easier by comparing node name and values
+        /// this function is edited form of answer from
+        /// https://stackoverflow.com/questions/987135/how-to-remove-all-namespaces-from-xml-with-c
+        /// </summary>
+        /// <param name="xmlDocument"></param>
+        /// <returns></returns>
+        public XElement RemoveSchema(XElement xmlDocument)
+        {
+            if (!xmlDocument.HasElements)
+            {
+                XElement xElement = new XElement(xmlDocument.Name.LocalName);
+                xElement.Value = xmlDocument.Value;
+
+                foreach (XAttribute attribute in xmlDocument.Attributes())
+                    xElement.Add(new XAttribute(attribute.Name.LocalName, attribute.Value));
+
+                return xElement;
+            }
+            XElement output = new XElement(xmlDocument.Name.LocalName);
+            XElement temp = output;
+            temp.RemoveNodes();
+            output.Value = temp.Value;
+            output.Add(xmlDocument.Elements().Select(el => RemoveSchema(el)));
+            return output;
         }
 
         #endregion
@@ -180,6 +296,14 @@ namespace mainApp.ViewModels
             a.ReadOnly = true;
             aCollect.Add(a);
 
+            //TextAnnotationViewModel aReliability = new TextAnnotationViewModel();
+            //aReliability.Text = rel.Reliability;
+            //aReliability.VerticalAlignment = VerticalAlignment.Top;
+            //aReliability.FontSize = 36;
+            //aReliability.FontWeight = FontWeights.Bold;
+            //aReliability.ReadOnly = true;
+            //aCollect.Add(aReliability);
+
             // Add points to connect with connector
             PortCollection pCollect = new PortCollection();
             NodePortViewModel PLeft = new NodePortViewModel();
@@ -191,15 +315,25 @@ namespace mainApp.ViewModels
             pCollect.Add(PLeft);
             pCollect.Add(PRight);
 
-            NodeViewModel AddedNode = new NodeViewModel();
-            AddedNode.ID = rel.id;
-            AddedNode.Key = rel.id;
-            AddedNode.OffsetX = 400;
-            AddedNode.OffsetY = 500;
-            AddedNode.UnitHeight = 60;
-            AddedNode.UnitWidth = 120;
-            AddedNode.Ports = pCollect;
-            AddedNode.Annotations = aCollect;
+            NodeViewModel AddedNode = new NodeViewModel()
+            {
+                ID = rel.id,
+                Key = rel.id,
+                OffsetX = 400,
+                OffsetY = 500,
+                UnitHeight = 60,
+                UnitWidth = 120,
+                Ports = pCollect,
+                Annotations = aCollect
+            };
+            //AddedNode.ID = rel.id;
+            //AddedNode.Key = rel.id;
+            //AddedNode.OffsetX = 400;
+            //AddedNode.OffsetY = 500;
+            //AddedNode.UnitHeight = 60;
+            //AddedNode.UnitWidth = 120;
+            //AddedNode.Ports = pCollect;
+            //AddedNode.Annotations = aCollect;
 
             // Add context menu to node
             DiagramMenuItem PropertiesMenuItem = new DiagramMenuItem()

@@ -93,6 +93,7 @@ namespace mainApp.ViewModels
             {
                 ActiveFileName = openFileDlg.FileName;
                 _ea.GetEvent<OpenProjectFileEvent>().Publish(openFileDlg.FileName);
+                _ea.GetEvent<OpenProjectDiagramEvent>().Publish(openFileDlg.FileName);                
                 //_ea.GetEvent<OpenProjectFileEvent>().Publish(ActiveFileName);
             }
         }

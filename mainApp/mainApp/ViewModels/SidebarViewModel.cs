@@ -78,6 +78,8 @@ namespace mainApp.ViewModels
             NewAssemblyAdditionCommand = new DelegateCommand(NewAssemblyAddition);
             RenameChildItemCommand = new DelegateCommand<ReliabilityEntity>(RenameChildItem);
 
+            openProjectFile("C:\\Users\\muhammadahsan\\source\\repos\\reliabilityDesk\\mainApp\\mainApp\\bin\\Debug\\net6.0-windows\\projectID3.xml");
+            _ea.GetEvent<OpenProjectDiagramEvent>().Publish("C:\\Users\\muhammadahsan\\source\\repos\\reliabilityDesk\\mainApp\\mainApp\\bin\\Debug\\net6.0-windows\\projectID3.xml");
             //NewAssembly = new DelegateCommand(AddNewAssembly)
         }
         #endregion
