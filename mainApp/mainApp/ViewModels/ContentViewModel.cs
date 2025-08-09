@@ -46,7 +46,7 @@ namespace mainApp.ViewModels
         {
             get { return _ConnectorCollection; }
             set { SetProperty(ref _ConnectorCollection, value); }
-        }        
+        }
 
         #endregion
 
@@ -70,8 +70,8 @@ namespace mainApp.ViewModels
 
             // Create Begin Node
             AnnotationCollection aCollect = new AnnotationCollection();
-            AnnotationEditorViewModel a = new AnnotationEditorViewModel();
-            a.Content = "Begin";
+            TextAnnotationViewModel a = new TextAnnotationViewModel();
+            a.Text = "Begin";
             a.FontSize = 24;
             a.ReadOnly = true;
             aCollect.Add(a);
@@ -97,8 +97,8 @@ namespace mainApp.ViewModels
 
             // Create End Node
             AnnotationCollection aCollect1 = new AnnotationCollection();
-            AnnotationEditorViewModel a1 = new AnnotationEditorViewModel();
-            a1.Content = "End";
+            TextAnnotationViewModel a1 = new TextAnnotationViewModel();
+            a1.Text = "End";
             a1.FontSize = 24;
             a1.ReadOnly = true;
             aCollect1.Add(a1);
@@ -176,75 +176,48 @@ namespace mainApp.ViewModels
 
         private void LoadDiagram(string FileName)
         {
-            SfDiagram d = new SfDiagram();
-            //d.Nodes = _NodeCollection;
             string diagramFileName = FileName + "Diagram.xml";
             //MessageBox.Show(diagramFileName);
             if (!File.Exists(diagramFileName))
             {
-                MessageBox.Show(diagramFileName);
+                MessageBox.Show("File Not Found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
 
+            // Load the diagram from xml and remove schema
             XDocument doc = XDocument.Load(diagramFileName);
             XElement ele = doc.Root;
-            XElement schemaLess = RemoveSchema(ele);            
-
+            XElement schemaLess = RemoveSchema(ele);
 
             XName nameNodes = "Nodes";
             XName nameConnectors = "Connectors";
-            
-            //schemaLess.Save("tempSchemaless.xml");
-            //MessageBox.Show(name.LocalName);            
-            //IEnumerable<XElement> nodes = schemaLess.Descendants(name);
-            //MessageBox.Show(nodes.Count().ToString());
 
+            // clear any existring diagram entities
             _NodeCollection.Clear();
             _ConnectorCollection.Clear();
 
+            // this node dictionary will be created to generate
+            // connection from the previous loading xml file
+            Dictionary<string, int> nodeDictionary = new Dictionary<string, int>();
+
+            // this part will iterate through nodes and add them 
+            // one by one             
             XElement nodes = schemaLess.Element(nameNodes);
-            MessageBox.Show(nodes.Elements().Count().ToString());
-
-            
-            foreach(XElement n in nodes.Elements())
+            foreach (XElement n in nodes.Elements())
             {
-                NodeViewModel node = new NodeViewModel();
-                XElement nodeAnnot = n.Element("Annotations");
-                AnnotationCollection aCollect = new AnnotationCollection();
-                foreach(XElement anot in nodeAnnot.Elements())
-                {
-                    aCollect.Add(this.GetAnnotation(anot));
-                }
-
-                // Add points to connect with connector
-                PortCollection pCollect = new PortCollection();
-                NodePortViewModel PLeft = new NodePortViewModel();
-                PLeft.NodeOffsetX = 0;
-                PLeft.NodeOffsetY = 0.5;
-                NodePortViewModel PRight = new NodePortViewModel();
-                PRight.NodeOffsetX = 1;
-                PRight.NodeOffsetY = 0.5;
-                pCollect.Add(PLeft);
-                pCollect.Add(PRight);
-
-
-                node.Annotations = aCollect;
-                node.Ports = pCollect;
-
-                node.UnitHeight = int.Parse(n.Element("Height").Value);
-                node.UnitWidth = int.Parse(n.Element("Width").Value);
-                node.OffsetX = int.Parse(n.Element("OffsetX").Value);
-                node.OffsetY = int.Parse(n.Element("OffsetY").Value);
-                node.Key = n.Element("Key").Value;
-
-                _NodeCollection.Add(node);
+                _NodeCollection.Add(CreateNodeXML(n));
+                nodeDictionary.Add(n.Element("InternalID").Value.ToString(), _NodeCollection.Count - 1);
             }
 
-            XElement connectors = schemaLess.Element(nameConnectors);
-            MessageBox.Show(connectors.Elements().Count().ToString());
+            // this part will iterate through connectors and add them 
+            // one by one             
+            XElement connectors = schemaLess.Element(nameConnectors);            
+            foreach (XElement c in connectors.Elements())
+            {
+                _ConnectorCollection.Add(CreateConnectorXML(c, nodeDictionary));
+            }
 
-
-
-
+            #region commented region as origional code provided by syncfusion is not working
             //using (Stream fileStream = File.Open(diagramFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             //{
             //    try
@@ -267,31 +240,119 @@ namespace mainApp.ViewModels
             //    diagram.Load(fileStream);
             //}
 
-
-
-
             //_NodeCollection = (ObservableCollection<NodeViewModel>)d.Nodes;
-            //_ConnectorCollection = (ObservableCollection<ConnectorViewModel>)d.Connectors;
+            //_ConnectorCollection = (ObservableCollection<ConnectorViewModel>)d.Connectors; 
+            #endregion
 
         }
 
+        /// <summary>
+        /// this function will create a node from XElement
+        /// by iterating through XElement parameters and setting 
+        /// NodeViewModel parameters and adding it to the
+        /// nodecollection
+        /// this function is during load of diagram from xml
+        /// document
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        private NodeViewModel CreateNodeXML(XElement n)
+        {
+            NodeViewModel node = new NodeViewModel();
+            XElement nodeAnnot = n.Element("Annotations");
+            AnnotationCollection aCollect = new AnnotationCollection();
+            foreach (XElement anot in nodeAnnot.Elements())
+            {
+                aCollect.Add(GetAnnotation(anot));
+            }
+
+            // Add points to connect with connector
+            PortCollection pCollect = new PortCollection();
+            NodePortViewModel PLeft = new NodePortViewModel();
+            PLeft.NodeOffsetX = 0;
+            PLeft.NodeOffsetY = 0.5;
+            NodePortViewModel PRight = new NodePortViewModel();
+            PRight.NodeOffsetX = 1;
+            PRight.NodeOffsetY = 0.5;
+            pCollect.Add(PLeft);
+            pCollect.Add(PRight);
+
+
+            node.Annotations = aCollect;
+            node.Ports = pCollect;
+
+            node.UnitHeight = int.Parse(n.Element("Height").Value);
+            node.UnitWidth = int.Parse(n.Element("Width").Value);
+            node.OffsetX = int.Parse(n.Element("OffsetX").Value);
+            node.OffsetY = int.Parse(n.Element("OffsetY").Value);
+            node.Key = n.Element("Key").Value;
+            node.ID = n.Element("InternalID").Value;
+
+            DiagramMenuItem PropertiesMenuItem = new DiagramMenuItem()
+            {
+                Content = "Properties",
+                Command = new DelegateCommand<NodeViewModel>(NodeProperties),
+                CommandParameter = node
+            };
+            node.Constraints = node.Constraints | NodeConstraints.Menu;
+            //AddedNode.Constraints = AddedNode.Constraints & ~NodeConstraints.InheritMenu;
+            node.Menu = new DiagramMenu();
+            node.Menu.MenuItems = new ObservableCollection<DiagramMenuItem>();
+            (node.Menu.MenuItems as ICollection<DiagramMenuItem>).Add(PropertiesMenuItem);
+            return node;
+        }
+
+        /// <summary>
+        /// this function will create a node from XElement
+        /// by iterating through XElement parameters and setting 
+        /// ConnectorViewModel parameters and adding it to the
+        /// connectorcollection
+        /// this function is during load of diagram from xml
+        /// document
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="nodeDictionary"></param>
+        /// <returns></returns>
+        private ConnectorViewModel CreateConnectorXML(XElement c, Dictionary<string, int> nodeDictionary)
+        {
+            //NodeViewModel source = _NodeCollection.ElementAt(nodeDictionary[c.Element("SourceId").Value.ToString()]);
+            //NodeViewModel target = _NodeCollection.ElementAt(nodeDictionary[c.Element("TargetId").Value.ToString()]);
+            ConnectorViewModel conn = new ConnectorViewModel()
+            {
+                SourceNode = _NodeCollection.ElementAt(nodeDictionary[c.Element("SourceId").Value.ToString()]),
+                TargetNode = _NodeCollection.ElementAt(nodeDictionary[c.Element("TargetId").Value.ToString()])
+            };
+            return conn;
+        }
+
+        /// <summary>
+        /// this function will create a annotation from XElement
+        /// by iterating through XElement parameters and setting 
+        /// TextAnnotationViewModel parameters and adding it to the
+        /// Annotation Collection
+        /// this function is during load of diagram from xml
+        /// document
+        /// </summary>
+        /// <param name="ele"></param>
+        /// <returns></returns>
         private TextAnnotationViewModel GetAnnotation(XElement ele)
         {
             TextAnnotationViewModel a = new TextAnnotationViewModel();
+            MessageBox.Show(ele.Element("Text").Value.ToString());
             a.Text = ele.Element("Text").Value.ToString();
             string vAlign = ele.Element("VerticalAlignment").Value;
             if (vAlign == "Top")
             {
                 a.VerticalAlignment = VerticalAlignment.Top;
             }
-            else if(vAlign == "Bottom")
+            else if (vAlign == "Bottom")
             {
                 a.VerticalAlignment = VerticalAlignment.Bottom;
             }
             else if (vAlign == "Center")
             {
                 a.VerticalAlignment = VerticalAlignment.Center;
-            }            
+            }
             a.FontSize = 20;
             a.FontWeight = FontWeights.Light;
             a.ReadOnly = true;
