@@ -30,6 +30,8 @@ namespace mainApp.ViewModels
 
         IEventAggregator _eaAddNode;
 
+        private string ActiveFileName = "";
+
         public DelegateCommand<ReliabilityEntity> ItemAddCommand { get; set; }
 
         private ObservableCollection<NodeViewModel> _NodeCollection;
@@ -134,19 +136,49 @@ namespace mainApp.ViewModels
         /// <param name="MissionTime"></param>
         private void SolveDiagram(double MissionTime)
         {
-            string tempFileName = ".solvetempdiagram.xml";
-            MessageBox.Show("Solving the tree");
-            SaveDiagram(tempFileName);
-            XDocument document = XDocument.Load(tempFileName);
-            XName nameConnectors = "Connectors";
-            XName nameNodes = "Nodes";
-            XElement connectors = document.Element(nameConnectors);
-            XElement nodes = document.Element(nameNodes);
+            double reliabilityValue = 1.0;
+            if (!File.Exists(ActiveFileName))
+            {
+                MessageBox.Show("Cannot find file: " + ActiveFileName);
+                return;
+            }
+            XDocument doc = XDocument.Load(ActiveFileName);
+            XElement rootElement = doc.Root;
+            ReliabilityEntity tempProjectTree = new ReliabilityEntity(rootElement);
+            Dictionary<string, double> dictionary = new Dictionary<string, double>();
+            CreateDictionary(tempProjectTree, ref dictionary);
+            NodeViewModel Source = _NodeCollection.First(n => n.Key.ToString() == "begin");
+            while (Source.Key.ToString() != "end")
+            {
+                double rel;
+                try
+                {
+                    rel = dictionary[Source.Key.ToString()];
+                }
+                catch (Exception e)
+                {
+                    rel = 1;
+                }
+                reliabilityValue *= rel;
+                ConnectorViewModel c = _ConnectorCollection.First(c => c.SourceNode == Source);
+                NodeViewModel Target = _NodeCollection.First(n => n == c.TargetNode);
+                MessageBox.Show("Next Node: " + Target.Key + "\nReliability: " + reliabilityValue.ToString() + "\nRel: " + rel);
+                Source = Target;
+            }
+            MessageBox.Show("Diagram Solved");
 
-            IEnumerable<XElement> connectorCollection = connectors.Descendants();
-            IEnumerable<XElement> nodeCollection = nodes.Descendants();
+        }
 
-            MessageBox.Show("Connectors: " + connectorCollection.Count().ToString() + ", Nodes: " + nodeCollection.Count().ToString());
+        private void CreateDictionary(ReliabilityEntity root, ref Dictionary<string, double> dictionary)
+        {
+            dictionary.Add(root.id, double.Parse(root.Reliability));
+            if (root.Child.Count > 0)
+            {
+                foreach (ReliabilityEntity e in root.Child)
+                {
+                    CreateDictionary(e, ref dictionary);
+                }
+            }
         }
 
 
@@ -174,8 +206,13 @@ namespace mainApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Load previously saved file
+        /// </summary>
+        /// <param name="FileName"></param>
         private void LoadDiagram(string FileName)
         {
+            ActiveFileName = FileName;
             string diagramFileName = FileName + "Diagram.xml";
             //MessageBox.Show(diagramFileName);
             if (!File.Exists(diagramFileName))
@@ -211,7 +248,7 @@ namespace mainApp.ViewModels
 
             // this part will iterate through connectors and add them 
             // one by one             
-            XElement connectors = schemaLess.Element(nameConnectors);            
+            XElement connectors = schemaLess.Element(nameConnectors);
             foreach (XElement c in connectors.Elements())
             {
                 _ConnectorCollection.Add(CreateConnectorXML(c, nodeDictionary));
@@ -338,7 +375,7 @@ namespace mainApp.ViewModels
         private TextAnnotationViewModel GetAnnotation(XElement ele)
         {
             TextAnnotationViewModel a = new TextAnnotationViewModel();
-            MessageBox.Show(ele.Element("Text").Value.ToString());
+            //MessageBox.Show(ele.Element("Text").Value.ToString());
             a.Text = ele.Element("Text").Value.ToString();
             string vAlign = ele.Element("VerticalAlignment").Value;
             if (vAlign == "Top")

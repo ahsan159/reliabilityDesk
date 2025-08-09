@@ -59,6 +59,12 @@ namespace mainApp.ViewModels
 
         private void SolveDiagram()
         {
+            // before solving diagram save the project tree
+            _ea.GetEvent<SaveProjectFileEvent>().Publish(ActiveFileName);
+            // solve project tree before solving diagram so that
+            // updated tree reliabilities can be used 
+            _ea.GetEvent<ReliabilityTreeCalculationEvent>().Publish(87600);
+            // solve the diagram
             _ea.GetEvent<SolveDiagramEvent>().Publish(87600);
 
             //throw new NotImplementedException();
@@ -74,6 +80,8 @@ namespace mainApp.ViewModels
         /// </summary>
         private void SolveProjectTree()
         {
+            // first save the project tree
+            _ea.GetEvent<SaveProjectFileEvent>().Publish(ActiveFileName);
             // open window asking for the calculation point for project 
             // value added for testing purposes only
             _ea.GetEvent<ReliabilityTreeCalculationEvent>().Publish(87600);
