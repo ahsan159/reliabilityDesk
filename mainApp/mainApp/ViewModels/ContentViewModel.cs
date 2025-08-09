@@ -151,6 +151,7 @@ namespace mainApp.ViewModels
             while (Source.Key.ToString() != "end")
             {
                 double rel;
+                // have to remove this try catch in future
                 try
                 {
                     rel = dictionary[Source.Key.ToString()];
@@ -169,6 +170,13 @@ namespace mainApp.ViewModels
 
         }
 
+        /// <summary>
+        /// helper function in solving reliabilty diagram
+        /// creates a dictionary of all the reliability entities
+        /// for their id's and reliability
+        /// </summary>
+        /// <param name="root"></param>
+        /// <param name="dictionary"></param>
         private void CreateDictionary(ReliabilityEntity root, ref Dictionary<string, double> dictionary)
         {
             dictionary.Add(root.id, double.Parse(root.Reliability));
