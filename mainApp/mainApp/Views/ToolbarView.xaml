@@ -91,7 +91,7 @@
                         Command="{Binding SolveProjectTreeCommand}"                        
                 >
                 <Button.Content>
-                    <Image Source="/Resources/Images/SolveTree.png"></Image>
+                    <Image Source="pack://application:,,,/Resources/Images/SolveTree.png"></Image>
                 </Button.Content>
             </Button>
             <Button Margin="5 0" Width="60" 
@@ -100,7 +100,16 @@
                 >
                 <!--Command="{Binding SaveDiagramCommand}"-->
                 <Button.Content>
-                    <Image Source="/Resources/Images/SolveDiagram.png"></Image>
+                    <Image Source="pack://application:,,,/Resources/Images/SolveDiagram.png"></Image>
+                </Button.Content>
+            </Button>
+            <Button Margin="5 0" Width="60" 
+                    ToolTip="Open Saved Results"
+                    Command="{Binding OpenSavedResultsCommand}"
+                >
+                <!--Command="{Binding SaveDiagramCommand}"-->
+                <Button.Content>
+                    <Image Source="pack://application:,,,/Resources/Images/Table.png"></Image>
                 </Button.Content>
             </Button>
         </ToolBar>

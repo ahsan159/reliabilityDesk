@@ -16,7 +16,9 @@
 
   <ItemGroup>
     <None Remove="Resources\Images\Assembly.png" />
+    <None Remove="Resources\Images\Close.png" />
     <None Remove="Resources\Images\Delete.png" />
+    <None Remove="Resources\Images\Icon.png" />
     <None Remove="Resources\Images\NewFile.png" />
     <None Remove="Resources\Images\OpenFile.png" />
     <None Remove="Resources\Images\Part.png" />
@@ -27,6 +29,7 @@
     <None Remove="Resources\Images\SaveFileAs.png" />
     <None Remove="Resources\Images\SolveDiagram.png" />
     <None Remove="Resources\Images\SolveTree.png" />
+    <None Remove="Resources\Images\Table.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,7 +61,13 @@
     <Resource Include="Resources\Images\Assembly.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\Close.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\Delete.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\NewFile.png">
@@ -89,6 +98,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\SolveTree.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Table.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

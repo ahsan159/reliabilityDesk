@@ -16,6 +16,9 @@
     <Compile Update="Views\PrismShell.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\RBDResults.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\SidebarView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -39,6 +42,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\PrismShell.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RBDResults.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\SidebarView.xaml">

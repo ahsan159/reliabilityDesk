@@ -20,6 +20,7 @@ using Microsoft.Win32;
 using System.Xml.Schema;
 using System.Xml;
 using System.Windows.Xps.Packaging;
+using System.Data;
 
 namespace mainApp.ViewModels
 {
@@ -50,6 +51,14 @@ namespace mainApp.ViewModels
             set { SetProperty(ref _ConnectorCollection, value); }
         }
 
+        private DataTable _resultTable = new DataTable();
+        public DataTable ResultTable
+        {
+            get { return _resultTable; }
+            set { SetProperty(ref _resultTable, value); }
+        }
+
+
         #endregion
 
         #region constructor
@@ -65,6 +74,7 @@ namespace mainApp.ViewModels
             _eaSave.GetEvent<SaveDiagramFileEvent>().Subscribe(SaveDiagram);
             _eaSave.GetEvent<SolveDiagramEvent>().Subscribe(SolveDiagram);
             _eaSave.GetEvent<OpenProjectDiagramEvent>().Subscribe(LoadDiagram);
+            _eaSave.GetEvent<OpenSavedResultsEvent>().Subscribe(DisplaySavedResults);
             _eaAddNode.GetEvent<AddNewNodeEvent>().Subscribe(AddItem);
             _NodeCollection = new ObservableCollection<NodeViewModel>();
             _ConnectorCollection = new ObservableCollection<ConnectorViewModel>();
@@ -137,6 +147,7 @@ namespace mainApp.ViewModels
         private void SolveDiagram(double MissionTime)
         {
             double reliabilityValue = 1.0;
+            // load active project tree file
             if (!File.Exists(ActiveFileName))
             {
                 MessageBox.Show("Cannot find file: " + ActiveFileName);
@@ -145,29 +156,96 @@ namespace mainApp.ViewModels
             XDocument doc = XDocument.Load(ActiveFileName);
             XElement rootElement = doc.Root;
             ReliabilityEntity tempProjectTree = new ReliabilityEntity(rootElement);
+
+            // create a dictionary from project to get assembly and parts reliability
+            // data for diagram solving
             Dictionary<string, double> dictionary = new Dictionary<string, double>();
             CreateDictionary(tempProjectTree, ref dictionary);
+
+            // create a datatable for saving and displaying 
+            // results
+            _resultTable = new DataTable();
+            _resultTable.Columns.Add("SrNo", typeof(int));
+            _resultTable.Columns.Add("Unit", typeof(string));
+            _resultTable.Columns.Add("Configuration", typeof(string));
+            _resultTable.Columns.Add("Reliability", typeof(double));
+
+            // select the first node the diagram
             NodeViewModel Source = _NodeCollection.First(n => n.Key.ToString() == "begin");
             while (Source.Key.ToString() != "end")
             {
                 double rel;
-                // have to remove this try catch in future
-                try
-                {
-                    rel = dictionary[Source.Key.ToString()];
-                }
-                catch (Exception e)
+                // check if node the available or not
+                // this if is only added as begin node is not 
+                // part of project tree
+                if (!dictionary.TryGetValue(Source.Key.ToString(), out rel))
                 {
                     rel = 1;
                 }
+                else
+                {
+                    // save the block results in data table
+                    // ommit results for begin
+                    DataRow row1 = _resultTable.NewRow();
+                    row1["SrNo"] = _resultTable.Rows.Count + 1;
+                    string[] NameConf = GetAnnotationFromNode(Source);
+                    row1["Unit"] = NameConf[0];
+                    row1["Configuration"] = NameConf[1];
+                    row1["Reliability"] = reliabilityValue;
+                    _resultTable.Rows.Add(row1);
+
+                }
                 reliabilityValue *= rel;
+                // get exiting connector
                 ConnectorViewModel c = _ConnectorCollection.First(c => c.SourceNode == Source);
+                // get the target node at the other end of the connector
                 NodeViewModel Target = _NodeCollection.First(n => n == c.TargetNode);
-                MessageBox.Show("Next Node: " + Target.Key + "\nReliability: " + reliabilityValue.ToString() + "\nRel: " + rel);
+                //MessageBox.Show("Next Node: " + Target.Key + "\nReliability: " + reliabilityValue.ToString() + "\nRel: " + rel);
                 Source = Target;
             }
-            MessageBox.Show("Diagram Solved");
+            DataRow rowinal = _resultTable.NewRow();
+            rowinal["SrNo"] = _resultTable.Rows.Count;
+            rowinal["Unit"] = "Final Reliability";
+            rowinal["Reliability"] = reliabilityValue;
+            _resultTable.Rows.Add(rowinal);
+            MessageBox.Show("Diagram Solved\n" + " Reliability calculated: " + reliabilityValue);
+            RBDResults ResultsDisplay = new RBDResults(_resultTable);
+            ResultsDisplay.ShowDialog();
+        }
 
+        /// <summary>
+        /// This function will call RBDResults to display
+        /// </summary>
+        private void DisplaySavedResults()
+        {
+            if (_resultTable.Rows.Count != 0)
+            {
+                RBDResults ResultsDisplay = new RBDResults(_resultTable);
+                ResultsDisplay.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Run Solve Diagram First", "Info", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+        }
+        /// <summary>
+        /// function to populate results table
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private string[] GetAnnotationFromNode(NodeViewModel node)
+        {
+            string[] annotationText = new string[2];
+            AnnotationCollection aCollect = (AnnotationCollection)node.Annotations;
+            TextAnnotationViewModel t1 = (TextAnnotationViewModel)aCollect.ElementAt(0);
+            annotationText[0] = t1.Text;
+            annotationText[1] = "";
+            if (aCollect.Count > 1)
+            {
+                TextAnnotationViewModel t2 = (TextAnnotationViewModel)aCollect.ElementAt(1);
+                annotationText[1] = t2.Text;
+            }
+            return annotationText;
         }
 
         /// <summary>
