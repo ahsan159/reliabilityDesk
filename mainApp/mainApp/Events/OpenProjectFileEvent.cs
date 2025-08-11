@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace mainApp
+namespace mainApp.Events
 {
     public class OpenProjectFileEvent : PubSubEvent<string>
     {

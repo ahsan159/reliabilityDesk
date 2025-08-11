@@ -5,11 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace mainApp
+namespace mainApp.Events
 {
-    public  class SaveDiagramFileEvent:PubSubEvent<string>
+    internal class OpenProjectDiagramEvent : PubSubEvent<string>
     {
-        
-        
     }
 }

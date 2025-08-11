@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace mainApp
+namespace mainApp.Events
 {
-    internal class OpenProjectDiagramEvent : PubSubEvent<string>
+    internal class SetActivePartListEvent : PubSubEvent<string>
     {
     }
 }

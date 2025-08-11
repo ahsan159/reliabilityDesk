@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Prism.Events;
+using mainApp.Template;
 
-namespace mainApp
+namespace mainApp.Events
 {
-    internal class ReliabilityTreeCalculationEvent:PubSubEvent<double>
+    public class AddNewNodeEvent : PubSubEvent<ReliabilityEntity>
     {
 
     }

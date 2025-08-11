@@ -18,6 +18,7 @@ using System.Windows.Markup;
 using System.Diagnostics;
 using System.IO.Pipes;
 using mainApp.Views;
+using mainApp.Events;
 
 namespace mainApp.ViewModels
 {

@@ -21,6 +21,7 @@ using System.Xml.Schema;
 using System.Xml;
 using System.Windows.Xps.Packaging;
 using System.Data;
+using mainApp.Events;
 
 namespace mainApp.ViewModels
 {
@@ -199,8 +200,7 @@ namespace mainApp.ViewModels
                 // get exiting connector
                 ConnectorViewModel c = _ConnectorCollection.First(c => c.SourceNode == Source);
                 // get the target node at the other end of the connector
-                NodeViewModel Target = _NodeCollection.First(n => n == c.TargetNode);
-                //MessageBox.Show("Next Node: " + Target.Key + "\nReliability: " + reliabilityValue.ToString() + "\nRel: " + rel);
+                NodeViewModel Target = _NodeCollection.First(n => n == c.TargetNode);                
                 Source = Target;
             }
             DataRow rowinal = _resultTable.NewRow();
@@ -208,9 +208,8 @@ namespace mainApp.ViewModels
             rowinal["Unit"] = "Final Reliability";
             rowinal["Reliability"] = reliabilityValue;
             _resultTable.Rows.Add(rowinal);
-            MessageBox.Show("Diagram Solved\n" + " Reliability calculated: " + reliabilityValue);
-            RBDResults ResultsDisplay = new RBDResults(_resultTable);
-            ResultsDisplay.ShowDialog();
+            //MessageBox.Show("Diagram Solved\n" + " Reliability calculated: " + reliabilityValue);
+            DisplaySavedResults();
         }
 
         /// <summary>

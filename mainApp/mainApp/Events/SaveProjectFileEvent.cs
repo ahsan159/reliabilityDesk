@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace mainApp
+namespace mainApp.Events
 {
-    public class SaveProjectFileEvent:PubSubEvent<string>
+    public class SaveProjectFileEvent : PubSubEvent<string>
     {
     }
 }

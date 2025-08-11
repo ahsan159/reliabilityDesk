@@ -32,13 +32,11 @@
                     VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch"
                     >
-                <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <ContentControl  prism:RegionManager.RegionName="MainRegion"                                          
-                                         >                            
-                        </ContentControl>
-                    </DockPanel>
-                </ScrollViewer>
+                <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <ContentControl  prism:RegionManager.RegionName="MainRegion"                                          
+                                         >
+                    </ContentControl>
+                </DockPanel>
             </Border>
         </DockPanel>
     </Grid>

@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace mainApp
+namespace mainApp.Events
 {
-    internal class RefreshTreeEvent:PubSubEvent<string>
+    public class SaveDiagramFileEvent : PubSubEvent<string>
     {
+
+
     }
 }
