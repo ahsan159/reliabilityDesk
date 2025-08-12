@@ -9,6 +9,13 @@
         WindowStartupLocation="CenterScreen"        
         >
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="Button" x:Key="buttonStyle">
+                <Setter Property="Width" Value="50"></Setter>
+                <Setter Property="Margin" Value="50 5 50 5"></Setter>
+                <Setter Property="FontSize" Value="12"></Setter>
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -61,27 +68,27 @@
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    >
-            <Button Width="50"
-                    Height="60"
-                    Margin="50 0">
+            <Button Style="{StaticResource buttonStyle}"
+                    Click="Button_Click_1"
+                    >
                 <StackPanel Orientation="Vertical"
                             Margin="0"
                             >
                     <Image 
+                        Width="20"                        
                         Margin="0"
                         Source="pack://application:,,,/Resources/Images/Print.png"></Image>
                     <Label Content="Print" HorizontalAlignment="Center"></Label>
                 </StackPanel>
             </Button>
-            <Button Width="50"
-                    Height="60"
-                    Margin="50 0"
+            <Button Style="{StaticResource buttonStyle}"
                     Click="Button_Click"
                     >
                 <StackPanel Orientation="Vertical"
                             Margin="0"
                             >
                     <Image 
+                        Width="20"
                         Margin="0"
                         Source="pack://application:,,,/Resources/Images/Close.png"></Image>
                     <Label Content="Close" HorizontalAlignment="Center"></Label>
