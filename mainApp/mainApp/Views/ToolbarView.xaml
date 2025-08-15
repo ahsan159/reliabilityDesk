@@ -13,9 +13,15 @@
         <!--<Style TargetType="{x:Type Button}">
             <Setter Property="Width" Value="60"></Setter>
 
-        </Style>-->               
+        </Style>-->
     </UserControl.Resources>
-    <Grid>        
+    <Grid>
+        <Grid.Resources>
+            <Style x:Key="toolbarbutton" TargetType="Button">
+                <Setter Property="Margin" Value="5 5"/>
+                <Setter Property="Width" Value="60"/>
+            </Style>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -24,33 +30,33 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <ToolBar Band="1" BandIndex="1" Grid.Column="0">
-            <Button Margin="5 0" Width="60" 
-                        ToolTip=" New File"
-                        Command="{Binding SaveDiagramCommand}"                        
+            <Button Style="{StaticResource toolbarbutton}"
+                    ToolTip=" New File"
+                    Command="{Binding SaveDiagramCommand}"                        
                 >
                 <Button.Content>
                     <Image Source="/Resources/Images/NewFile.png"></Image>
                 </Button.Content>
             </Button>
-            <Button ToolTip="Open File" 
-                        Margin="5 0" Width="60"
-                        Command="{Binding openProjectCommand}"                        
+            <Button Style="{StaticResource toolbarbutton}"
+                    ToolTip="Open File" 
+                    Command="{Binding openProjectCommand}"                        
                     >
                 <Button.Content>
                     <Image Source="/Resources/Images/OpenFile.png"></Image>
                 </Button.Content>
             </Button>
-            <Button Margin="5 0" Width="60" 
-                        ToolTip=" Save File"
-                        Command="{Binding SaveDiagramCommand}"
+            <Button Style="{StaticResource toolbarbutton}"
+                    ToolTip=" Save File"
+                    Command="{Binding SaveDiagramCommand}"
                 >
                 <Button.Content>
                     <Image Source="/Resources/Images/SaveFile.png"></Image>
                 </Button.Content>
             </Button>
-            <Button Margin="5 0" Width="60" 
-                        ToolTip=" Save As"
-                        Command="{Binding SaveAsDiagramCommand}"
+            <Button Style="{StaticResource toolbarbutton}"
+                    ToolTip=" Save As"
+                    Command="{Binding SaveAsDiagramCommand}"
                 >
                 <Button.Content>
                     <Image Source="/Resources/Images/SaveFileAs.png"></Image>
@@ -58,7 +64,7 @@
             </Button>
         </ToolBar>
         <ToolBar Band="4" BandIndex="4" Grid.Column="1">
-            <Button Margin="5 0" Width="60" 
+            <Button Style="{StaticResource toolbarbutton}"
                     ToolTip="Print"
                     Command="{Binding PrintProjectCommand}"
                 >
@@ -68,8 +74,8 @@
             </Button>
         </ToolBar>
         <ToolBar Band="2" BandIndex="2" Grid.Column="2">
-            <Button Margin="5 0" Width="60" 
-                        ToolTip="Delete"
+            <Button Style="{StaticResource toolbarbutton}"
+                    ToolTip="Delete"
                 >
                 <!--Command="{Binding SaveDiagramCommand}"-->
                 <Button.Content>
@@ -78,23 +84,23 @@
             </Button>
         </ToolBar>
         <ToolBar Band="3" BandIndex="3" Grid.Column="3">
-            <Button Margin="5 0" Width="60" 
-                        ToolTip="Refresh Project Tree"
-                        Command="{Binding RefreshTreeCommand}"                        
+            <Button Style="{StaticResource toolbarbutton}"
+                    ToolTip="Refresh Project Tree"
+                    Command="{Binding RefreshTreeCommand}"                        
                 >
                 <Button.Content>
                     <Image Source="pack://application:,,,/Resources/Images/Refresh.png"></Image>
                 </Button.Content>
             </Button>
-            <Button Margin="5 0" Width="60" 
-                        ToolTip="Solve Tree"
-                        Command="{Binding SolveProjectTreeCommand}"                        
+            <Button Style="{StaticResource toolbarbutton}"
+                    ToolTip="Solve Tree"
+                    Command="{Binding SolveProjectTreeCommand}"                        
                 >
                 <Button.Content>
                     <Image Source="pack://application:,,,/Resources/Images/SolveTree.png"></Image>
                 </Button.Content>
             </Button>
-            <Button Margin="5 0" Width="60" 
+            <Button Style="{StaticResource toolbarbutton}"
                     ToolTip="Solve Diagram"
                     Command="{Binding SolveDiagramCommand}"
                 >
@@ -103,7 +109,7 @@
                     <Image Source="pack://application:,,,/Resources/Images/SolveDiagram.png"></Image>
                 </Button.Content>
             </Button>
-            <Button Margin="5 0" Width="60" 
+            <Button Style="{StaticResource toolbarbutton}"
                     ToolTip="Open Saved Results"
                     Command="{Binding OpenSavedResultsCommand}"
                 >
@@ -114,7 +120,7 @@
             </Button>
         </ToolBar>
         <ToolBar Band="5" BandIndex="5" Grid.Column="4">
-            <Button Margin="5 0" Width="60" 
+            <Button Style="{StaticResource toolbarbutton}"
                     ToolTip="Set Active Part List"
                     Command="{Binding SetActivePartListCommand}"
                 >
@@ -122,7 +128,7 @@
                     <Image Source="/Resources/Images/Part.png"></Image>
                 </Button.Content>
             </Button>
-            <Button Margin="5 0" Width="60" 
+            <Button Style="{StaticResource toolbarbutton}"
                     ToolTip="View Part List"
                     Command="{Binding ViewActivePartListCommand}"
                 >
