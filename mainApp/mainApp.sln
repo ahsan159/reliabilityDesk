@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mainProjectTree", "mainProj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartListSelector", "PartListSelector\PartListSelector.csproj", "{8D7F7C7C-AF2B-4C40-A76F-8BE58C1947B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReliabilityReportPrinting", "ReliabilityReportPrinting\ReliabilityReportPrinting.csproj", "{51B1BFFA-5067-4726-8A39-7C913DD7E462}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReliabilityReportPrinting", "ReliabilityReportPrinting\ReliabilityReportPrinting.csproj", "{51B1BFFA-5067-4726-8A39-7C913DD7E462}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectDesk", "ProjectDesk\ProjectDesk.csproj", "{ACCEE6F0-C65B-40EC-BE61-1E8639BD0244}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{51B1BFFA-5067-4726-8A39-7C913DD7E462}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51B1BFFA-5067-4726-8A39-7C913DD7E462}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51B1BFFA-5067-4726-8A39-7C913DD7E462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACCEE6F0-C65B-40EC-BE61-1E8639BD0244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACCEE6F0-C65B-40EC-BE61-1E8639BD0244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACCEE6F0-C65B-40EC-BE61-1E8639BD0244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACCEE6F0-C65B-40EC-BE61-1E8639BD0244}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
