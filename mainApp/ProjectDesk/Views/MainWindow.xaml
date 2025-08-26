@@ -7,9 +7,121 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Height="450" Width="800"
-        Title="Project Desk" 
+        Title="Project Desk"  
+        WindowStyle="None"
+        AllowsTransparency="True"
+        WindowState="Maximized"
         >
+    <Window.Resources>
+        <Style x:Key="status" TargetType="Label">
+            <Setter Property="FontSize" Value="24">
+            </Setter>
+            <Setter Property="HorizontalAlignment" Value="Left">
+            </Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+        </Style>
+        <Style x:Key="titleStyle" TargetType="Run">
+            <Setter Property="FontWeight" Value="ExtraBold"></Setter>
+            <Setter Property="FontStretch" Value="Condensed"></Setter>
+            <Setter Property="FontSize" Value="24"></Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
+        <Grid.Resources>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
 
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="180"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="140"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <DockPanel 
+                Grid.Column="0" 
+                Background="AntiqueWhite"
+                >
+            </DockPanel>
+            <DockPanel
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                >
+                <!--Background="Aquamarine"-->
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Run Style="{StaticResource titleStyle}">R</Run>
+                    <Run Style="{StaticResource titleStyle}">E</Run>
+                    <Run Style="{StaticResource titleStyle}">L</Run>
+                    <Run Style="{StaticResource titleStyle}">I</Run>
+                    <Run Style="{StaticResource titleStyle}">A</Run>
+                    <Run Style="{StaticResource titleStyle}">B</Run>
+                    <Run Style="{StaticResource titleStyle}">I</Run>
+                    <Run Style="{StaticResource titleStyle}">L</Run>
+                    <Run Style="{StaticResource titleStyle}">I</Run>
+                    <Run Style="{StaticResource titleStyle}">T</Run>
+                    <Run Style="{StaticResource titleStyle}">Y</Run>
+                    <Run Style="{StaticResource titleStyle}"> </Run>
+                    <Run Style="{StaticResource titleStyle}">D</Run>
+                    <Run Style="{StaticResource titleStyle}">E</Run>
+                    <Run Style="{StaticResource titleStyle}">S</Run>
+                    <Run Style="{StaticResource titleStyle}">K</Run>
+
+                </TextBlock>
+            </DockPanel>
+            <StackPanel
+                Grid.Column="2"
+                Background="Bisque"
+                Orientation="Horizontal"
+                HorizontalAlignment="Right"
+                >
+                <Button Content="-" Width="40"></Button>
+                <Button Content="O" Width="40"></Button>
+                <Button Content="X" Width="40"></Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+        </Grid>
+        <Grid Grid.Row="2" Margin="10 0">
+            <StackPanel Orientation="Vertical">
+                <Expander ExpandDirection="Down">
+                    <Expander.Header>
+                        Diagram
+                    </Expander.Header>                    
+                    <DockPanel>
+                        <TextBlock>"This is text Block</TextBlock>
+                    </DockPanel>
+                </Expander>
+                <Expander ExpandDirection="Down">
+                    <Expander.Header>
+                        Project
+                    </Expander.Header>
+                    <DockPanel>
+                        <TextBlock>"This is text Block</TextBlock>
+                    </DockPanel>
+                </Expander>
+                <Expander ExpandDirection="Down">
+                    <Expander.Header>
+                        Configuration
+                    </Expander.Header>
+                    <DockPanel>
+                        <TextBlock>"This is text Block</TextBlock>
+                    </DockPanel>
+                </Expander>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="3" Background="Beige" 
+              HorizontalAlignment="Left" 
+              VerticalAlignment="Center"                            
+              >
+            <Label                 
+                Style="{StaticResource status}"
+                Content="this will be the status bar"
+                ></Label>
+        </Grid>
     </Grid>
 </Window>
