@@ -7,6 +7,12 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Resource Update="Resource\Buttons.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Update="Resource\Labels.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Update="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

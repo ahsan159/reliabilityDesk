@@ -6,6 +6,11 @@
                         >
              <!--StartupUri="MainWindow.xaml"-->
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Resource/Buttons.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/Resource/Labels.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>

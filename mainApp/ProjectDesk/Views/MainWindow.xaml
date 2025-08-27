@@ -13,14 +13,6 @@
         WindowState="Maximized"
         >
     <Window.Resources>
-        <Style x:Key="status" TargetType="Label">
-            <Setter Property="FontSize" Value="24">
-            </Setter>
-            <Setter Property="HorizontalAlignment" Value="Left">
-            </Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="FontWeight" Value="Bold"></Setter>
-        </Style>
         <Style x:Key="titleStyle" TargetType="Run">
             <Setter Property="FontWeight" Value="ExtraBold"></Setter>
             <Setter Property="FontStretch" Value="Condensed"></Setter>
@@ -54,22 +46,22 @@
                 >
                 <!--Background="Aquamarine"-->
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Run Style="{StaticResource titleStyle}">R</Run>
-                    <Run Style="{StaticResource titleStyle}">E</Run>
-                    <Run Style="{StaticResource titleStyle}">L</Run>
-                    <Run Style="{StaticResource titleStyle}">I</Run>
-                    <Run Style="{StaticResource titleStyle}">A</Run>
-                    <Run Style="{StaticResource titleStyle}">B</Run>
-                    <Run Style="{StaticResource titleStyle}">I</Run>
-                    <Run Style="{StaticResource titleStyle}">L</Run>
-                    <Run Style="{StaticResource titleStyle}">I</Run>
-                    <Run Style="{StaticResource titleStyle}">T</Run>
-                    <Run Style="{StaticResource titleStyle}">Y</Run>
-                    <Run Style="{StaticResource titleStyle}"> </Run>
-                    <Run Style="{StaticResource titleStyle}">D</Run>
-                    <Run Style="{StaticResource titleStyle}">E</Run>
-                    <Run Style="{StaticResource titleStyle}">S</Run>
-                    <Run Style="{StaticResource titleStyle}">K</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#00FF00">R</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#FF0000">E</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#0000FF">L</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#00FFFF">I</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#FFFF00">A</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#FF00FF">B</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#0FFF0F">I</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#0FFFF0">L</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#F0000F">I</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#0F00F0">T</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#FF0F0F">Y</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#00FFFF"> </Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#000000">D</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#FF00F0">E</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#F00000">S</Run>
+                    <Run Style="{StaticResource titleStyle}" Foreground="#000F00">K</Run>
 
                 </TextBlock>
             </DockPanel>
@@ -119,7 +111,7 @@
               VerticalAlignment="Center"                            
               >
             <Label                 
-                Style="{StaticResource status}"
+                Style="{StaticResource  StatusBarLabel}"
                 Content="this will be the status bar"
                 ></Label>
         </Grid>
