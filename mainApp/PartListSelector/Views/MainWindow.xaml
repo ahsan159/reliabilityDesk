@@ -11,45 +11,41 @@
         Title="Active Part List: Name" Height="450" Width="800">
     <!--d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"-->
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="37*"/>
+            <ColumnDefinition Width="123*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions >
             <RowDefinition Height="85"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0"                    
-                    Margin="0 5 5 0">
-            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"
-                    Width="60" Margin="5 2 5 0" 
-                    ToolTip="Open partlist"
+        <StackPanel Orientation="Horizontal" Grid.Row="0"                    
+                    Margin="0 5 5 0" Grid.ColumnSpan="2">
+            <Button ToolTip="Open partlist"
                     Command="{Binding OpenFileCommand}">
                 <Button.Content>
                     <Image Source="pack://application:,,,/Resources/Images/OpenFile.png"></Image>
                 </Button.Content>
             </Button>
-            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="60" Margin="5 2 5 0" 
-                    ToolTip="Save partlist"
+            <Button ToolTip="Save partlist"
                     Command="{Binding SaveFileCommand}">
                 <Button.Content>
                     <Image Source="pack://application:,,,/Resources/Images/SaveFile.png"></Image>
                 </Button.Content>
             </Button>
-            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="60" Margin="5 2 5 0"
-                    ToolTip="Save partlist with new name"
+            <Button ToolTip="Save partlist with new name"
                     Command="{Binding SaveFileAsCommand}">
                 <Button.Content>
                     <Image Source="pack://application:,,,/Resources/Images/SaveFileAs.png"></Image>
                 </Button.Content>
             </Button>
-            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"
-                    Width="60" Margin="5 2 5 0" 
-                    ToolTip="Add new part to partlist"
+            <Button ToolTip="Add new part to partlist"
                     Command="{Binding AddNewPart}">
                 <Button.Content>
                     <Image Source="pack://application:,,,/Resources/Images/Part.png"></Image>
                 </Button.Content>
             </Button>
-            <Button HorizontalAlignment="Left" VerticalAlignment="Stretch"
-                     Width="60" Margin="5 2 5 0" 
-                    ToolTip="Delete part from partlist"
+            <Button ToolTip="Delete part from partlist"
                     Command="{Binding DeletePartCommand}"
                     >
                 <Button.Content>
@@ -57,8 +53,6 @@
                 </Button.Content>
             </Button>
             <Button 
-                HorizontalAlignment="Left" VerticalAlignment="Stretch"
-                Width="60" Margin="5 2 5 0" 
                 ToolTip="Select Part"
                 Command="{Binding SelectPartCommand}"
                 >
@@ -66,9 +60,8 @@
                     <Image Source="pack://application:,,,/Resources/Images/GreenTick.png"></Image>
                 </Button.Content>
             </Button>
-
         </StackPanel>
-        <Grid Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*">
                 </ColumnDefinition>
