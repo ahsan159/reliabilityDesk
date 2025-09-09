@@ -40,7 +40,7 @@
                 </Button.Content>
             </Button>
             <Button ToolTip="Add new part to partlist"
-                    Command="{Binding AddNewPart}">
+                    Command="{Binding AddNewPartCommand}">
                 <Button.Content>
                     <Image Source="pack://application:,,,/Resources/Images/Part.png"></Image>
                 </Button.Content>

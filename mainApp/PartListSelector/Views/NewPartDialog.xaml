@@ -1,0 +1,135 @@
+﻿<Window x:Class="PartListSelector.Views.NewPartDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PartListSelector.Views"
+        mc:Ignorable="d"
+        Title="NewPartDialog" Height="300" Width="500"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"        
+        >
+    <Grid>
+        <Grid.OpacityMask>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black"/>
+                <GradientStop Color="#FF330E0E" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.OpacityMask>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"  Background="Azure">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0" 
+                   Source="pack://application:,,,/Resources/Images/Part.png" HorizontalAlignment="Left" 
+                   Opacity="0.5"
+                   ></Image>
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Run 
+                    FontSize="22" 
+                    FontWeight="Bold" 
+                    Foreground="RoyalBlue">New</Run>
+                <Run 
+                    FontSize="22" 
+                    FontWeight="Bold" 
+                    Foreground="OrangeRed">Part</Run>
+            </TextBlock>
+        </Grid>
+        <Grid Grid.Row="1" Background="Wheat">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="10"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"></ColumnDefinition>
+                <ColumnDefinition Width="180"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="1" Grid.Column="0" 
+                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                Category
+            </TextBlock>
+            <ComboBox x:Name="CategoryNP" Grid.Row="1" Grid.Column="1" 
+                      HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,4"
+                      IsEditable="True"
+                      Width="100"
+                      >
+            </ComboBox>
+            <TextBlock  Grid.Row="2" Grid.Column="0" 
+                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                Subcategory
+            </TextBlock>
+            <ComboBox x:Name="SubCategoryNP" Grid.Row="2" Grid.Column="1" 
+                      HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0"
+                      IsEditable="True"
+                      Width="100"
+                      >
+            </ComboBox>
+            <TextBlock Grid.Row="3" Grid.Column="0" 
+                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                Name
+            </TextBlock>
+            <RichTextBox x:Name="NameText" Grid.Row="3" Grid.Column="1" 
+                         HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0"                         
+                         >
+            </RichTextBox>
+            <TextBlock Grid.Row="4" Grid.Column="0" 
+                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                Configuration ID
+            </TextBlock>
+            <RichTextBox x:Name="CMIDText" Grid.Row="4" Grid.Column="1" 
+                      HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+            </RichTextBox>
+            <TextBlock Grid.Row="5" Grid.Column="0" 
+                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                Description
+            </TextBlock>
+            <RichTextBox x:Name="DescriptionText" Grid.Row="5" Grid.Column="1" 
+                         HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 5"
+                         Height="50"                         
+                         >                                           
+            </RichTextBox>
+        </Grid>
+        <Grid Grid.Row="2" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <Button Padding="5" Margin="5" Width="80"
+                        Click="Button_Click"
+                        Background="Azure"
+                        >
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Resources/Images/GreenTick.png"></Image>
+                            <TextBlock>Add</TextBlock>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <TextBlock Margin="30 0"></TextBlock>
+                <Button Padding="5" Margin="5" Width="80"
+                        Click="Button_Click_1"
+                        Background="Azure"
+                        >
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image  Source="pack://application:,,,/Resources/Images/Close.png"></Image>
+                            <TextBlock>Cancel</TextBlock>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="3"></Grid>
+    </Grid>
+</Window>

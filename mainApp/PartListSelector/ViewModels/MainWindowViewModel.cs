@@ -14,6 +14,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
 using System.IO.Pipes;
+using System.Diagnostics;
+using PartListSelector.Views;
 
 namespace PartListSelector.ViewModels
 {
@@ -154,7 +156,9 @@ namespace PartListSelector.ViewModels
 
         private void AddNewPart()
         {
-            throw new NotImplementedException();
+            NewPartDialog dialog = new NewPartDialog();
+            dialog.ShowDialog();
+            Debugger.Break();
         }
 
         private void SaveAsFile()

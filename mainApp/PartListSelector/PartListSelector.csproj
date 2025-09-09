@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <None Remove="Resources\Images\Assembly.png" />
+    <None Remove="Resources\Images\Close.png" />
     <None Remove="Resources\Images\Delete.bmp" />
     <None Remove="Resources\Images\Delete.png" />
     <None Remove="Resources\Images\GreenTick.png" />
@@ -41,6 +42,9 @@
 
   <ItemGroup>
     <Resource Include="Resources\Images\Assembly.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Close.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\Delete.bmp">
