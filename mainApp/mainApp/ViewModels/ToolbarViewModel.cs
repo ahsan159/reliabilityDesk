@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 using System.Xml.Xsl;
 
 namespace mainApp.ViewModels
@@ -22,7 +23,7 @@ namespace mainApp.ViewModels
         private static IEventAggregator _ea;
         public DelegateCommand openProjectCommand { get; }
         public DelegateCommand SaveDiagramCommand { get; set; }
-
+        public DelegateCommand NewDiagramCommand { get; set; }
         public DelegateCommand SolveProjectTreeCommand { get; set; }
         public DelegateCommand SaveAsDiagramCommand { get; set; }
         public DelegateCommand PrintProjectCommand { get; set; }
@@ -46,6 +47,7 @@ namespace mainApp.ViewModels
             RefreshTreeCommand = new DelegateCommand(RefreshTree);
             SolveDiagramCommand = new DelegateCommand(SolveDiagram);
             OpenSavedResultsCommand = new DelegateCommand(OpenResults);
+            NewDiagramCommand = new DelegateCommand(NewDiagramCreation);
             _ea = ea;
             ActiveFileName = "projectID3.xml";
             if (File.Exists(ActiveFileName))
@@ -58,6 +60,22 @@ namespace mainApp.ViewModels
         #endregion
 
         #region command implementations
+
+        private void NewDiagramCreation()
+        {
+            Microsoft.Win32.SaveFileDialog saveFileDlg = new Microsoft.Win32.SaveFileDialog();
+            saveFileDlg.Filter = "Project File (*.prj)|*.prj|XML File (*.xml)|*.xml|All Files (*.*)|*.*";
+            saveFileDlg.FilterIndex = 2;
+            saveFileDlg.RestoreDirectory = true;
+            //saveFileDlg.Multiselect = false;
+            saveFileDlg.InitialDirectory = System.IO.Directory.GetCurrentDirectory();
+            bool result = (bool)saveFileDlg.ShowDialog();
+            if (result)
+            {
+                ActiveFileName = saveFileDlg.FileName;
+                _ea.GetEvent<CreateNewProjectEvent>().Publish(saveFileDlg.FileName);
+            }            
+        }
 
         private void OpenResults()
         {

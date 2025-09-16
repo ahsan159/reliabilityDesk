@@ -32,7 +32,7 @@
         <ToolBar Band="1" BandIndex="1" Grid.Column="0">
             <Button Style="{StaticResource toolbarbutton}"
                     ToolTip=" New File"
-                    Command="{Binding SaveDiagramCommand}"                        
+                    Command="{Binding NewDiagramCommand}"                        
                 >
                 <Button.Content>
                     <Image Source="/Resources/Images/NewFile.png"></Image>
