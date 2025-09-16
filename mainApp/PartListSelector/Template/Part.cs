@@ -74,6 +74,22 @@ namespace PartListSelector.Template
 
         }
         /// <summary>
+        /// constructor for initializing new part entry
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="category"></param>
+        /// <param name="subcategory"></param>
+        /// <param name="description"></param>
+        /// <param name="manufacturer"></param>
+        public Part(string name, string category, string subcategory, string description,   string manufacturer) { 
+            _Name = name;
+            _Category = category;
+            _Subcategory = subcategory;
+            _Description = description;            
+            _Manufacturer = manufacturer;                        
+        }
+
+        /// <summary>
         /// function to initialize and set part member parameters
         /// </summary>
         /// <param name="element"></param>

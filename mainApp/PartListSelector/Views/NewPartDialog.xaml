@@ -62,10 +62,10 @@
                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
                 Category
             </TextBlock>
-            <ComboBox x:Name="CategoryNP" Grid.Row="1" Grid.Column="1" 
-                      HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,4"
-                      IsEditable="True"
-                      Width="100"
+            <ComboBox x:Name="CategoryNP" Grid.Row="1" Grid.Column="1"                       
+                      HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
+                      Margin="10,5,10,5"
+                      IsEditable="True"                      
                       >
             </ComboBox>
             <TextBlock  Grid.Row="2" Grid.Column="0" 
@@ -73,24 +73,28 @@
                 Subcategory
             </TextBlock>
             <ComboBox x:Name="SubCategoryNP" Grid.Row="2" Grid.Column="1" 
-                      HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0"
+                      HorizontalAlignment="Stretch" 
+                      VerticalAlignment="Center"
                       IsEditable="True"
-                      Width="100"
+                      Margin="10,5,10,5"
                       >
             </ComboBox>
             <TextBlock Grid.Row="3" Grid.Column="0" 
                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
                 Name
             </TextBlock>
-            <RichTextBox x:Name="NameText" Grid.Row="3" Grid.Column="1" 
-                         HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0"                         
+            <RichTextBox x:Name="NameText" Grid.Row="3"
+                         Grid.Column="1" 
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Margin="10 0"                         
                          >
             </RichTextBox>
             <TextBlock Grid.Row="4" Grid.Column="0" 
                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
-                Configuration ID
+                Manufacturer
             </TextBlock>
-            <RichTextBox x:Name="CMIDText" Grid.Row="4" Grid.Column="1" 
+            <RichTextBox x:Name="ManufacturerText" Grid.Row="4" Grid.Column="1" 
                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
             </RichTextBox>
             <TextBlock Grid.Row="5" Grid.Column="0" 
@@ -98,7 +102,9 @@
                 Description
             </TextBlock>
             <RichTextBox x:Name="DescriptionText" Grid.Row="5" Grid.Column="1" 
-                         HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 5"
+                         HorizontalAlignment="Left" 
+                         VerticalAlignment="Center" 
+                         Margin="10 5"
                          Height="50"                         
                          >                                           
             </RichTextBox>

@@ -23,7 +23,7 @@ namespace PartListSelector.ViewModels
     {
 
         #region class member
-        private string ActiveFileName = "projectID3.xml";
+        private string ActiveFileName = "";
         private ObservableCollection<Part> _collection;
 
         private Part _selectedItem;
@@ -153,14 +153,29 @@ namespace PartListSelector.ViewModels
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// this will open a dialog where initial 
+        /// data for new part entry will be provided
+        /// and later on technical data can be added
+        /// using property editor
+        /// </summary>
         private void AddNewPart()
         {
-            NewPartDialog dialog = new NewPartDialog();
-            dialog.ShowDialog();
-            Debugger.Break();
+            if (ActiveFileName.Length > 0)
+            {
+                NewPartDialog dialog = new NewPartDialog();
+                dialog.ShowDialog();
+                if (dialog.NameTxt.Trim().Length > 0)
+                {
+                    Part addedPart = new(dialog.NameTxt, dialog.SelectedCategory, dialog.SelectedSubCategory, dialog.Description, dialog.Manufacturer);
+                    _collection.Add(addedPart);
+                }
+            }
+            //Debugger.Break();
         }
-
+        /// <summary>
+        /// save part list with different file name
+        /// </summary>
         private void SaveAsFile()
         {
             Microsoft.Win32.SaveFileDialog saveFileDlg = new Microsoft.Win32.SaveFileDialog();
@@ -177,7 +192,9 @@ namespace PartListSelector.ViewModels
             }
             //throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// save file with current filename
+        /// </summary>
         private void SaveFile()
         {
             XElement partList = new XElement("PartList");
@@ -189,6 +206,9 @@ namespace PartListSelector.ViewModels
             doc.Save(ActiveFileName);
             //throw new NotImplementedException();
         }
+        /// <summary>
+        /// open file from dialogspid
+        /// </summary>
         public void OpenFile()
         {
             //MessageBox.Show("Clicked");

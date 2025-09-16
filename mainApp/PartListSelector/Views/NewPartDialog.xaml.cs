@@ -195,7 +195,7 @@ namespace PartListSelector.Views
         public string SelectedCategory = "";
         public string SelectedSubCategory = "";
         public string NameTxt = "";
-        public string CMID = "";
+        public string Manufacturer = "";
         public string Description = "";
         public NewPartDialog()
         {
@@ -218,11 +218,11 @@ namespace PartListSelector.Views
             TextRange n;
             n = new TextRange(NameText.Document.ContentStart, NameText.Document.ContentEnd);
             NameTxt = n.Text.Trim();
-            n = new TextRange(CMIDText.Document.ContentStart, CMIDText.Document.ContentEnd);
-            CMID = n.Text.Trim();
+            n = new TextRange(ManufacturerText.Document.ContentStart, ManufacturerText.Document.ContentEnd);
+            Manufacturer = n.Text.Trim();
             n = new TextRange(DescriptionText.Document.ContentStart, DescriptionText.Document.ContentEnd);
             Description = n.Text.Trim();
-            Debugger.Break();
+            this.Close();
         }
 
         /// <summary>
