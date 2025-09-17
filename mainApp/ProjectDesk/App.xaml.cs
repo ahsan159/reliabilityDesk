@@ -21,7 +21,7 @@ namespace ProjectDesk
         }
         protected override Window CreateShell()
         {
-            return ContainerLocator.Container.Resolve<MainWindow>();
+            return ContainerLocator.Container.Resolve<DeskView>();
             //throw new NotImplementedException();
         }
 

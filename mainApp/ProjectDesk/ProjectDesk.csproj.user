@@ -13,7 +13,7 @@
     <Resource Update="Resource\Labels.xaml">
       <SubType>Designer</SubType>
     </Resource>
-    <Page Update="Views\MainWindow.xaml">
+    <Page Update="Views\DeskView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
